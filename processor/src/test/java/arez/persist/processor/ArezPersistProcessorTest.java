@@ -1,6 +1,5 @@
-package arez.processor;
+package arez.persist.processor;
 
-import arez.persist.ArezPersistProcessor;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;

@@ -1,4 +1,4 @@
-package arez.persist;
+package arez.persist.processor;
 
 import javax.annotation.Nonnull;
 
