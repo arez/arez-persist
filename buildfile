@@ -48,6 +48,7 @@ define 'arez-persist' do
                  :grim_annotations,
                  :braincheck,
                  :arez_core,
+                 :jetbrains_annotations,
                  ELEMENTAL2_DEPS,
                  :jsinterop_annotations
 
