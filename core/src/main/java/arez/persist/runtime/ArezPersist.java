@@ -49,6 +49,16 @@ public final class ArezPersist
     return Registry.getRootScope();
   }
 
+  /**
+   * Register a PersistStore with specified name and storage service.
+   * It is an error to register multiple stores with the same name.
+   *
+   * <p>As part of the register operation, the store will attempt to restore state from the storage service.
+   * If an error occurs during the restore, then the error will be logged and registration will complete.</p>
+   *
+   * @param name    the name of the store.
+   * @param service the associated StorageService.
+   */
   public static void registerPersistStore( @Nonnull final String name, @Nonnull final StorageService service )
   {
     Registry.registerPersistStore( name, service );
@@ -87,6 +97,15 @@ public final class ArezPersist
     return Registry.getPersistStore( name );
   }
 
+  /**
+   * Find the scope with the specified name.
+   * The name can actually consist of name components separated by a "." character. Each name component is
+   * nested within the scope identified by the prior name component. i.e. The name "dashboard.finance.entry"
+   * will look for the scope named "entry" nested in a scope named "finance" nested in a scope named "dashboard".
+   *
+   * @param qualifiedName the qualified scope name.
+   * @return the scope if it exists.
+   */
   @Nullable
   public static PersistScope findScope( @Nonnull final String qualifiedName )
   {
@@ -112,6 +131,15 @@ public final class ArezPersist
     return scope.findScope( qualifiedName.substring( start ) );
   }
 
+  /**
+   * Find the scope with the specified name and if it does not exist then create it.
+   * The name can actually consist of name components separated by a "." character. Each name component is
+   * nested within the scope identified by the prior name component. i.e. The name "dashboard.finance.entry"
+   * will look for the scope named "entry" nested in a scope named "finance" nested in a scope named "dashboard".
+   *
+   * @param qualifiedName the qualified scope name.
+   * @return the scope.
+   */
   @Nonnull
   public static PersistScope findOrCreateScope( @Nonnull final String qualifiedName )
   {
@@ -130,11 +158,25 @@ public final class ArezPersist
     return scope.findOrCreateScope( qualifiedName.substring( start ) );
   }
 
+  /**
+   * Dispose the specified scope.
+   * A dispose operation first performs a {@link #releaseScope(PersistScope)} on the scope, then attempts to
+   * dispose all nested scopes and finally disposes the specified scope. A disposed scope should no longer be
+   * used to store state. It is an error to attempt to dispose the root scope.
+   *
+   * @param scope the scope to dispose.
+   */
   public static void disposeScope( @Nonnull final PersistScope scope )
   {
     Registry.disposeScope( scope );
   }
 
+  /**
+   * Release the specified scope.
+   * A release operation removes any state associated with the scope and any nested scope.
+   *
+   * @param scope the scope to release.
+   */
   public static void releaseScope( @Nonnull final PersistScope scope )
   {
     Registry.releaseScope( scope );

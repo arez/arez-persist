@@ -15,13 +15,21 @@ import static org.realityforge.braincheck.Guards.*;
  */
 final class Registry
 {
+  /**
+   * The map of registered stores.
+   * There is no support for removing registrations at this time.
+   */
   @Nonnull
   private static final Map<String, PersistStore> c_stores = new HashMap<>();
+  /**
+   * The root scope.
+   */
   @Nonnull
   private static PersistScope c_rootScope = new PersistScope( null, PersistScope.DEFAULT_SCOPE_NAME );
 
   static
   {
+    // register "app" store if enabled.
     registerIntrinsicStores();
   }
 
@@ -29,12 +37,25 @@ final class Registry
   {
   }
 
+  /**
+   * Return the root scope under which all other scopes are nested.
+   *
+   * @return the root scope under which all other scopes are nested.
+   */
   @Nonnull
   static PersistScope getRootScope()
   {
     return c_rootScope;
   }
 
+  /**
+   * Dispose the specified scope.
+   * A dispose operation first performs a {@link #releaseScope(PersistScope)} on the scope, then attempts to
+   * dispose all nested scopes and finally disposes the specified scope. A disposed scope should no longer be
+   * used to store state. It is an error to attempt to dispose the root scope.
+   *
+   * @param scope the scope to dispose.
+   */
   static void disposeScope( @Nonnull final PersistScope scope )
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
@@ -46,6 +67,12 @@ final class Registry
     _disposeScope( scope );
   }
 
+  /**
+   * Release the specified scope.
+   * A release operation removes any state associated with the scope and any nested scope.
+   *
+   * @param scope the scope to release.
+   */
   static void releaseScope( @Nonnull final PersistScope scope )
   {
     c_stores.values().forEach( store -> store.releaseScope( scope ) );
@@ -57,6 +84,16 @@ final class Registry
     scope.dispose();
   }
 
+  /**
+   * Register a PersistStore with specified name and storage service.
+   * It is an error to register multiple stores with the same name.
+   *
+   * <p>As part of the register operation, the store will attempt to restore state from the storage service.
+   * If an error occurs during the restore, then the error will be logged and registration will complete.</p>
+   *
+   * @param name    the name of the store.
+   * @param service the associated StorageService.
+   */
   static void registerPersistStore( @Nonnull final String name, @Nonnull final StorageService service )
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
@@ -77,6 +114,13 @@ final class Registry
     }
   }
 
+  /**
+   * Return the PersistStore store that is registered with the specified name.
+   * It is an error to invoke this method without registering a store under this name.
+   *
+   * @param name the name of the PersistStore.
+   * @return the PersistStore.
+   */
   @Nonnull
   static PersistStore getPersistStore( @Nonnull final String name )
   {
