@@ -16,6 +16,9 @@ import javax.annotation.Nullable;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
+/**
+ * A StorageService that stores state as a single json blob in either the local or session storage of a browser.
+ */
 final class WebStorageService
   implements StorageService
 {
@@ -171,9 +174,11 @@ final class WebStorageService
     state.computeIfAbsent( scope, s -> new HashMap<>() ).put( typeName, entryMap );
   }
 
+  /**
+   * If we have been supplied an action before, try to trigger a commit in case changes are in progress.
+   */
   private void maybeCommit()
   {
-    // If we have been supplied an action before, try to trigger a commit in case changes are in progress
     if ( null != _commitTriggerAction )
     {
       _commitTriggerAction.call();
