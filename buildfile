@@ -200,3 +200,6 @@ define 'arez-persist' do
     end
   end
 end
+Buildr.projects.each do |project|
+  project.doc.options.merge!('Xdoclint:all' => true)
+end
