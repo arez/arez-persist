@@ -38,6 +38,11 @@ public final class ArezPersist
     return ArezPersistConfig.isApplicationScopedPersistenceEnabled();
   }
 
+  /**
+   * Return the root scope under which all other scopes are nested.
+   *
+   * @return the root scope under which all other scopes are nested.
+   */
   @Nonnull
   public static PersistScope getRootScope()
   {
