@@ -4,6 +4,9 @@ import arez.SafeProcedure;
 import java.util.Map;
 import javax.annotation.Nonnull;
 
+/**
+ * A StorageService that stores no state.
+ */
 final class NoopStorageService
   implements StorageService
 {
