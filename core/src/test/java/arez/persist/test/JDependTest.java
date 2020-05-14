@@ -25,7 +25,6 @@ public class JDependTest
     final DependencyConstraint constraint = new DependencyConstraint();
 
     final JavaPackage arez = constraint.addPackage( "arez" );
-    final JavaPackage arezComponentInternal = constraint.addPackage( "arez.component.internal" );
     final JavaPackage braincheck = constraint.addPackage( "org.realityforge.braincheck" );
     final JavaPackage persist = constraint.addPackage( "arez.persist" );
     final JavaPackage runtime = constraint.addPackage( "arez.persist.runtime" );
