@@ -48,6 +48,7 @@ define 'arez-persist' do
                  :grim_annotations,
                  :braincheck,
                  :arez_core,
+                 ELEMENTAL2_DEPS,
                  :jsinterop_annotations
 
     project.processorpath << artifacts(:grim_processor, :javax_json)
