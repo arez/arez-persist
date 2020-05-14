@@ -65,16 +65,14 @@ public final class PersistStore
     }
   }
 
-  public boolean remove( @Nonnull final PersistScope scope, @Nonnull final String type, @Nonnull final String id )
+  public void remove( @Nonnull final PersistScope scope, @Nonnull final String type, @Nonnull final String id )
   {
     final Map<String, Map<String, StorageService.Entry>> scopeMap = _config.get( scope );
     final Map<String, StorageService.Entry> typeMap = null != scopeMap ? scopeMap.get( type ) : null;
-    final boolean removed = null != typeMap && null != typeMap.remove( id );
-    if ( removed )
+    if ( null != typeMap && null != typeMap.remove( id ) )
     {
       scheduleCommit();
     }
-    return removed;
   }
 
   @Nullable
