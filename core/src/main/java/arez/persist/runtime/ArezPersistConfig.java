@@ -4,6 +4,9 @@ import grim.annotations.OmitType;
 import javax.annotation.Nonnull;
 import org.realityforge.braincheck.BrainCheckConfig;
 
+/**
+ * Location of all compile time configuration settings for framework.
+ */
 @SuppressWarnings( "FieldMayBeFinal" )
 @OmitType
 final class ArezPersistConfig
