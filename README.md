@@ -1,6 +1,6 @@
 # Arez-Persist
 
-[![Build Status](https://api.travis-ci.com/arez/arez-persist.svg?branch=master)](http://travis-ci.org/arez/arez-persist)
+[![Build Status](https://api.travis-ci.com/arez/arez-persist.svg?branch=master)](http://travis-ci.com/arez/arez-persist)
 [<img src="https://img.shields.io/maven-central/v/org.realityforge.arez.persist/arez-persist.svg?label=latest%20release"/>](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.realityforge.arez.persist%22)
 
 This library provides annotation driven infrastructure for persisting observable properties on
