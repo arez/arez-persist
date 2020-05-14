@@ -1,7 +1,6 @@
 package arez.persist.runtime;
 
 import arez.Arez;
-import arez.component.internal.CollectionsUtil;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,7 +84,7 @@ public final class PersistScope
   @Nonnull
   Collection<PersistScope> getNestedScopes()
   {
-    return CollectionsUtil.wrap( _nestedScopes.values() );
+    return _nestedScopes.values();
   }
 
   void dispose()
