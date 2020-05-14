@@ -37,6 +37,11 @@ final class Registry
 
   static void disposeScope( @Nonnull final PersistScope scope )
   {
+    if ( ArezPersist.shouldCheckApiInvariants() )
+    {
+      apiInvariant( () -> PersistScope.DEFAULT_SCOPE_NAME.equals( scope.getName() ),
+                    () -> "disposeScope() invoked with the root scope" );
+    }
     releaseScope( scope );
     _disposeScope( scope );
   }
