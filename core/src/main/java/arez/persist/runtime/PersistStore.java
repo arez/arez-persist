@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import static org.realityforge.braincheck.Guards.*;
 
 /**
  * The store that contains a cached copy of any state persisted.
@@ -84,6 +85,12 @@ public final class PersistStore
                     @Nonnull final String id,
                     @Nonnull final Map<String, Object> state )
   {
+    if ( ArezPersist.shouldCheckApiInvariants() )
+    {
+      apiInvariant( () -> !scope.isDisposed(),
+                    () -> "PersistStore.save() passed a disposed scope named '" + scope.getName() + "'" );
+    }
+
     if ( state.isEmpty() )
     {
       remove( scope, type, id );
@@ -111,6 +118,11 @@ public final class PersistStore
    */
   public void remove( @Nonnull final PersistScope scope, @Nonnull final String type, @Nonnull final String id )
   {
+    if ( ArezPersist.shouldCheckApiInvariants() )
+    {
+      apiInvariant( () -> !scope.isDisposed(),
+                    () -> "PersistStore.remove() passed a disposed scope named '" + scope.getName() + "'" );
+    }
     final Map<String, Map<String, StorageService.Entry>> scopeMap = _config.get( scope );
     final Map<String, StorageService.Entry> typeMap = null != scopeMap ? scopeMap.get( type ) : null;
     if ( null != typeMap && null != typeMap.remove( id ) )
@@ -133,6 +145,11 @@ public final class PersistStore
                                   @Nonnull final String type,
                                   @Nonnull final String id )
   {
+    if ( ArezPersist.shouldCheckApiInvariants() )
+    {
+      apiInvariant( () -> !scope.isDisposed(),
+                    () -> "PersistStore.get() passed a disposed scope named '" + scope.getName() + "'" );
+    }
     final Map<String, Map<String, StorageService.Entry>> scopeMap = _config.get( scope );
     final Map<String, StorageService.Entry> typeMap = null != scopeMap ? scopeMap.get( type ) : null;
     if ( null != typeMap )

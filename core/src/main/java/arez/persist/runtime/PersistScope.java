@@ -52,6 +52,11 @@ public final class PersistScope
   @Nonnull
   public PersistScope findOrCreateScope( @Nonnull final String name )
   {
+    if ( ArezPersist.shouldCheckApiInvariants() )
+    {
+      apiInvariant( () -> !isDisposed(),
+                    () -> "findOrCreateScope() invoked on disposed scope named '" + _name + "'" );
+    }
     return _nestedScopes.computeIfAbsent( name, n -> createdNestedScope( name ) );
   }
 
@@ -66,7 +71,7 @@ public final class PersistScope
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
       apiInvariant( () -> !_disposed,
-                    () -> "PersistScope.createdNestedScope() invoked on a disposed scope" );
+                    () -> "createdNestedScope() invoked on a disposed scope" );
       apiInvariant( () -> !_nestedScopes.containsKey( name ),
                     () -> "PersistScope.createdNestedScope() invoked with name '" + name +
                           "' but a child scope already exists with the specified name" );

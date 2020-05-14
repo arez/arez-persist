@@ -62,6 +62,8 @@ final class Registry
     {
       apiInvariant( () -> PersistScope.DEFAULT_SCOPE_NAME.equals( scope.getName() ),
                     () -> "disposeScope() invoked with the root scope" );
+      apiInvariant( () -> !scope.isDisposed(),
+                    () -> "disposeScope() passed a disposed scope named '" + scope.getName() + "'" );
     }
     releaseScope( scope );
     _disposeScope( scope );
@@ -75,6 +77,11 @@ final class Registry
    */
   static void releaseScope( @Nonnull final PersistScope scope )
   {
+    if ( ArezPersist.shouldCheckApiInvariants() )
+    {
+      apiInvariant( () -> !scope.isDisposed(),
+                    () -> "releaseScope() passed a disposed scope named '" + scope.getName() + "'" );
+    }
     c_stores.values().forEach( store -> store.releaseScope( scope ) );
   }
 
