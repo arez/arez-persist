@@ -30,6 +30,7 @@ public final class PersistStore
 
   void restore()
   {
+    _config.clear();
     _storageService.restore( _config );
   }
 
