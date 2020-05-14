@@ -47,9 +47,11 @@ define 'arez-persist' do
     compile.with :javax_annotation,
                  :grim_annotations,
                  :braincheck,
+                 :arez_core,
                  :jsinterop_annotations
 
     project.processorpath << artifacts(:grim_processor, :javax_json)
+    project.processorpath << artifacts(:arez_processor)
 
     test.options[:properties] =
       TEST_OPTIONS.merge('arez.persist.core.compile_target' => compile.target.to_s)
@@ -62,7 +64,7 @@ define 'arez-persist' do
     package(:javadoc)
 
     test.using :testng
-    test.compile.with :guiceyloops, :jdepend
+    test.compile.with :guiceyloops, :jdepend, :arez_testng
   end
 
   desc 'The Annotation processor'
