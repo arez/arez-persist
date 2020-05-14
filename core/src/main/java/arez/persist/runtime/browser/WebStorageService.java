@@ -1,6 +1,9 @@
-package arez.persist.runtime;
+package arez.persist.runtime.browser;
 
 import arez.SafeProcedure;
+import arez.persist.runtime.ArezPersist;
+import arez.persist.runtime.PersistScope;
+import arez.persist.runtime.StorageService;
 import elemental2.core.Global;
 import elemental2.core.JsArray;
 import elemental2.core.JsObject;

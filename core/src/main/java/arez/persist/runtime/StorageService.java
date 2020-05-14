@@ -26,7 +26,7 @@ public interface StorageService
     @Nonnull
     private final Object _encoded;
 
-    Entry( @Nonnull final Map<String, Object> data, @Nonnull final Object encoded )
+    public Entry( @Nonnull final Map<String, Object> data, @Nonnull final Object encoded )
     {
       _data = Objects.requireNonNull( data );
       _encoded = Objects.requireNonNull( encoded );

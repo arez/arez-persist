@@ -29,6 +29,7 @@ public class JDependTest
     final JavaPackage braincheck = constraint.addPackage( "org.realityforge.braincheck" );
     final JavaPackage persist = constraint.addPackage( "arez.persist" );
     final JavaPackage runtime = constraint.addPackage( "arez.persist.runtime" );
+    final JavaPackage browserRuntime = constraint.addPackage( "arez.persist.runtime.browser" );
     final JavaPackage jsinterop = constraint.addPackage( "jsinterop.annotations" );
     final JavaPackage jsinteropBase = constraint.addPackage( "jsinterop.base" );
     final JavaPackage elemental2Core = constraint.addPackage( "elemental2.core" );
@@ -36,13 +37,17 @@ public class JDependTest
     final JavaPackage elemental2Webstorage = constraint.addPackage( "elemental2.webstorage" );
 
     runtime.dependsUpon( jsinterop );
-    runtime.dependsUpon( jsinteropBase );
     runtime.dependsUpon( persist );
     runtime.dependsUpon( braincheck );
     runtime.dependsUpon( arez );
-    runtime.dependsUpon( elemental2Core );
-    runtime.dependsUpon( elemental2Dom );
-    runtime.dependsUpon( elemental2Webstorage );
+
+    browserRuntime.dependsUpon( arez );
+    browserRuntime.dependsUpon( persist );
+    browserRuntime.dependsUpon( runtime );
+    browserRuntime.dependsUpon( jsinteropBase );
+    browserRuntime.dependsUpon( elemental2Core );
+    browserRuntime.dependsUpon( elemental2Dom );
+    browserRuntime.dependsUpon( elemental2Webstorage );
 
     final DependencyConstraint.MatchResult result = jdepend.analyzeDependencies( constraint );
 

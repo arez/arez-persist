@@ -1,6 +1,5 @@
 package arez.persist.runtime;
 
-import arez.persist.StoreTypes;
 import grim.annotations.OmitClinit;
 import grim.annotations.OmitSymbol;
 import javax.annotation.Nonnull;
@@ -62,26 +61,6 @@ public final class ArezPersist
   public static void registerPersistStore( @Nonnull final String name, @Nonnull final StorageService service )
   {
     Registry.registerPersistStore( name, service );
-  }
-
-  /**
-   * Register a PersistStore under the {@link StoreTypes#SESSION} name that stores state in a browsers session storage.
-   *
-   * @param persistenceKey the key under which the state is stored.
-   */
-  public static void registerSessionScopedPersistStore( @Nonnull final String persistenceKey )
-  {
-    registerPersistStore( StoreTypes.SESSION, WebStorageService.createSessionStorageService( persistenceKey ) );
-  }
-
-  /**
-   * Register a PersistStore under the {@link StoreTypes#LOCAL} name that stores state in a browsers local storage.
-   *
-   * @param persistenceKey the key under which the state is stored.
-   */
-  public static void registerLocalScopedPersistStore( @Nonnull final String persistenceKey )
-  {
-    registerPersistStore( StoreTypes.LOCAL, WebStorageService.createLocalStorageService( persistenceKey ) );
   }
 
   /**
