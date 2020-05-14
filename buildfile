@@ -5,7 +5,7 @@ require 'buildr/gwt'
 require 'buildr/jacoco'
 require 'buildr/top_level_generate_dir'
 
-GWT_DEPS =
+ELEMENTAL2_DEPS =
   [
     :elemental2_core,
     :elemental2_dom,
@@ -124,7 +124,7 @@ define 'arez-persist' do
 
     test.using :testng
     test.compile.with :guiceyloops,
-                      GWT_DEPS,
+                      ELEMENTAL2_DEPS,
                       :javax_json,
                       project('core').package(:jar),
                       project('core').compile.dependencies,
