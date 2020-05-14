@@ -7,6 +7,7 @@ import elemental2.core.JsObject;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.EventListener;
 import elemental2.webstorage.Storage;
+import elemental2.webstorage.WebStorageWindow;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -40,7 +41,19 @@ final class WebStorageService
   private SafeProcedure _commitTriggerAction;
   private int _idleCallbackId;
 
-  WebStorageService( @Nonnull final Storage storage, @Nonnull final String address )
+  @Nonnull
+  static WebStorageService createSessionStorageService( @Nonnull final String persistenceKey )
+  {
+    return new WebStorageService( WebStorageWindow.of( DomGlobal.window ).sessionStorage, persistenceKey );
+  }
+
+  @Nonnull
+  static WebStorageService createLocalStorageService( @Nonnull final String persistenceKey )
+  {
+    return new WebStorageService( WebStorageWindow.of( DomGlobal.window ).localStorage, persistenceKey );
+  }
+
+  private WebStorageService( @Nonnull final Storage storage, @Nonnull final String address )
   {
     _storage = Objects.requireNonNull( storage );
     _address = Objects.requireNonNull( address );

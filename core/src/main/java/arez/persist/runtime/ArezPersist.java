@@ -1,8 +1,6 @@
 package arez.persist.runtime;
 
 import arez.persist.StoreTypes;
-import elemental2.dom.DomGlobal;
-import elemental2.webstorage.WebStorageWindow;
 import grim.annotations.OmitClinit;
 import grim.annotations.OmitSymbol;
 import javax.annotation.Nonnull;
@@ -53,16 +51,12 @@ public final class ArezPersist
 
   public static void registerSessionScopedPersistStore( @Nonnull final String persistenceKey )
   {
-    registerPersistStore( StoreTypes.SESSION,
-                          new WebStorageService( WebStorageWindow.of( DomGlobal.window ).sessionStorage,
-                                                                                 persistenceKey ) );
+    registerPersistStore( StoreTypes.SESSION, WebStorageService.createSessionStorageService( persistenceKey ) );
   }
 
   public static void registerLocalScopedPersistStore( @Nonnull final String persistenceKey )
   {
-    registerPersistStore( StoreTypes.LOCAL,
-                          new WebStorageService( WebStorageWindow.of( DomGlobal.window ).localStorage,
-                                                                                 persistenceKey ) );
+    registerPersistStore( StoreTypes.LOCAL, WebStorageService.createLocalStorageService( persistenceKey ) );
   }
 
   @Nonnull
