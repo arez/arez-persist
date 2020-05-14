@@ -127,6 +127,7 @@ define 'arez-persist' do
     test.using :testng
     test.compile.with :guiceyloops,
                       ELEMENTAL2_DEPS,
+                      :arez_testng,
                       :javax_json,
                       project('core').package(:jar),
                       project('core').compile.dependencies,
