@@ -14,6 +14,9 @@
   <define-property name='arez.persist.environment' values='development,production'/>
   <set-property name='arez.persist.environment' value='production'/>
 
+  <define-property name='arez.persist.enable_application_store' values='true,false'/>
+  <set-property name='arez.persist.enable_application_store' value='true'/>
+
   <define-property name='arez.persist.check_api_invariants' values='true,false'/>
   <set-property name='arez.persist.check_api_invariants' value='false'/>
 

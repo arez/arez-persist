@@ -8,6 +8,9 @@ goog.provide('arez.persist');
 arez.environment = goog.define('arez.persist.environment', 'production');
 
 /** @define {string} */
+arez.check_api_invariants = goog.define('arez.persist.enable_application_store', 'true');
+
+/** @define {string} */
 arez.check_api_invariants = goog.define('arez.persist.check_api_invariants', 'false');
 
 /** @define {string} */
