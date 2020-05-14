@@ -90,7 +90,7 @@ public final class ArezPersist
   @Nullable
   public static PersistScope findScope( @Nonnull final String qualifiedName )
   {
-    PersistScope scope = Registry.getRootScope();
+    PersistScope scope = getRootScope();
     if ( PersistScope.DEFAULT_SCOPE_NAME.equals( qualifiedName ) )
     {
       return scope;
@@ -115,7 +115,7 @@ public final class ArezPersist
   @Nonnull
   public static PersistScope findOrCreateScope( @Nonnull final String qualifiedName )
   {
-    PersistScope scope = Registry.getRootScope();
+    PersistScope scope = getRootScope();
     if ( PersistScope.DEFAULT_SCOPE_NAME.equals( qualifiedName ) )
     {
       return scope;
