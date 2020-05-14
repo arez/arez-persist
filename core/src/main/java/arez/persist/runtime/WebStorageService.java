@@ -16,7 +16,7 @@ import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 final class WebStorageService
-  implements arez.persist.runtime.StorageService
+  implements StorageService
 {
   /**
    * A reference to the "beforeunload" listener so that the listener can be removed on disposed.
@@ -153,7 +153,7 @@ final class WebStorageService
     {
       final String id = ids.getAt( j );
       final JsPropertyMap<Object> encoded = Js.uncheckedCast( idMap.get( id ) );
-      entryMap.put( id, new arez.persist.runtime.StorageService.Entry( decodeState( encoded ), encoded ) );
+      entryMap.put( id, new StorageService.Entry( decodeState( encoded ), encoded ) );
     }
     state.computeIfAbsent( scope, s -> new HashMap<>() ).put( typeName, entryMap );
   }

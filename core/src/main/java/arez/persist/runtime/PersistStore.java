@@ -13,17 +13,17 @@ public final class PersistStore
    * In-memory cache of configuration data.
    */
   @Nonnull
-  private final Map<PersistScope, Map<String, Map<String, arez.persist.runtime.StorageService.Entry>>> _config = new HashMap<>();
+  private final Map<PersistScope, Map<String, Map<String, StorageService.Entry>>> _config = new HashMap<>();
   /**
    * Has the config data been committed to the backend storage?
    */
   private boolean _committed = true;
   @Nonnull
-  private final arez.persist.runtime.StorageService _storageService;
+  private final StorageService _storageService;
   @Nonnull
   private final SafeProcedure _commitTriggerAction = this::commit;
 
-  PersistStore( @Nonnull final arez.persist.runtime.StorageService storageService )
+  PersistStore( @Nonnull final StorageService storageService )
   {
     _storageService = Objects.requireNonNull( storageService );
   }
@@ -59,15 +59,15 @@ public final class PersistStore
       _config
         .computeIfAbsent( scope, t -> new HashMap<>() )
         .computeIfAbsent( type, t -> new HashMap<>() )
-        .put( id, new arez.persist.runtime.StorageService.Entry( state, _storageService.encodeState( state ) ) );
+        .put( id, new StorageService.Entry( state, _storageService.encodeState( state ) ) );
       scheduleCommit();
     }
   }
 
   public boolean remove( @Nonnull final PersistScope scope, @Nonnull final String type, @Nonnull final String id )
   {
-    final Map<String, Map<String, arez.persist.runtime.StorageService.Entry>> scopeMap = _config.get( scope );
-    final Map<String, arez.persist.runtime.StorageService.Entry> typeMap = null != scopeMap ? scopeMap.get( type ) : null;
+    final Map<String, Map<String, StorageService.Entry>> scopeMap = _config.get( scope );
+    final Map<String, StorageService.Entry> typeMap = null != scopeMap ? scopeMap.get( type ) : null;
     final boolean removed = null != typeMap && null != typeMap.remove( id );
     if ( removed )
     {
@@ -81,11 +81,11 @@ public final class PersistStore
                                   @Nonnull final String type,
                                   @Nonnull final String id )
   {
-    final Map<String, Map<String, arez.persist.runtime.StorageService.Entry>> scopeMap = _config.get( scope );
-    final Map<String, arez.persist.runtime.StorageService.Entry> typeMap = null != scopeMap ? scopeMap.get( type ) : null;
+    final Map<String, Map<String, StorageService.Entry>> scopeMap = _config.get( scope );
+    final Map<String, StorageService.Entry> typeMap = null != scopeMap ? scopeMap.get( type ) : null;
     if ( null != typeMap )
     {
-      final arez.persist.runtime.StorageService.Entry entry = typeMap.get( id );
+      final StorageService.Entry entry = typeMap.get( id );
       return null == entry ? null : entry.getData();
     }
     else

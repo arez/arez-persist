@@ -10,13 +10,13 @@ import static org.realityforge.braincheck.Guards.*;
 
 /**
  * A utility class that contains references to stores and the root scope.
- * This is extracted to a separate class to eliminate the <clinit> from {@link arez.persist.runtime.ArezPersist} and thus
+ * This is extracted to a separate class to eliminate the <clinit> from {@link ArezPersist} and thus
  * make it much easier for GWT to optimize out code based on build time compilation parameters.
  */
 final class Registry
 {
   @Nonnull
-  private static final Map<String, arez.persist.runtime.PersistStore> c_stores = new HashMap<>();
+  private static final Map<String, PersistStore> c_stores = new HashMap<>();
   @Nonnull
   private static PersistScope c_rootScope = new PersistScope( null, PersistScope.DEFAULT_SCOPE_NAME );
 
@@ -48,27 +48,27 @@ final class Registry
 
   private static void _disposeScope( @Nonnull final PersistScope scope )
   {
-    scope.getNestedScopes().forEach( arez.persist.runtime.Registry::_disposeScope );
+    scope.getNestedScopes().forEach( Registry::_disposeScope );
     scope.dispose();
   }
 
-  static void registerPersistStore( @Nonnull final String name, @Nonnull final arez.persist.runtime.StorageService service )
+  static void registerPersistStore( @Nonnull final String name, @Nonnull final StorageService service )
   {
-    if ( arez.persist.runtime.ArezPersist.shouldCheckApiInvariants() )
+    if ( ArezPersist.shouldCheckApiInvariants() )
     {
       apiInvariant( () -> !c_stores.containsKey( name ),
                     () -> "registerPersistStore() invoked with name '" + name +
                           "' but a store is already registered with that name" );
     }
-    final arez.persist.runtime.PersistStore store = new arez.persist.runtime.PersistStore( service );
+    final PersistStore store = new PersistStore( service );
     c_stores.put( name, store );
     store.restore();
   }
 
   @Nonnull
-  static arez.persist.runtime.PersistStore getPersistStore( @Nonnull final String name )
+  static PersistStore getPersistStore( @Nonnull final String name )
   {
-    if ( arez.persist.runtime.ArezPersist.shouldCheckApiInvariants() )
+    if ( ArezPersist.shouldCheckApiInvariants() )
     {
       apiInvariant( () -> c_stores.containsKey( name ),
                     () -> "getPersistStore() invoked with name " + name +
@@ -84,7 +84,7 @@ final class Registry
   @OmitSymbol
   static void reset()
   {
-    c_stores.values().forEach( arez.persist.runtime.PersistStore::dispose );
+    c_stores.values().forEach( PersistStore::dispose );
     c_stores.clear();
     registerIntrinsicStores();
     disposeScope( c_rootScope );
@@ -93,9 +93,9 @@ final class Registry
 
   private static void registerIntrinsicStores()
   {
-    if ( arez.persist.runtime.ArezPersist.isApplicationScopedPersistenceEnabled() )
+    if ( ArezPersist.isApplicationScopedPersistenceEnabled() )
     {
-      registerPersistStore( StoreTypes.APPLICATION, new arez.persist.runtime.NoopStorageService() );
+      registerPersistStore( StoreTypes.APPLICATION, new NoopStorageService() );
     }
   }
 }

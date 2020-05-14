@@ -15,14 +15,14 @@ public final class PersistScope
   @Nonnull
   public static final String DEFAULT_SCOPE_NAME = "<>";
   @Nullable
-  private final arez.persist.runtime.PersistScope _parent;
+  private final PersistScope _parent;
   @Nonnull
   private final String _name;
   @Nonnull
   private final Map<String, PersistScope> _nestedScopes = new HashMap<>();
   private boolean _disposed;
 
-  PersistScope( @Nullable final arez.persist.runtime.PersistScope parent, @Nonnull final String name )
+  PersistScope( @Nullable final PersistScope parent, @Nonnull final String name )
   {
     _parent = parent;
     _name = Objects.requireNonNull( name );
@@ -45,13 +45,13 @@ public final class PersistScope
   }
 
   @Nullable
-  arez.persist.runtime.PersistScope findScope( @Nonnull final String name )
+  PersistScope findScope( @Nonnull final String name )
   {
     return _nestedScopes.get( name );
   }
 
   @Nonnull
-  public arez.persist.runtime.PersistScope findOrCreateScope( @Nonnull final String name )
+  public PersistScope findOrCreateScope( @Nonnull final String name )
   {
     return _nestedScopes.computeIfAbsent( name, n -> createdNestedScope( name ) );
   }
@@ -62,9 +62,9 @@ public final class PersistScope
   }
 
   @Nonnull
-  arez.persist.runtime.PersistScope createdNestedScope( @Nonnull final String name )
+  PersistScope createdNestedScope( @Nonnull final String name )
   {
-    if ( arez.persist.runtime.ArezPersist.shouldCheckApiInvariants() )
+    if ( ArezPersist.shouldCheckApiInvariants() )
     {
       apiInvariant( () -> !_disposed,
                     () -> "PersistScope.createdNestedScope() invoked on a disposed scope" );
@@ -76,8 +76,8 @@ public final class PersistScope
                           "' but the name has invalid characters. Names must contain alphanumeric " +
                           "characters, '-' or '_'" );
     }
-    final arez.persist.runtime.PersistScope
-      scope = new arez.persist.runtime.PersistScope( this, name );
+    final PersistScope
+      scope = new PersistScope( this, name );
     _nestedScopes.put( name, scope );
     return scope;
   }

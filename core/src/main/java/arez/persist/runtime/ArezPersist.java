@@ -18,13 +18,13 @@ public final class ArezPersist
   @OmitSymbol
   public static boolean shouldCheckApiInvariants()
   {
-    return arez.persist.runtime.ArezPersistConfig.shouldCheckApiInvariants();
+    return ArezPersistConfig.shouldCheckApiInvariants();
   }
 
   @OmitSymbol
   public static boolean isApplicationScopedPersistenceEnabled()
   {
-    return arez.persist.runtime.ArezPersistConfig.isApplicationScopedPersistenceEnabled();
+    return ArezPersistConfig.isApplicationScopedPersistenceEnabled();
   }
 
   @Nonnull
@@ -33,7 +33,7 @@ public final class ArezPersist
     return Registry.getRootScope();
   }
 
-  public static void registerPersistStore( @Nonnull final String name, @Nonnull final arez.persist.runtime.StorageService service )
+  public static void registerPersistStore( @Nonnull final String name, @Nonnull final StorageService service )
   {
     Registry.registerPersistStore( name, service );
   }
@@ -41,14 +41,14 @@ public final class ArezPersist
   public static void registerSessionScopedPersistStore( @Nonnull final String persistenceKey )
   {
     registerPersistStore( StoreTypes.SESSION,
-                          new arez.persist.runtime.WebStorageService( WebStorageWindow.of( DomGlobal.window ).sessionStorage,
+                          new WebStorageService( WebStorageWindow.of( DomGlobal.window ).sessionStorage,
                                                                                  persistenceKey ) );
   }
 
   public static void registerLocalScopedPersistStore( @Nonnull final String persistenceKey )
   {
     registerPersistStore( StoreTypes.LOCAL,
-                          new arez.persist.runtime.WebStorageService( WebStorageWindow.of( DomGlobal.window ).localStorage,
+                          new WebStorageService( WebStorageWindow.of( DomGlobal.window ).localStorage,
                                                                                  persistenceKey ) );
   }
 
