@@ -4,6 +4,7 @@ import grim.annotations.OmitType;
 import javax.annotation.Nonnull;
 import org.realityforge.braincheck.BrainCheckConfig;
 
+@SuppressWarnings( "FieldMayBeFinal" )
 @OmitType
 final class ArezPersistConfig
 {
