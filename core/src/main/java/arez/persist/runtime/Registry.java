@@ -1,11 +1,11 @@
 package arez.persist.runtime;
 
+import arez.persist.StoreTypes;
 import grim.annotations.OmitSymbol;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import javax.annotation.Nonnull;
-import arez.persist.StoreTypes;
 import static org.realityforge.braincheck.Guards.*;
 
 /**
@@ -62,7 +62,14 @@ final class Registry
     }
     final PersistStore store = new PersistStore( service );
     c_stores.put( name, store );
-    store.restore();
+    try
+    {
+      store.restore();
+    }
+    catch ( final Throwable t )
+    {
+      ArezPersistLogger.getLogger().log( "Failed to restore state for store named '" + name + "'", t );
+    }
   }
 
   @Nonnull
