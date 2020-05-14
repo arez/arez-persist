@@ -1,13 +1,16 @@
 package arez.persist.runtime;
 
+import arez.persist.StoreTypes;
 import elemental2.dom.DomGlobal;
 import elemental2.webstorage.WebStorageWindow;
 import grim.annotations.OmitClinit;
 import grim.annotations.OmitSymbol;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import arez.persist.StoreTypes;
 
+/**
+ * Provide an interface to register and access stores and access the root scope as well as global configuration settings.
+ */
 @OmitClinit
 public final class ArezPersist
 {
@@ -15,12 +18,22 @@ public final class ArezPersist
   {
   }
 
+  /**
+   * Return true if apiInvariants will be checked.
+   *
+   * @return true if apiInvariants will be checked.
+   */
   @OmitSymbol
   public static boolean shouldCheckApiInvariants()
   {
     return ArezPersistConfig.shouldCheckApiInvariants();
   }
 
+  /**
+   * Return true if the in-memory "app" persistence store will be registered by the framework.
+   *
+   * @return true if the in-memory "app" persistence store will be registered by the framework.
+   */
   @OmitSymbol
   public static boolean isApplicationScopedPersistenceEnabled()
   {
