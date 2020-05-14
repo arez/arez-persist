@@ -54,16 +54,33 @@ public final class ArezPersist
     Registry.registerPersistStore( name, service );
   }
 
+  /**
+   * Register a PersistStore under the {@link StoreTypes#SESSION} name that stores state in a browsers session storage.
+   *
+   * @param persistenceKey the key under which the state is stored.
+   */
   public static void registerSessionScopedPersistStore( @Nonnull final String persistenceKey )
   {
     registerPersistStore( StoreTypes.SESSION, WebStorageService.createSessionStorageService( persistenceKey ) );
   }
 
+  /**
+   * Register a PersistStore under the {@link StoreTypes#LOCAL} name that stores state in a browsers local storage.
+   *
+   * @param persistenceKey the key under which the state is stored.
+   */
   public static void registerLocalScopedPersistStore( @Nonnull final String persistenceKey )
   {
     registerPersistStore( StoreTypes.LOCAL, WebStorageService.createLocalStorageService( persistenceKey ) );
   }
 
+  /**
+   * Return the PersistStore store that is registered with the specified name.
+   * It is an error to invoke this method without registering a store under this name.
+   *
+   * @param name the name of the PersistStore.
+   * @return the PersistStore.
+   */
   @Nonnull
   public static PersistStore getPersistStore( @Nonnull final String name )
   {
