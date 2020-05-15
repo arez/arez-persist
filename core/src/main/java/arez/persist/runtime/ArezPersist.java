@@ -162,7 +162,7 @@ public final class ArezPersist
     Registry.releaseScope( scope );
   }
 
-  static void registerIntrinsicStores()
+  static void registerApplicationStoreIfEnabled()
   {
     if ( isApplicationStoreEnabled() )
     {

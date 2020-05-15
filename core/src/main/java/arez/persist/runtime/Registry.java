@@ -30,7 +30,7 @@ final class Registry
   static
   {
     // register "app" store if enabled.
-    ArezPersist.registerIntrinsicStores();
+    ArezPersist.registerApplicationStoreIfEnabled();
   }
 
   private Registry()
@@ -154,7 +154,7 @@ final class Registry
   {
     c_stores.values().forEach( Store::dispose );
     c_stores.clear();
-    ArezPersist.registerIntrinsicStores();
+    ArezPersist.registerApplicationStoreIfEnabled();
     releaseScope( c_rootScope );
     c_rootScope = new Scope( null, Scope.ROOT_SCOPE_NAME );
   }
