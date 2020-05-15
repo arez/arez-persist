@@ -149,7 +149,7 @@ final class Registry
     c_stores.values().forEach( Store::dispose );
     c_stores.clear();
     ArezPersist.registerIntrinsicStores();
-    disposeScope( c_rootScope );
+    releaseScope( c_rootScope );
     c_rootScope = new Scope( null, Scope.ROOT_SCOPE_NAME );
   }
 }
