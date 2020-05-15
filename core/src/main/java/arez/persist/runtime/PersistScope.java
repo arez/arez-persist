@@ -69,25 +69,17 @@ public final class PersistScope
     return _disposed;
   }
 
-  @Nonnull
-  PersistScope createdNestedScope( @Nonnull final String name )
+  @Override
+  public String toString()
   {
-    if ( ArezPersist.shouldCheckApiInvariants() )
+    if ( Arez.areNamesEnabled() )
     {
-      apiInvariant( () -> !_disposed,
-                    () -> "createdNestedScope() invoked on a disposed scope" );
-      apiInvariant( () -> !_nestedScopes.containsKey( name ),
-                    () -> "PersistScope.createdNestedScope() invoked with name '" + name +
-                          "' but a child scope already exists with the specified name" );
-      apiInvariant( () -> isValidName( name ),
-                    () -> "PersistScope.createdNestedScope() invoked with name '" + name +
-                          "' but the name has invalid characters. Names must contain alphanumeric " +
-                          "characters, '-' or '_'" );
+      return getQualifiedName();
     }
-    final PersistScope
-      scope = new PersistScope( this, name );
-    _nestedScopes.put( name, scope );
-    return scope;
+    else
+    {
+      return super.toString();
+    }
   }
 
   @Nullable
@@ -140,19 +132,6 @@ public final class PersistScope
         }
       }
       return true;
-    }
-  }
-
-  @Override
-  public String toString()
-  {
-    if ( Arez.areNamesEnabled() )
-    {
-      return getQualifiedName();
-    }
-    else
-    {
-      return super.toString();
     }
   }
 }
