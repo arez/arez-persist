@@ -11,22 +11,22 @@ public final class ArezPersistBrowserUtil
   }
 
   /**
-   * Register a PersistStore under the {@link StoreTypes#SESSION} name that stores state in a browsers session storage.
+   * Register a store under the {@link StoreTypes#SESSION} name that saves state in a browsers session storage.
    *
    * @param persistenceKey the key under which the state is stored.
    */
-  public static void registerSessionScopedPersistStore( @Nonnull final String persistenceKey )
+  public static void registerSessionScopedStore( @Nonnull final String persistenceKey )
   {
-    ArezPersist.registerPersistStore( StoreTypes.SESSION, WebStorageService.createSessionStorageService( persistenceKey ) );
+    ArezPersist.registerStore( StoreTypes.SESSION, WebStorageService.createSessionStorageService( persistenceKey ) );
   }
 
   /**
-   * Register a PersistStore under the {@link StoreTypes#LOCAL} name that stores state in a browsers local storage.
+   * Register a store under the {@link StoreTypes#LOCAL} name that saves state in a browsers local storage.
    *
    * @param persistenceKey the key under which the state is stored.
    */
-  public static void registerLocalScopedPersistStore( @Nonnull final String persistenceKey )
+  public static void registerLocalScopedStore( @Nonnull final String persistenceKey )
   {
-    ArezPersist.registerPersistStore( StoreTypes.LOCAL, WebStorageService.createLocalStorageService( persistenceKey ) );
+    ArezPersist.registerStore( StoreTypes.LOCAL, WebStorageService.createLocalStorageService( persistenceKey ) );
   }
 }

@@ -14,7 +14,7 @@ import static org.realityforge.braincheck.Guards.*;
  * The commit is typically an asynchronous process that occurs in another process so as not to block the
  * ui thread.
  */
-public final class PersistStore
+public final class Store
 {
   /**
    * In-memory cache of configuration data.
@@ -41,7 +41,7 @@ public final class PersistStore
    *
    * @param storageService the underlying storage service that manages the state.
    */
-  PersistStore( @Nonnull final StorageService storageService )
+  Store( @Nonnull final StorageService storageService )
   {
     _storageService = Objects.requireNonNull( storageService );
   }
@@ -88,7 +88,7 @@ public final class PersistStore
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
       apiInvariant( () -> !scope.isDisposed(),
-                    () -> "PersistStore.save() passed a disposed scope named '" + scope.getName() + "'" );
+                    () -> "Store.save() passed a disposed scope named '" + scope.getName() + "'" );
     }
 
     if ( state.isEmpty() )
@@ -121,7 +121,7 @@ public final class PersistStore
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
       apiInvariant( () -> !scope.isDisposed(),
-                    () -> "PersistStore.remove() passed a disposed scope named '" + scope.getName() + "'" );
+                    () -> "Store.remove() passed a disposed scope named '" + scope.getName() + "'" );
     }
     final Map<String, Map<String, StorageService.Entry>> scopeMap = _config.get( scope );
     final Map<String, StorageService.Entry> typeMap = null != scopeMap ? scopeMap.get( type ) : null;
@@ -148,7 +148,7 @@ public final class PersistStore
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
       apiInvariant( () -> !scope.isDisposed(),
-                    () -> "PersistStore.get() passed a disposed scope named '" + scope.getName() + "'" );
+                    () -> "Store.get() passed a disposed scope named '" + scope.getName() + "'" );
     }
     final Map<String, Map<String, StorageService.Entry>> scopeMap = _config.get( scope );
     final Map<String, StorageService.Entry> typeMap = null != scopeMap ? scopeMap.get( type ) : null;

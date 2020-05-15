@@ -21,7 +21,7 @@ final class Registry
    * There is no support for removing registrations at this time.
    */
   @Nonnull
-  private static final Map<String, PersistStore> c_stores = new HashMap<>();
+  private static final Map<String, Store> c_stores = new HashMap<>();
   /**
    * The root scope.
    */
@@ -93,7 +93,7 @@ final class Registry
   }
 
   /**
-   * Register a PersistStore with specified name and storage service.
+   * Register a store with specified name and storage service.
    * It is an error to register multiple stores with the same name.
    *
    * <p>As part of the register operation, the store will attempt to restore state from the storage service.
@@ -102,15 +102,15 @@ final class Registry
    * @param name    the name of the store.
    * @param service the associated StorageService.
    */
-  static void registerPersistStore( @Nonnull final String name, @Nonnull final StorageService service )
+  static void registerStore( @Nonnull final String name, @Nonnull final StorageService service )
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
       apiInvariant( () -> !c_stores.containsKey( name ),
-                    () -> "registerPersistStore() invoked with name '" + name +
+                    () -> "registerStore() invoked with name '" + name +
                           "' but a store is already registered with that name" );
     }
-    final PersistStore store = new PersistStore( service );
+    final Store store = new Store( service );
     c_stores.put( name, store );
     try
     {
@@ -123,20 +123,19 @@ final class Registry
   }
 
   /**
-   * Return the PersistStore store that is registered with the specified name.
+   * Return the store that is registered with the specified name.
    * It is an error to invoke this method without registering a store under this name.
    *
-   * @param name the name of the PersistStore.
-   * @return the PersistStore.
+   * @param name the name of the store.
+   * @return the store.
    */
   @Nonnull
-  static PersistStore getPersistStore( @Nonnull final String name )
+  static Store getStore( @Nonnull final String name )
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
       apiInvariant( () -> c_stores.containsKey( name ),
-                    () -> "getPersistStore() invoked with name " + name +
-                          " but no such store exists" );
+                    () -> "getStore() invoked with name " + name + " but no such store exists" );
     }
     return Objects.requireNonNull( c_stores.get( name ) );
   }
@@ -148,7 +147,7 @@ final class Registry
   @OmitSymbol
   static void reset()
   {
-    c_stores.values().forEach( PersistStore::dispose );
+    c_stores.values().forEach( Store::dispose );
     c_stores.clear();
     registerIntrinsicStores();
     disposeScope( c_rootScope );
@@ -159,7 +158,7 @@ final class Registry
   {
     if ( ArezPersist.isApplicationScopedPersistenceEnabled() )
     {
-      registerPersistStore( StoreTypes.APPLICATION, new NoopStorageService() );
+      registerStore( StoreTypes.APPLICATION, new NoopStorageService() );
     }
   }
 }

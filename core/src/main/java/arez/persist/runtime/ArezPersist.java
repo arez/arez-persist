@@ -49,7 +49,7 @@ public final class ArezPersist
   }
 
   /**
-   * Register a PersistStore with specified name and storage service.
+   * Register a store with specified name and storage service.
    * It is an error to register multiple stores with the same name.
    *
    * <p>As part of the register operation, the store will attempt to restore state from the storage service.
@@ -58,22 +58,22 @@ public final class ArezPersist
    * @param name    the name of the store.
    * @param service the associated StorageService.
    */
-  public static void registerPersistStore( @Nonnull final String name, @Nonnull final StorageService service )
+  public static void registerStore( @Nonnull final String name, @Nonnull final StorageService service )
   {
-    Registry.registerPersistStore( name, service );
+    Registry.registerStore( name, service );
   }
 
   /**
-   * Return the PersistStore store that is registered with the specified name.
+   * Return the store that is registered with the specified name.
    * It is an error to invoke this method without registering a store under this name.
    *
-   * @param name the name of the PersistStore.
-   * @return the PersistStore.
+   * @param name the name of the store.
+   * @return the store.
    */
   @Nonnull
-  public static PersistStore getPersistStore( @Nonnull final String name )
+  public static Store getStore( @Nonnull final String name )
   {
-    return Registry.getPersistStore( name );
+    return Registry.getStore( name );
   }
 
   /**
