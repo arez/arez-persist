@@ -51,7 +51,7 @@ public final class ArezPersistTestUtil
    * Reset the state of ArezPersist.
    * This occasionally needs to be invoked after changing configuration settings in tests.
    */
-  private static void resetState()
+  public static void resetState()
   {
     setLogger( null );
     Registry.reset();
