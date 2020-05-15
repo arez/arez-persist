@@ -146,22 +146,21 @@ public final class Scope
   }
 
   /**
-   * Dispose the scope unless it has already been disposed.
-   * This method assumes that nested scopes have already been disposed.
-   * This method will removed the scope from the list of scopes in the parent scope.
+   * Dispose the scope.
+   * The nested scopes (if any) must have already been disposed but this scope must
+   * not have been disposed. This method will removed the scope from the list of scopes
+   * in the parent scope (if any).
    */
   void dispose()
   {
-    if ( !_disposed )
+    assert !_disposed;
+    // The assumption is that by the time we get here all nested scopes have also been disposed
+    assert _nestedScopes.isEmpty();
+    if ( null != _parent )
     {
-      // The assumption is that by the time we get here all nested scopes have also been disposed
-      assert _nestedScopes.isEmpty();
-      if ( null != _parent )
-      {
-        _parent._nestedScopes.remove( _name );
-      }
-      _disposed = true;
+      _parent._nestedScopes.remove( _name );
     }
+    _disposed = true;
   }
 
   /**
