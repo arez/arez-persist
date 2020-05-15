@@ -17,7 +17,8 @@ import static org.realityforge.braincheck.Guards.*;
  * all other scopes are nested and it can be retrieved using the {@link ArezPersist#getRootScope()}
  * method.
  *
- * <p>A scope may be disposed. It is no longer valid to create nested scopes in disposed scopes or</p>
+ * <p>A scope may be disposed. It is no longer valid to create nested scopes, store state or retrieve
+ * state with disposed scopes.</p>
  */
 public final class Scope
 {
