@@ -14,8 +14,8 @@ import jsinterop.annotations.JsType;
 final class ArezPersistLogger
 {
   private static final Logger c_logger =
-    "console".equals( ArezPersistConfig.loggerType() ) ? new ConsoleLogger() :
-    "proxy".equals( ArezPersistConfig.loggerType() ) ? new ProxyLogger() :
+    "console".equals( Config.loggerType() ) ? new ConsoleLogger() :
+    "proxy".equals( Config.loggerType() ) ? new ProxyLogger() :
     new NoopLogger();
 
   private ArezPersistLogger()

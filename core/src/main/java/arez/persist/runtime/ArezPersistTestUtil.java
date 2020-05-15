@@ -30,13 +30,13 @@ public final class ArezPersistTestUtil
    */
   public static void resetConfig( final boolean production )
   {
-    if ( ArezPersistConfig.isProductionEnvironment() )
+    if ( Config.isProductionEnvironment() )
     {
       /*
        * This should really never happen but if it does add assertion (so code stops in debugger) or
        * failing that throw an exception.
        */
-      assert ArezPersistConfig.isDevelopmentEnvironment();
+      assert Config.isDevelopmentEnvironment();
       throw new IllegalStateException( "Unable to reset config as ArezPersist is in production mode" );
     }
 
@@ -69,13 +69,13 @@ public final class ArezPersistTestUtil
    */
   public static void setLogger( @Nullable final Logger logger )
   {
-    if ( ArezPersistConfig.isProductionEnvironment() )
+    if ( Config.isProductionEnvironment() )
     {
       /*
        * This should really never happen but if it does add assertion (so code stops in debugger) or
        * failing that throw an exception.
        */
-      assert ArezPersistConfig.isDevelopmentEnvironment();
+      assert Config.isDevelopmentEnvironment();
       throw new IllegalStateException( "Unable to call ArezTestUtil.setLogger() as ArezPersist is in production mode" );
     }
 
@@ -141,20 +141,20 @@ public final class ArezPersistTestUtil
   @SuppressWarnings( "NonJREEmulationClassesInClientCode" )
   private static void setConstant( @Nonnull final String fieldName, final boolean value )
   {
-    if ( ArezPersistConfig.isProductionEnvironment() )
+    if ( Config.isProductionEnvironment() )
     {
       /*
        * This should really never happen but if it does add assertion (so code stops in debugger) or
        * failing that throw an exception.
        */
-      assert ArezPersistConfig.isDevelopmentEnvironment();
+      assert Config.isDevelopmentEnvironment();
       throw new IllegalStateException( "Unable to change constant " + fieldName + " as ArezPersist is in production mode" );
     }
     else
     {
       try
       {
-        final Field field = ArezPersistConfig.class.getDeclaredField( fieldName );
+        final Field field = Config.class.getDeclaredField( fieldName );
         field.setAccessible( true );
         field.set( null, value );
       }

@@ -23,7 +23,7 @@ public final class ArezPersist
   @OmitSymbol
   public static boolean shouldCheckApiInvariants()
   {
-    return ArezPersistConfig.shouldCheckApiInvariants();
+    return Config.shouldCheckApiInvariants();
   }
 
   /**
@@ -34,7 +34,7 @@ public final class ArezPersist
   @OmitSymbol
   public static boolean isApplicationScopedPersistenceEnabled()
   {
-    return ArezPersistConfig.isApplicationScopedPersistenceEnabled();
+    return Config.isApplicationScopedPersistenceEnabled();
   }
 
   /**
