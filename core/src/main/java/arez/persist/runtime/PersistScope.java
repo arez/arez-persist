@@ -46,8 +46,22 @@ public final class PersistScope
     {
       apiInvariant( () -> !isDisposed(),
                     () -> "findOrCreateScope() invoked on disposed scope named '" + _name + "'" );
+      apiInvariant( () -> isValidName( name ),
+                    () -> "findOrCreateScope() invoked with name '" + name +
+                          "' but the name has invalid characters. Names must contain alphanumeric " +
+                          "characters, '-' or '_'" );
     }
-    return _nestedScopes.computeIfAbsent( name, n -> createdNestedScope( name ) );
+    final PersistScope existing = findScope( name );
+    if ( null != existing )
+    {
+      return existing;
+    }
+    else
+    {
+      final PersistScope scope = new PersistScope( this, name );
+      _nestedScopes.put( name, scope );
+      return scope;
+    }
   }
 
   public boolean isDisposed()
