@@ -32,11 +32,6 @@ public final class ArezPersistTestUtil
   {
     if ( Config.isProductionEnvironment() )
     {
-      /*
-       * This should really never happen but if it does add assertion (so code stops in debugger) or
-       * failing that throw an exception.
-       */
-      assert Config.isDevelopmentEnvironment();
       throw new IllegalStateException( "Unable to reset config as ArezPersist is in production mode" );
     }
 
@@ -71,11 +66,6 @@ public final class ArezPersistTestUtil
   {
     if ( Config.isProductionEnvironment() )
     {
-      /*
-       * This should really never happen but if it does add assertion (so code stops in debugger) or
-       * failing that throw an exception.
-       */
-      assert Config.isDevelopmentEnvironment();
       throw new IllegalStateException( "Unable to call ArezTestUtil.setLogger() as ArezPersist is in production mode" );
     }
 
@@ -143,12 +133,8 @@ public final class ArezPersistTestUtil
   {
     if ( Config.isProductionEnvironment() )
     {
-      /*
-       * This should really never happen but if it does add assertion (so code stops in debugger) or
-       * failing that throw an exception.
-       */
-      assert Config.isDevelopmentEnvironment();
-      throw new IllegalStateException( "Unable to change constant " + fieldName + " as ArezPersist is in production mode" );
+      throw new IllegalStateException( "Unable to change constant " + fieldName +
+                                       " as ArezPersist is in production mode" );
     }
     else
     {

@@ -23,11 +23,6 @@ final class Config
   {
   }
 
-  static boolean isDevelopmentEnvironment()
-  {
-    return !isProductionEnvironment();
-  }
-
   static boolean isProductionEnvironment()
   {
     return PRODUCTION_ENVIRONMENT;
