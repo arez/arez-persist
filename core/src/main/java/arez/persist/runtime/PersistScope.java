@@ -39,12 +39,6 @@ public final class PersistScope
     return null == _parent || null == _parent._parent ? _name : _parent.getQualifiedName() + "." + _name;
   }
 
-  @Nullable
-  PersistScope findScope( @Nonnull final String name )
-  {
-    return _nestedScopes.get( name );
-  }
-
   @Nonnull
   public PersistScope findOrCreateScope( @Nonnull final String name )
   {
@@ -80,6 +74,12 @@ public final class PersistScope
       scope = new PersistScope( this, name );
     _nestedScopes.put( name, scope );
     return scope;
+  }
+
+  @Nullable
+  PersistScope findScope( @Nonnull final String name )
+  {
+    return _nestedScopes.get( name );
   }
 
   @Nonnull
