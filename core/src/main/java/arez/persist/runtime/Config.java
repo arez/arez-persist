@@ -15,7 +15,7 @@ final class Config
   private static final ConfigProvider PROVIDER = new ConfigProvider();
   private static final boolean PRODUCTION_ENVIRONMENT = PROVIDER.isProductionEnvironment();
   private static boolean ENABLE_APPLICATION_STORE = PROVIDER.isApplicationStoreEnabled();
-  private static boolean CHECK_API_INVARIANTS = PROVIDER.checkApiInvariants();
+  private static boolean CHECK_API_INVARIANTS = PROVIDER.shouldCheckApiInvariants();
   @Nonnull
   private static final String LOGGER_TYPE = PROVIDER.loggerType();
 
@@ -62,7 +62,7 @@ final class Config
 
     @GwtIncompatible
     @Override
-    boolean checkApiInvariants()
+    boolean shouldCheckApiInvariants()
     {
       return "true".equals( System.getProperty( "arez.persist.check_api_invariants",
                                                 isProductionEnvironment() ? "false" : "true" ) );
@@ -90,7 +90,7 @@ final class Config
       return "true" == System.getProperty( "arez.persist.enable_application_store" );
     }
 
-    boolean checkApiInvariants()
+    boolean shouldCheckApiInvariants()
     {
       return "true" == System.getProperty( "arez.persist.check_api_invariants" );
     }
