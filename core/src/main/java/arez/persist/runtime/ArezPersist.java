@@ -1,5 +1,6 @@
 package arez.persist.runtime;
 
+import arez.persist.StoreTypes;
 import grim.annotations.OmitClinit;
 import grim.annotations.OmitSymbol;
 import javax.annotation.Nonnull;
@@ -159,5 +160,13 @@ public final class ArezPersist
   public static void releaseScope( @Nonnull final Scope scope )
   {
     Registry.releaseScope( scope );
+  }
+
+  static void registerIntrinsicStores()
+  {
+    if ( isApplicationScopedPersistenceEnabled() )
+    {
+      registerStore( StoreTypes.APPLICATION, new NoopStorageService() );
+    }
   }
 }

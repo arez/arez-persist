@@ -1,6 +1,5 @@
 package arez.persist.runtime;
 
-import arez.persist.StoreTypes;
 import grim.annotations.OmitSymbol;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +30,7 @@ final class Registry
   static
   {
     // register "app" store if enabled.
-    registerIntrinsicStores();
+    ArezPersist.registerIntrinsicStores();
   }
 
   private Registry()
@@ -149,16 +148,8 @@ final class Registry
   {
     c_stores.values().forEach( Store::dispose );
     c_stores.clear();
-    registerIntrinsicStores();
+    ArezPersist.registerIntrinsicStores();
     disposeScope( c_rootScope );
     c_rootScope = new Scope( null, Scope.ROOT_SCOPE_NAME );
-  }
-
-  private static void registerIntrinsicStores()
-  {
-    if ( ArezPersist.isApplicationScopedPersistenceEnabled() )
-    {
-      registerStore( StoreTypes.APPLICATION, new NoopStorageService() );
-    }
   }
 }
