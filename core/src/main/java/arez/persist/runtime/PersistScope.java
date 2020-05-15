@@ -25,10 +25,6 @@ public final class PersistScope
   {
     _parent = parent;
     _name = Objects.requireNonNull( name );
-    if ( null != parent )
-    {
-      parent._nestedScopes.put( name, this );
-    }
   }
 
   @Nonnull
