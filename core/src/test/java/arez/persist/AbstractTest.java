@@ -40,4 +40,10 @@ public abstract class AbstractTest
   {
     assertEquals( object.toString(), object.getClass().getName() + "@" + System.identityHashCode( object ) );
   }
+
+  protected final void assertInvariantFailure( @Nonnull final ThrowingRunnable throwingRunnable,
+                                               @Nonnull final String message )
+  {
+    assertEquals( expectThrows( IllegalStateException.class, throwingRunnable ).getMessage(), message );
+  }
 }
