@@ -7,7 +7,7 @@ import org.realityforge.guiceyloops.shared.ValueUtil;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
-public class ArezPersistLoggerTest
+public class LogUtilTest
   extends AbstractTest
 {
   @Test
@@ -15,9 +15,9 @@ public class ArezPersistLoggerTest
   {
     final String message1 = ValueUtil.randomString();
     final String message2 = ValueUtil.randomString();
-    ArezPersistLogger.log( message1, null );
+    LogUtil.log( message1, null );
     final Throwable throwable = new Throwable();
-    ArezPersistLogger.log( message2, throwable );
+    LogUtil.log( message2, throwable );
 
     final List<TestLogger.LogEntry> entries = getTestLogger().getEntries();
     assertEquals( entries.size(), 2 );

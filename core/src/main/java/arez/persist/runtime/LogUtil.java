@@ -11,14 +11,14 @@ import jsinterop.annotations.JsType;
 /**
  * Log abstraction for framework.
  */
-final class ArezPersistLogger
+final class LogUtil
 {
   private static final Logger c_logger =
     "console".equals( Config.loggerType() ) ? new ConsoleLogger() :
     "proxy".equals( Config.loggerType() ) ? new ProxyLogger() :
     new NoopLogger();
 
-  private ArezPersistLogger()
+  private LogUtil()
   {
   }
 

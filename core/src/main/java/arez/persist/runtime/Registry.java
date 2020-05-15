@@ -118,7 +118,7 @@ final class Registry
     }
     catch ( final Throwable t )
     {
-      ArezPersistLogger.getLogger().log( "Failed to restore state for store named '" + name + "'", t );
+      LogUtil.getLogger().log( "Failed to restore state for store named '" + name + "'", t );
     }
   }
 
