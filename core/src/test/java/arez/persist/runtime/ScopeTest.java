@@ -2,6 +2,9 @@ package arez.persist.runtime;
 
 import arez.ArezTestUtil;
 import arez.persist.AbstractTest;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Nonnull;
 import org.realityforge.guiceyloops.shared.ValueUtil;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
@@ -142,5 +145,67 @@ public final class ScopeTest
 
     assertInvariantFailure( () -> parent.findOrCreateScope( " * -jhsagdjhg2" ),
                             "findOrCreateScope() invoked with name ' * -jhsagdjhg2' but the name has invalid characters. Names must contain alphanumeric characters, '-' or '_'" );
+  }
+
+  @Test
+  public void releaseScope()
+  {
+    final Scope parent = ArezPersist.getRootScope();
+
+    final Scope scope = parent.findOrCreateScope( ValueUtil.randomString() );
+    final Scope childScope = scope.findOrCreateScope( ValueUtil.randomString() );
+    final Scope peerScope = parent.findOrCreateScope( ValueUtil.randomString() );
+
+    assertEquals( parent.getNestedScopes().size(), 2 );
+    assertTrue( parent.getNestedScopes().contains( scope ) );
+    assertTrue( parent.getNestedScopes().contains( peerScope ) );
+
+    final String storeName = ValueUtil.randomString();
+    ArezPersist.registerStore( storeName, new NoopStorageService() );
+    final Store store = ArezPersist.getStore( storeName );
+
+    final String type = ValueUtil.randomString();
+    final String id1 = ValueUtil.randomString();
+    final String id2 = ValueUtil.randomString();
+    final String id3 = ValueUtil.randomString();
+    final String id4 = ValueUtil.randomString();
+    store.save( parent, type, id1, randomState() );
+    store.save( scope, type, id2, randomState() );
+    store.save( childScope, type, id3, randomState() );
+    store.save( peerScope, type, id4, randomState() );
+
+    assertNotNull( store.get( parent, type, id1 ) );
+    assertNotNull( store.get( scope, type, id2 ) );
+    assertNotNull( store.get( childScope, type, id3 ) );
+    assertNotNull( store.get( peerScope, type, id4 ) );
+
+    ArezPersist.releaseScope( scope );
+
+    assertNotNull( store.get( parent, type, id1 ) );
+    assertNull( store.get( scope, type, id2 ) );
+    assertNull( store.get( childScope, type, id3 ) );
+    assertNotNull( store.get( peerScope, type, id4 ) );
+
+    ArezPersist.releaseScope( scope );
+
+    assertNotNull( store.get( parent, type, id1 ) );
+    assertNull( store.get( scope, type, id2 ) );
+    assertNull( store.get( childScope, type, id3 ) );
+    assertNotNull( store.get( peerScope, type, id4 ) );
+
+    ArezPersist.releaseScope( parent );
+
+    assertNull( store.get( parent, type, id1 ) );
+    assertNull( store.get( scope, type, id2 ) );
+    assertNull( store.get( childScope, type, id3 ) );
+    assertNull( store.get( peerScope, type, id4 ) );
+  }
+
+  @Nonnull
+  private Map<String, Object> randomState()
+  {
+    final HashMap<String, Object> state = new HashMap<>();
+    state.put( ValueUtil.randomString(), ValueUtil.randomString() );
+    return state;
   }
 }
