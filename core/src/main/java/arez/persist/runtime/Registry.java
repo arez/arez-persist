@@ -139,6 +139,12 @@ final class Registry
     return Objects.requireNonNull( c_stores.get( name ) );
   }
 
+  @Nonnull
+  static Map<String, Store> getStores()
+  {
+    return c_stores;
+  }
+
   /**
    * cleanup service.
    * This is dangerous as it may leave dangling references and should only be done in tests.
