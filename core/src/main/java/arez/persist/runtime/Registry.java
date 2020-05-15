@@ -60,7 +60,7 @@ final class Registry
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
-      apiInvariant( () -> Scope.ROOT_SCOPE_NAME.equals( scope.getName() ),
+      apiInvariant( () -> !Scope.ROOT_SCOPE_NAME.equals( scope.getName() ),
                     () -> "disposeScope() invoked with the root scope" );
       apiInvariant( () -> !scope.isDisposed(),
                     () -> "disposeScope() passed a disposed scope named '" + scope.getName() + "'" );
