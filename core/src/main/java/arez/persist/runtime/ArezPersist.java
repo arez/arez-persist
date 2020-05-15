@@ -96,7 +96,7 @@ public final class ArezPersist
     }
     int start = 0;
     int end;
-    while ( -1 != ( end = qualifiedName.indexOf( start, '.' ) ) )
+    while ( -1 != ( end = qualifiedName.indexOf( '.', start ) ) )
     {
       scope = scope.findScope( qualifiedName.substring( start, end ) );
       if ( null == scope )
