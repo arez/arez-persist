@@ -88,6 +88,7 @@ public final class ScopeTest
     assertInvariantFailure( () -> parent.findOrCreateScope( "" ),
                             "findOrCreateScope() invoked with name '' but the name has invalid characters. Names must contain alphanumeric characters, '-' or '_'" );
   }
+
   @Test
   public void findOrCreateScope_invalidName()
   {
