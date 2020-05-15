@@ -20,7 +20,7 @@ public final class PersistStore
    * In-memory cache of configuration data.
    */
   @Nonnull
-  private final Map<PersistScope, Map<String, Map<String, StorageService.Entry>>> _config = new HashMap<>();
+  private final Map<Scope, Map<String, Map<String, StorageService.Entry>>> _config = new HashMap<>();
   /**
    * Has the config data been committed to the backend storage?
    */
@@ -61,7 +61,7 @@ public final class PersistStore
    *
    * @param scope the scope.
    */
-  void releaseScope( @Nonnull final PersistScope scope )
+  void releaseScope( @Nonnull final Scope scope )
   {
     scope.getNestedScopes().forEach( this::releaseScope );
     if ( null != _config.remove( scope ) )
@@ -80,7 +80,7 @@ public final class PersistStore
    * @param id    a string representation of the component id.
    * @param state the state to store.
    */
-  public void save( @Nonnull final PersistScope scope,
+  public void save( @Nonnull final Scope scope,
                     @Nonnull final String type,
                     @Nonnull final String id,
                     @Nonnull final Map<String, Object> state )
@@ -116,7 +116,7 @@ public final class PersistStore
    * @param type  the string that identifies the type of component.
    * @param id    a string representation of the component id.
    */
-  public void remove( @Nonnull final PersistScope scope, @Nonnull final String type, @Nonnull final String id )
+  public void remove( @Nonnull final Scope scope, @Nonnull final String type, @Nonnull final String id )
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
@@ -141,7 +141,7 @@ public final class PersistStore
    * @return the component state if it exists, else null.
    */
   @Nullable
-  public Map<String, Object> get( @Nonnull final PersistScope scope,
+  public Map<String, Object> get( @Nonnull final Scope scope,
                                   @Nonnull final String type,
                                   @Nonnull final String id )
   {

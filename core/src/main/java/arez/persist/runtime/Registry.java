@@ -26,7 +26,7 @@ final class Registry
    * The root scope.
    */
   @Nonnull
-  private static PersistScope c_rootScope = new PersistScope( null, PersistScope.DEFAULT_SCOPE_NAME );
+  private static Scope c_rootScope = new Scope( null, Scope.DEFAULT_SCOPE_NAME );
 
   static
   {
@@ -44,24 +44,24 @@ final class Registry
    * @return the root scope under which all other scopes are nested.
    */
   @Nonnull
-  static PersistScope getRootScope()
+  static Scope getRootScope()
   {
     return c_rootScope;
   }
 
   /**
    * Dispose the specified scope.
-   * A dispose operation first performs a {@link #releaseScope(PersistScope)} on the scope, then attempts to
+   * A dispose operation first performs a {@link #releaseScope(Scope)} on the scope, then attempts to
    * dispose all nested scopes and finally disposes the specified scope. A disposed scope should no longer be
    * used to store state. It is an error to attempt to dispose the root scope.
    *
    * @param scope the scope to dispose.
    */
-  static void disposeScope( @Nonnull final PersistScope scope )
+  static void disposeScope( @Nonnull final Scope scope )
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
-      apiInvariant( () -> PersistScope.DEFAULT_SCOPE_NAME.equals( scope.getName() ),
+      apiInvariant( () -> Scope.DEFAULT_SCOPE_NAME.equals( scope.getName() ),
                     () -> "disposeScope() invoked with the root scope" );
       apiInvariant( () -> !scope.isDisposed(),
                     () -> "disposeScope() passed a disposed scope named '" + scope.getName() + "'" );
@@ -76,7 +76,7 @@ final class Registry
    *
    * @param scope the scope to release.
    */
-  static void releaseScope( @Nonnull final PersistScope scope )
+  static void releaseScope( @Nonnull final Scope scope )
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
@@ -86,7 +86,7 @@ final class Registry
     c_stores.values().forEach( store -> store.releaseScope( scope ) );
   }
 
-  private static void _disposeScope( @Nonnull final PersistScope scope )
+  private static void _disposeScope( @Nonnull final Scope scope )
   {
     new ArrayList<>( scope.getNestedScopes() ).forEach( Registry::_disposeScope );
     scope.dispose();
@@ -152,7 +152,7 @@ final class Registry
     c_stores.clear();
     registerIntrinsicStores();
     disposeScope( c_rootScope );
-    c_rootScope = new PersistScope( null, PersistScope.DEFAULT_SCOPE_NAME );
+    c_rootScope = new Scope( null, Scope.DEFAULT_SCOPE_NAME );
   }
 
   private static void registerIntrinsicStores()

@@ -9,19 +9,19 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import static org.realityforge.braincheck.Guards.*;
 
-public final class PersistScope
+public final class Scope
 {
   @Nonnull
   public static final String DEFAULT_SCOPE_NAME = "<>";
   @Nullable
-  private final PersistScope _parent;
+  private final Scope _parent;
   @Nonnull
   private final String _name;
   @Nonnull
-  private final Map<String, PersistScope> _nestedScopes = new HashMap<>();
+  private final Map<String, Scope> _nestedScopes = new HashMap<>();
   private boolean _disposed;
 
-  PersistScope( @Nullable final PersistScope parent, @Nonnull final String name )
+  Scope( @Nullable final Scope parent, @Nonnull final String name )
   {
     _parent = parent;
     _name = Objects.requireNonNull( name );
@@ -40,7 +40,7 @@ public final class PersistScope
   }
 
   @Nonnull
-  public PersistScope findOrCreateScope( @Nonnull final String name )
+  public Scope findOrCreateScope( @Nonnull final String name )
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
@@ -51,14 +51,14 @@ public final class PersistScope
                           "' but the name has invalid characters. Names must contain alphanumeric " +
                           "characters, '-' or '_'" );
     }
-    final PersistScope existing = findScope( name );
+    final Scope existing = findScope( name );
     if ( null != existing )
     {
       return existing;
     }
     else
     {
-      final PersistScope scope = new PersistScope( this, name );
+      final Scope scope = new Scope( this, name );
       _nestedScopes.put( name, scope );
       return scope;
     }
@@ -83,13 +83,13 @@ public final class PersistScope
   }
 
   @Nullable
-  PersistScope findScope( @Nonnull final String name )
+  Scope findScope( @Nonnull final String name )
   {
     return _nestedScopes.get( name );
   }
 
   @Nonnull
-  Collection<PersistScope> getNestedScopes()
+  Collection<Scope> getNestedScopes()
   {
     return _nestedScopes.values();
   }

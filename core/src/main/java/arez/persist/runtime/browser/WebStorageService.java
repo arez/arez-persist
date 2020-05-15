@@ -2,7 +2,7 @@ package arez.persist.runtime.browser;
 
 import arez.SafeProcedure;
 import arez.persist.runtime.ArezPersist;
-import arez.persist.runtime.PersistScope;
+import arez.persist.runtime.Scope;
 import arez.persist.runtime.StorageService;
 import elemental2.core.Global;
 import elemental2.core.JsArray;
@@ -89,11 +89,11 @@ final class WebStorageService
   }
 
   @Override
-  public void commit( @Nonnull final Map<PersistScope, Map<String, Map<String, Entry>>> state )
+  public void commit( @Nonnull final Map<Scope, Map<String, Map<String, Entry>>> state )
   {
     _idleCallbackId = 0;
     final JsPropertyMap<Object> data = JsPropertyMap.of();
-    for ( final Map.Entry<PersistScope, Map<String, Map<String, Entry>>> scopeEntry : state.entrySet() )
+    for ( final Map.Entry<Scope, Map<String, Map<String, Entry>>> scopeEntry : state.entrySet() )
     {
       final JsPropertyMap<Object> scope = JsPropertyMap.of();
       for ( final Map.Entry<String, Map<String, Entry>> entry : scopeEntry.getValue().entrySet() )
@@ -130,7 +130,7 @@ final class WebStorageService
   }
 
   @Override
-  public void restore( @Nonnull final Map<PersistScope, Map<String, Map<String, Entry>>> state )
+  public void restore( @Nonnull final Map<Scope, Map<String, Map<String, Entry>>> state )
   {
     final String item = _storage.getItem( _address );
     if ( null != item )
@@ -146,7 +146,7 @@ final class WebStorageService
     }
   }
 
-  private void restoreScope( @Nonnull final Map<PersistScope, Map<String, Map<String, Entry>>> state,
+  private void restoreScope( @Nonnull final Map<Scope, Map<String, Map<String, Entry>>> state,
                              @Nonnull final String scopeName,
                              @Nonnull final JsPropertyMap<Object> types )
   {
@@ -159,12 +159,12 @@ final class WebStorageService
     }
   }
 
-  private void restoreType( @Nonnull final Map<PersistScope, Map<String, Map<String, Entry>>> state,
+  private void restoreType( @Nonnull final Map<Scope, Map<String, Map<String, Entry>>> state,
                             @Nonnull final String scopeName,
                             @Nonnull final String typeName,
                             @Nonnull final JsPropertyMap<Object> idMap )
   {
-    final PersistScope scope = ArezPersist.findOrCreateScope( scopeName );
+    final Scope scope = ArezPersist.findOrCreateScope( scopeName );
     final Map<String, Entry> entryMap = new HashMap<>();
     final JsArray<String> ids = JsObject.keys( idMap );
     final int idCount = ids.length;

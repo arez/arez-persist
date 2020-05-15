@@ -11,7 +11,7 @@ final class NoopStorageService
   implements StorageService
 {
   @Override
-  public void restore( @Nonnull final Map<PersistScope, Map<String, Map<String, Entry>>> state )
+  public void restore( @Nonnull final Map<Scope, Map<String, Map<String, Entry>>> state )
   {
   }
 
@@ -27,7 +27,7 @@ final class NoopStorageService
   }
 
   @Override
-  public void commit( @Nonnull final Map<PersistScope, Map<String, Map<String, Entry>>> state )
+  public void commit( @Nonnull final Map<Scope, Map<String, Map<String, Entry>>> state )
   {
     //no-op
   }

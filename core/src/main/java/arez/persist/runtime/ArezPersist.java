@@ -43,7 +43,7 @@ public final class ArezPersist
    * @return the root scope under which all other scopes are nested.
    */
   @Nonnull
-  public static PersistScope getRootScope()
+  public static Scope getRootScope()
   {
     return Registry.getRootScope();
   }
@@ -86,10 +86,10 @@ public final class ArezPersist
    * @return the scope if it exists.
    */
   @Nullable
-  public static PersistScope findScope( @Nonnull final String qualifiedName )
+  public static Scope findScope( @Nonnull final String qualifiedName )
   {
-    PersistScope scope = getRootScope();
-    if ( PersistScope.DEFAULT_SCOPE_NAME.equals( qualifiedName ) )
+    Scope scope = getRootScope();
+    if ( Scope.DEFAULT_SCOPE_NAME.equals( qualifiedName ) )
     {
       return scope;
     }
@@ -120,10 +120,10 @@ public final class ArezPersist
    * @return the scope.
    */
   @Nonnull
-  public static PersistScope findOrCreateScope( @Nonnull final String qualifiedName )
+  public static Scope findOrCreateScope( @Nonnull final String qualifiedName )
   {
-    PersistScope scope = getRootScope();
-    if ( PersistScope.DEFAULT_SCOPE_NAME.equals( qualifiedName ) )
+    Scope scope = getRootScope();
+    if ( Scope.DEFAULT_SCOPE_NAME.equals( qualifiedName ) )
     {
       return scope;
     }
@@ -139,13 +139,13 @@ public final class ArezPersist
 
   /**
    * Dispose the specified scope.
-   * A dispose operation first performs a {@link #releaseScope(PersistScope)} on the scope, then attempts to
+   * A dispose operation first performs a {@link #releaseScope(Scope)} on the scope, then attempts to
    * dispose all nested scopes and finally disposes the specified scope. A disposed scope should no longer be
    * used to store state. It is an error to attempt to dispose the root scope.
    *
    * @param scope the scope to dispose.
    */
-  public static void disposeScope( @Nonnull final PersistScope scope )
+  public static void disposeScope( @Nonnull final Scope scope )
   {
     Registry.disposeScope( scope );
   }
@@ -156,7 +156,7 @@ public final class ArezPersist
    *
    * @param scope the scope to release.
    */
-  public static void releaseScope( @Nonnull final PersistScope scope )
+  public static void releaseScope( @Nonnull final Scope scope )
   {
     Registry.releaseScope( scope );
   }

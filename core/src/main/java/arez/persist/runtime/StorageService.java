@@ -12,9 +12,9 @@ public interface StorageService
 
   void scheduleCommit( @Nonnull SafeProcedure commitTriggerAction );
 
-  void commit( @Nonnull final Map<PersistScope, Map<String, Map<String, Entry>>> state );
+  void commit( @Nonnull final Map<Scope, Map<String, Map<String, Entry>>> state );
 
-  void restore( @Nonnull final Map<PersistScope, Map<String, Map<String, Entry>>> state );
+  void restore( @Nonnull final Map<Scope, Map<String, Map<String, Entry>>> state );
 
   @Nonnull
   Object encodeState( @Nonnull Map<String, Object> state );
