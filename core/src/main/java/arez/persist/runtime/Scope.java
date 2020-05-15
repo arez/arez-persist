@@ -134,6 +134,12 @@ public final class Scope
   }
 
   @Nullable
+  Scope getParent()
+  {
+    return _parent;
+  }
+
+  @Nullable
   Scope findScope( @Nonnull final String name )
   {
     return _nestedScopes.get( name );

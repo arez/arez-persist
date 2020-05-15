@@ -27,6 +27,8 @@ public final class ScopeTest
     assertTrue( parent.getNestedScopes().contains( scope ) );
 
     assertEquals( parent.findOrCreateScope( name ), scope );
+    assertEquals( ArezPersist.findScope( name ), scope );
+    assertEquals( ArezPersist.findOrCreateScope( name ), scope );
 
     assertEquals( parent.getNestedScopes().size(), 1 );
     assertTrue( parent.getNestedScopes().contains( scope ) );
@@ -37,15 +39,59 @@ public final class ScopeTest
     assertFalse( scope.isDisposed() );
     assertEquals( scope.getNestedScopes().size(), 0 );
 
-    scope.dispose();
+    ArezPersist.disposeScope( scope );
 
     assertEquals( parent.getNestedScopes().size(), 0 );
     assertTrue( scope.isDisposed() );
+  }
 
-    scope.dispose();
+  @Test
+  public void findOrCreateScope_qualified()
+  {
+    final Scope root = ArezPersist.getRootScope();
 
-    assertEquals( parent.getNestedScopes().size(), 0 );
-    assertTrue( scope.isDisposed() );
+    assertEquals( ArezPersist.findScope( Scope.ROOT_SCOPE_NAME ), root );
+    assertEquals( ArezPersist.findOrCreateScope( Scope.ROOT_SCOPE_NAME ), root );
+
+    final String name1 = "A.B.C";
+    final String name2 = "A.B.D";
+    final String name3 = "A.B";
+    final String name4 = "A.1.D";
+
+    assertEquals( root.getNestedScopes().size(), 0 );
+
+    assertNull( ArezPersist.findScope( name1 ) );
+    assertNull( ArezPersist.findScope( name2 ) );
+    assertNull( ArezPersist.findScope( name3 ) );
+    assertNull( ArezPersist.findScope( name4 ) );
+
+    assertEquals( root.getNestedScopes().size(), 0 );
+
+    final Scope scope1 = ArezPersist.findOrCreateScope( name1 );
+    final Scope scope3 = scope1.getParent();
+
+    assertNotNull( scope3 );
+
+    assertEquals( ArezPersist.findScope( name1 ), scope1 );
+    assertNull( ArezPersist.findScope( name2 ) );
+    assertEquals( ArezPersist.findScope( name3 ), scope3 );
+    assertNull( ArezPersist.findScope( name4 ) );
+
+    assertEquals( root.getNestedScopes().size(), 1 );
+    assertEquals( scope1.getNestedScopes().size(), 0 );
+    assertEquals( scope3.getNestedScopes().size(), 1 );
+
+    final Scope scope2 = ArezPersist.findOrCreateScope( name2 );
+
+    assertEquals( ArezPersist.findScope( name1 ), scope1 );
+    assertEquals( ArezPersist.findScope( name2 ), scope2 );
+    assertEquals( ArezPersist.findScope( name3 ), scope3 );
+    assertNull( ArezPersist.findScope( name4 ) );
+
+    assertEquals( root.getNestedScopes().size(), 1 );
+    assertEquals( scope1.getNestedScopes().size(), 0 );
+    assertEquals( scope2.getNestedScopes().size(), 0 );
+    assertEquals( scope3.getNestedScopes().size(), 2 );
   }
 
   @Test
@@ -71,7 +117,7 @@ public final class ScopeTest
 
     final Scope scope = parent.findOrCreateScope( name1 );
 
-    scope.dispose();
+    ArezPersist.disposeScope( scope );
 
     assertEquals( parent.getNestedScopes().size(), 0 );
     assertTrue( scope.isDisposed() );
