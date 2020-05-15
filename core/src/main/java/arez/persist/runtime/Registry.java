@@ -2,6 +2,7 @@ package arez.persist.runtime;
 
 import arez.persist.StoreTypes;
 import grim.annotations.OmitSymbol;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -87,7 +88,7 @@ final class Registry
 
   private static void _disposeScope( @Nonnull final PersistScope scope )
   {
-    scope.getNestedScopes().forEach( Registry::_disposeScope );
+    new ArrayList<>( scope.getNestedScopes() ).forEach( Registry::_disposeScope );
     scope.dispose();
   }
 
