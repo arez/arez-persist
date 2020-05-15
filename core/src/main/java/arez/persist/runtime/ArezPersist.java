@@ -28,14 +28,14 @@ public final class ArezPersist
   }
 
   /**
-   * Return true if the in-memory "app" persistence store will be registered by the framework.
+   * Return true if the in-memory application store should be registered by the framework.
    *
-   * @return true if the in-memory "app" persistence store will be registered by the framework.
+   * @return true if the in-memory application store should be registered by the framework.
    */
   @OmitSymbol
-  public static boolean isApplicationScopedPersistenceEnabled()
+  public static boolean isApplicationStoreEnabled()
   {
-    return Config.isApplicationScopedPersistenceEnabled();
+    return Config.isApplicationStoreEnabled();
   }
 
   /**
@@ -164,7 +164,7 @@ public final class ArezPersist
 
   static void registerIntrinsicStores()
   {
-    if ( isApplicationScopedPersistenceEnabled() )
+    if ( isApplicationStoreEnabled() )
     {
       registerStore( StoreTypes.APPLICATION, new NoopStorageService() );
     }

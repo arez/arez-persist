@@ -10,9 +10,9 @@ public final class ArezPersistTest
   @Test
   public void isApplicationScopedPersistenceEnabled()
   {
-    assertTrue( ArezPersist.isApplicationScopedPersistenceEnabled() );
+    assertTrue( ArezPersist.isApplicationStoreEnabled() );
     ArezPersistTestUtil.disableApplicationStore();
-    assertFalse( ArezPersist.isApplicationScopedPersistenceEnabled() );
+    assertFalse( ArezPersist.isApplicationStoreEnabled() );
   }
 
   @Test

@@ -13,7 +13,7 @@ public final class StoreTypes
 {
   /**
    * The property is persisted in memory and will be lost when the application is reloaded.
-   * This persist strategy is only available when {@link ArezPersist#isApplicationScopedPersistenceEnabled()}
+   * This persist strategy is only available when {@link ArezPersist#isApplicationStoreEnabled()}
    * returns {@code true}.
    */
   @Nonnull
