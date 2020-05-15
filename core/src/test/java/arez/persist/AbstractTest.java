@@ -38,7 +38,7 @@ public abstract class AbstractTest
 
   protected final void assertDefaultToString( @Nonnull final Object object )
   {
-    assertEquals( object.toString(), object.getClass().getName() + "@" + System.identityHashCode( object ) );
+    assertEquals( object.toString(), object.getClass().getName() + "@" + Integer.toHexString( object.hashCode() ) );
   }
 
   protected final void assertInvariantFailure( @Nonnull final ThrowingRunnable throwingRunnable,
