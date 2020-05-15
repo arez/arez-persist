@@ -12,7 +12,7 @@ import static org.realityforge.braincheck.Guards.*;
 public final class Scope
 {
   @Nonnull
-  public static final String DEFAULT_SCOPE_NAME = "<>";
+  public static final String ROOT_SCOPE_NAME = "<>";
   @Nullable
   private final Scope _parent;
   @Nonnull

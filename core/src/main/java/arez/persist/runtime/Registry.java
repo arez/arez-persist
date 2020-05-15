@@ -26,7 +26,7 @@ final class Registry
    * The root scope.
    */
   @Nonnull
-  private static Scope c_rootScope = new Scope( null, Scope.DEFAULT_SCOPE_NAME );
+  private static Scope c_rootScope = new Scope( null, Scope.ROOT_SCOPE_NAME );
 
   static
   {
@@ -61,7 +61,7 @@ final class Registry
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
-      apiInvariant( () -> Scope.DEFAULT_SCOPE_NAME.equals( scope.getName() ),
+      apiInvariant( () -> Scope.ROOT_SCOPE_NAME.equals( scope.getName() ),
                     () -> "disposeScope() invoked with the root scope" );
       apiInvariant( () -> !scope.isDisposed(),
                     () -> "disposeScope() passed a disposed scope named '" + scope.getName() + "'" );
@@ -151,7 +151,7 @@ final class Registry
     c_stores.clear();
     registerIntrinsicStores();
     disposeScope( c_rootScope );
-    c_rootScope = new Scope( null, Scope.DEFAULT_SCOPE_NAME );
+    c_rootScope = new Scope( null, Scope.ROOT_SCOPE_NAME );
   }
 
   private static void registerIntrinsicStores()

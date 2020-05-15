@@ -89,7 +89,7 @@ public final class ArezPersist
   public static Scope findScope( @Nonnull final String qualifiedName )
   {
     Scope scope = getRootScope();
-    if ( Scope.DEFAULT_SCOPE_NAME.equals( qualifiedName ) )
+    if ( Scope.ROOT_SCOPE_NAME.equals( qualifiedName ) )
     {
       return scope;
     }
@@ -123,7 +123,7 @@ public final class ArezPersist
   public static Scope findOrCreateScope( @Nonnull final String qualifiedName )
   {
     Scope scope = getRootScope();
-    if ( Scope.DEFAULT_SCOPE_NAME.equals( qualifiedName ) )
+    if ( Scope.ROOT_SCOPE_NAME.equals( qualifiedName ) )
     {
       return scope;
     }
