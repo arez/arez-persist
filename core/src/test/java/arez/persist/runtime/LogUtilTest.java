@@ -7,7 +7,7 @@ import org.realityforge.guiceyloops.shared.ValueUtil;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
-public class LogUtilTest
+public final class LogUtilTest
   extends AbstractTest
 {
   @Test
