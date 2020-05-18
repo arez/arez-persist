@@ -85,6 +85,7 @@ define 'arez-persist' do
               :guava,
               :guava_failureaccess,
               :hamcrest_core,
+              :arez_processor,
               project('core').package(:jar),
               project('core').compile.dependencies
 

@@ -1,8 +1,10 @@
 package arez.persist.processor;
 
+import arez.processor.ArezProcessor;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.processing.Processor;
 import javax.tools.JavaFileObject;
 import org.realityforge.proton.qa.AbstractProcessorTest;
 import org.testng.annotations.DataProvider;
@@ -141,9 +143,16 @@ public final class ArezPersistProcessorTest
     return new ArezPersistProcessor();
   }
 
+  @Nonnull
+  @Override
+  protected Processor[] additionalProcessors()
+  {
+    return new Processor[]{ new ArezProcessor() };
+  }
+
   @Override
   protected boolean emitGeneratedFile( @Nonnull final JavaFileObject target )
   {
-    return super.emitGeneratedFile( target ) && !target.getName().startsWith( "Arez_" );
+    return super.emitGeneratedFile( target ) && !target.getName().contains( "/Arez_" );
   }
 }
