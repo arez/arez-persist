@@ -1,7 +1,10 @@
 package com.example.persist_type;
 
 import arez.Arez;
+import arez.ArezContext;
 import arez.annotations.ComponentDependency;
+import arez.annotations.ContextRef;
+import arez.component.Identifiable;
 import arez.persist.runtime.Scope;
 import arez.persist.runtime.Store;
 import java.util.Objects;
@@ -25,6 +28,14 @@ abstract class CustomDefaultStorePersistTypeModel_PersistSidecar {
     _scope = Objects.requireNonNull( scope );
     _peer = Objects.requireNonNull( peer );
     _dsStore = Objects.requireNonNull( dsStore );
+  }
+
+  @ContextRef
+  abstract ArezContext context();
+
+  @Nonnull
+  private String getComponentId() {
+    return String.valueOf( Objects.requireNonNull( Identifiable.getArezId( _peer ) ) );
   }
 
   private static final class Keys {

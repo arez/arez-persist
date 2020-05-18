@@ -21,7 +21,14 @@ final class SidecarGenerator
   @Nonnull
   private static final ClassName AREZ_CLASSNAME = ClassName.get( "arez", "Arez" );
   @Nonnull
-  private static final ClassName COMPONENT_DEPENDENCY_CLASSNAME = ClassName.get( "arez.annotations", "ComponentDependency" );
+  private static final ClassName AREZ_CONTEXT_CLASSNAME = ClassName.get( "arez", "ArezContext" );
+  @Nonnull
+  private static final ClassName IDENTIFIABLE_CLASSNAME = ClassName.get( "arez.component", "Identifiable" );
+  @Nonnull
+  private static final ClassName COMPONENT_DEPENDENCY_CLASSNAME =
+    ClassName.get( "arez.annotations", "ComponentDependency" );
+  @Nonnull
+  private static final ClassName CONTEXT_REF_CLASSNAME = ClassName.get( "arez.annotations", "ContextRef" );
   @Nonnull
   private static final ClassName SCOPE_CLASSNAME = ClassName.get( "arez.persist.runtime", "Scope" );
   @Nonnull
@@ -60,6 +67,23 @@ final class SidecarGenerator
 
     buildFieldAndConstructor( descriptor, builder );
 
+    // build template method to get arez context
+    builder.addMethod( MethodSpec.methodBuilder( "context" )
+                         .returns( AREZ_CONTEXT_CLASSNAME )
+                         .addModifiers( Modifier.ABSTRACT )
+                         .addAnnotation( CONTEXT_REF_CLASSNAME )
+                         .build() );
+
+    // build method to get component id as string from peer
+    builder.addMethod( MethodSpec.methodBuilder( "getComponentId" )
+                         .returns( String.class )
+                         .addModifiers( Modifier.PRIVATE )
+                         .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
+                         .addStatement( "return $T.valueOf( $T.requireNonNull( $T.getArezId( _peer ) ) )",
+                                        String.class,
+                                        Objects.class,
+                                        IDENTIFIABLE_CLASSNAME )
+                         .build() );
     return builder.build();
   }
 
