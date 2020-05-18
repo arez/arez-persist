@@ -82,6 +82,8 @@ define 'arez-persist' do
               :proton_qa,
               :truth,
               :junit,
+              :guava,
+              :guava_failureaccess,
               :hamcrest_core,
               project('core').package(:jar),
               project('core').compile.dependencies
