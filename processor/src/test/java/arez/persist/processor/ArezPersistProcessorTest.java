@@ -76,13 +76,13 @@ public final class ArezPersistProcessorTest
   {
     assertCompilesWithoutWarnings( classname );
   }
+ */
 
   void assertSuccessfulCompile( @Nonnull final String classname )
     throws Exception
   {
     assertSuccessfulCompile( classname, deriveExpectedOutputs( classname ) );
   }
- */
 
   @Nonnull
   String[] deriveExpectedOutputs( @Nonnull final String classname )
