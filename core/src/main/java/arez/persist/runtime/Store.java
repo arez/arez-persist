@@ -196,8 +196,8 @@ public final class Store
   {
     if ( _committed )
     {
-      _storageService.scheduleCommit( _commitTriggerAction );
       _committed = false;
+      _storageService.scheduleCommit( _commitTriggerAction );
     }
   }
 
