@@ -14,7 +14,7 @@ import org.realityforge.proton.DeferredElementSet;
 /**
  * Annotation processor that analyzes Arez annotated source and generates models from the annotations.
  */
-@SupportedAnnotationTypes( Constants.COMPONENT_CLASSNAME )
+@SupportedAnnotationTypes( Constants.PERSIST_TYPE_CLASSNAME )
 @SupportedSourceVersion( SourceVersion.RELEASE_8 )
 @SupportedOptions( { "arez.persist.defer.unresolved", "arez.persist.defer.errors", "arez.persist.debug" } )
 public final class ArezPersistProcessor
@@ -40,7 +40,8 @@ public final class ArezPersistProcessor
   @Override
   public boolean process( @Nonnull final Set<? extends TypeElement> annotations, @Nonnull final RoundEnvironment env )
   {
-    processTypeElements( annotations, env, Constants.COMPONENT_CLASSNAME, _deferredTypes, this::process );
+    processTypeElements( annotations, env, Constants.PERSIST_TYPE_CLASSNAME, _deferredTypes, this::process );
+
     errorIfProcessingOverAndInvalidTypesDetected( env );
     return true;
   }
