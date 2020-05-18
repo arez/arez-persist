@@ -158,19 +158,16 @@ public final class ArezPersistProcessor
     {
       return element.getSimpleName().toString();
     }
+    else if ( SourceVersion.isIdentifier( declaredValue ) )
+    {
+      return declaredValue;
+    }
     else
     {
-      if ( SourceVersion.isIdentifier( declaredValue ) )
-      {
-        return declaredValue;
-      }
-      else
-      {
-        throw new ProcessorException( MemberChecks.mustNot( Constants.PERSIST_TYPE_CLASSNAME,
-                                                            "specify a name parameter that is not a valid java identifier" ),
-                                      element,
-                                      annotation );
-      }
+      throw new ProcessorException( MemberChecks.mustNot( Constants.PERSIST_TYPE_CLASSNAME,
+                                                          "specify a name parameter that is not a valid java identifier" ),
+                                    element,
+                                    annotation );
     }
   }
 
