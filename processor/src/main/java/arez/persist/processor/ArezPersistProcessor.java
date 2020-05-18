@@ -87,8 +87,9 @@ public final class ArezPersistProcessor
     if ( !AnnotationsUtil.hasAnnotationOfType( element, Constants.AREZ_COMPONENT_CLASSNAME ) )
     {
       throw new ProcessorException( MemberChecks.must( Constants.PERSIST_TYPE_CLASSNAME,
-                                                       "be present on a type annotated with " +
-                                                       MemberChecks.toSimpleName( Constants.AREZ_COMPONENT_CLASSNAME ) ),
+                                                       "be present on a type annotated with the " +
+                                                       MemberChecks.toSimpleName( Constants.AREZ_COMPONENT_CLASSNAME ) +
+                                                       " annotation"),
                                     element );
     }
 
