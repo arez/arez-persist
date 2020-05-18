@@ -47,8 +47,9 @@ public final class ArezPersistProcessorTest
         new Object[]{ "com.example.persist_type.BadDefaultStorePersistTypeModel",
                       "@PersistType target must not specify a defaultStore parameter that is not a valid java identifier" },
         new Object[]{ "com.example.persist_type.BadNamePersistTypeModel",
-                      "@PersistType target must not specify a name parameter that is not a valid java identifier" }
-
+                      "@PersistType target must not specify a name parameter that is not a valid java identifier" },
+        new Object[]{ "com.example.persist_type.NoPropertiesPersistTypeModel",
+                      "@PersistType target must contain one or more @Observable properties annotated with @Persist" }
       };
   }
 
