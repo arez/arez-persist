@@ -14,7 +14,7 @@ public @interface PersistType
 {
   /**
    * Return the name used to persist the type.
-   * If not specified, then the simple name of the class will be used. The name should comply with the
+   * If not specified, then the simple name of the class will be used. The name must comply with the
    * requirements for a java identifier.
    *
    * <p>It should be noted that production mode persistent properties that are not persisted across
