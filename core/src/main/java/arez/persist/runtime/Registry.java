@@ -135,14 +135,7 @@ final class Registry
     if ( null != store )
     {
       assert !store.isDisposed();
-      try
-      {
-        store.dispose();
-      }
-      catch ( final Throwable t )
-      {
-        LogUtil.getLogger().log( "Failed to dispose store named '" + name + "'", t );
-      }
+      store.dispose();
     }
   }
 
