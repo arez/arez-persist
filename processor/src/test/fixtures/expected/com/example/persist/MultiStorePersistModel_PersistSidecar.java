@@ -3,12 +3,15 @@ package com.example.persist;
 import arez.Arez;
 import arez.Disposable;
 import arez.annotations.Action;
+import arez.annotations.ArezComponent;
 import arez.annotations.ComponentDependency;
 import arez.annotations.DepType;
+import arez.annotations.Feature;
 import arez.annotations.Observe;
 import arez.annotations.PreDispose;
 import arez.annotations.Priority;
 import arez.component.Identifiable;
+import arez.persist.runtime.ArezPersist;
 import arez.persist.runtime.Scope;
 import arez.persist.runtime.Store;
 import java.util.HashMap;
@@ -17,6 +20,12 @@ import java.util.Objects;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 
+@ArezComponent(
+    disposeNotifier = Feature.DISABLE,
+    requireId = Feature.DISABLE,
+    requireEquals = Feature.DISABLE,
+    observable = Feature.DISABLE
+)
 @Generated("arez.persist.processor.ArezPersistProcessor")
 abstract class MultiStorePersistModel_PersistSidecar {
   @Nonnull
@@ -43,6 +52,15 @@ abstract class MultiStorePersistModel_PersistSidecar {
     _aStore = Objects.requireNonNull( aStore );
     _appStore = Objects.requireNonNull( appStore );
     _bStore = Objects.requireNonNull( bStore );
+  }
+
+  @Nonnull
+  static MultiStorePersistModel_PersistSidecar attach(@Nonnull final Scope scope,
+      @Nonnull final MultiStorePersistModel peer) {
+    final Store aStore = ArezPersist.getStore( "a" );
+    final Store appStore = ArezPersist.getStore( "app" );
+    final Store bStore = ArezPersist.getStore( "b" );
+    return new Arez_MultiStorePersistModel_PersistSidecar( scope, peer, aStore, appStore, bStore );
   }
 
   @Nonnull

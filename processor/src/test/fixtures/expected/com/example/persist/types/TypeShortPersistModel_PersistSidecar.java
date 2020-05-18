@@ -3,12 +3,15 @@ package com.example.persist.types;
 import arez.Arez;
 import arez.Disposable;
 import arez.annotations.Action;
+import arez.annotations.ArezComponent;
 import arez.annotations.ComponentDependency;
 import arez.annotations.DepType;
+import arez.annotations.Feature;
 import arez.annotations.Observe;
 import arez.annotations.PreDispose;
 import arez.annotations.Priority;
 import arez.component.Identifiable;
+import arez.persist.runtime.ArezPersist;
 import arez.persist.runtime.Scope;
 import arez.persist.runtime.Store;
 import java.util.HashMap;
@@ -17,6 +20,12 @@ import java.util.Objects;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 
+@ArezComponent(
+    disposeNotifier = Feature.DISABLE,
+    requireId = Feature.DISABLE,
+    requireEquals = Feature.DISABLE,
+    observable = Feature.DISABLE
+)
 @Generated("arez.persist.processor.ArezPersistProcessor")
 abstract class TypeShortPersistModel_PersistSidecar {
   @Nonnull
@@ -34,6 +43,13 @@ abstract class TypeShortPersistModel_PersistSidecar {
     _scope = Objects.requireNonNull( scope );
     _peer = Objects.requireNonNull( peer );
     _appStore = Objects.requireNonNull( appStore );
+  }
+
+  @Nonnull
+  static TypeShortPersistModel_PersistSidecar attach(@Nonnull final Scope scope,
+      @Nonnull final TypeShortPersistModel peer) {
+    final Store appStore = ArezPersist.getStore( "app" );
+    return new Arez_TypeShortPersistModel_PersistSidecar( scope, peer, appStore );
   }
 
   @Nonnull

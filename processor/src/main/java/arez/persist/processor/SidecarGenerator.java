@@ -31,6 +31,10 @@ final class SidecarGenerator
   private static final ClassName COMPONENT_DEPENDENCY_CLASSNAME =
     ClassName.get( "arez.annotations", "ComponentDependency" );
   @Nonnull
+  private static final ClassName AREZ_COMPONENT_CLASSNAME = ClassName.get( "arez.annotations", "ArezComponent" );
+  @Nonnull
+  private static final ClassName FEATURE_CLASSNAME = ClassName.get( "arez.annotations", "Feature" );
+  @Nonnull
   private static final ClassName ACTION_CLASSNAME = ClassName.get( "arez.annotations", "Action" );
   @Nonnull
   private static final ClassName OBSERVE_CLASSNAME = ClassName.get( "arez.annotations", "Observe" );
@@ -40,6 +44,8 @@ final class SidecarGenerator
   private static final ClassName PRIORITY_CLASSNAME = ClassName.get( "arez.annotations", "Priority" );
   @Nonnull
   private static final ClassName DEP_TYPE_CLASSNAME = ClassName.get( "arez.annotations", "DepType" );
+  @Nonnull
+  private static final ClassName AREZ_PERSIST_CLASSNAME = ClassName.get( "arez.persist.runtime", "ArezPersist" );
   @Nonnull
   private static final ClassName SCOPE_CLASSNAME = ClassName.get( "arez.persist.runtime", "Scope" );
   @Nonnull
@@ -63,6 +69,13 @@ final class SidecarGenerator
       builder.addModifiers( Modifier.ABSTRACT );
     }
 
+    builder.addAnnotation( AnnotationSpec.builder( AREZ_COMPONENT_CLASSNAME )
+                             .addMember( "disposeNotifier", "$T.DISABLE", FEATURE_CLASSNAME )
+                             .addMember( "requireId", "$T.DISABLE", FEATURE_CLASSNAME )
+                             .addMember( "requireEquals", "$T.DISABLE", FEATURE_CLASSNAME )
+                             .addMember( "observable", "$T.DISABLE", FEATURE_CLASSNAME )
+                             .build() );
+
     GeneratorUtil.addOriginatingTypes( element, builder );
     GeneratorUtil.copyWhitelistedAnnotations( element, builder );
 
@@ -77,6 +90,8 @@ final class SidecarGenerator
     builder.addType( buildKeysType( descriptor ) );
 
     buildFieldAndConstructor( descriptor, builder );
+
+    builder.addMethod( buildAttachMethod( descriptor ) );
 
     // build method to get component id as string from peer
     builder.addMethod( MethodSpec.methodBuilder( "getComponentId" )
@@ -112,6 +127,43 @@ final class SidecarGenerator
 
     builder.addMethod( buildPersistStateMethod( descriptor ) );
     return builder.build();
+  }
+
+  @Nonnull
+  private static MethodSpec buildAttachMethod( @Nonnull final TypeDescriptor descriptor )
+  {
+    final TypeElement element = descriptor.getElement();
+
+    final MethodSpec.Builder method =
+      MethodSpec
+        .methodBuilder( "attach" )
+        .addModifiers( Modifier.STATIC )
+        .returns( getSidecarName( element ) )
+        .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
+        .addParameter( ParameterSpec.builder( SCOPE_CLASSNAME, "scope", Modifier.FINAL )
+                         .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
+                         .build() )
+        .addParameter( ParameterSpec.builder( ClassName.get( element ), "peer", Modifier.FINAL )
+                         .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
+                         .build() );
+
+    final StringBuilder storeParams = new StringBuilder();
+
+    for ( final String storeName : descriptor.getStoreNames() )
+    {
+      final String storeVar = storeVar( storeName );
+      storeParams.append( ", " );
+      storeParams.append( storeVar );
+      method.addStatement( "final $T $N = $T.getStore( $S )",
+                           STORE_CLASSNAME,
+                           storeVar,
+                           AREZ_PERSIST_CLASSNAME,
+                           storeName );
+    }
+
+    method.addStatement( "return new $T( scope, peer" + storeParams + " )", getArezSidecarName( element ) );
+
+    return method.build();
   }
 
   @Nonnull
