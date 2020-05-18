@@ -24,16 +24,18 @@ final class SidecarGenerator
   @Nonnull
   private static final ClassName AREZ_CLASSNAME = ClassName.get( "arez", "Arez" );
   @Nonnull
-  private static final ClassName AREZ_CONTEXT_CLASSNAME = ClassName.get( "arez", "ArezContext" );
+  private static final ClassName DISPOSABLE_CLASSNAME = ClassName.get( "arez", "Disposable" );
   @Nonnull
   private static final ClassName IDENTIFIABLE_CLASSNAME = ClassName.get( "arez.component", "Identifiable" );
   @Nonnull
   private static final ClassName COMPONENT_DEPENDENCY_CLASSNAME =
     ClassName.get( "arez.annotations", "ComponentDependency" );
   @Nonnull
-  private static final ClassName CONTEXT_REF_CLASSNAME = ClassName.get( "arez.annotations", "ContextRef" );
+  private static final ClassName ACTION_CLASSNAME = ClassName.get( "arez.annotations", "Action" );
   @Nonnull
   private static final ClassName OBSERVE_CLASSNAME = ClassName.get( "arez.annotations", "Observe" );
+  @Nonnull
+  private static final ClassName PRE_DISPOSE_CLASSNAME = ClassName.get( "arez.annotations", "PreDispose" );
   @Nonnull
   private static final ClassName PRIORITY_CLASSNAME = ClassName.get( "arez.annotations", "Priority" );
   @Nonnull
@@ -76,13 +78,6 @@ final class SidecarGenerator
 
     buildFieldAndConstructor( descriptor, builder );
 
-    // build template method to get arez context
-    builder.addMethod( MethodSpec.methodBuilder( "context" )
-                         .returns( AREZ_CONTEXT_CLASSNAME )
-                         .addModifiers( Modifier.ABSTRACT )
-                         .addAnnotation( CONTEXT_REF_CLASSNAME )
-                         .build() );
-
     // build method to get component id as string from peer
     builder.addMethod( MethodSpec.methodBuilder( "getComponentId" )
                          .returns( String.class )
@@ -98,9 +93,21 @@ final class SidecarGenerator
     builder.addMethod( MethodSpec.methodBuilder( "savePersistentProperties" )
                          .addAnnotation( AnnotationSpec.builder( OBSERVE_CLASSNAME )
                                            .addMember( "priority", "$T.LOWEST", PRIORITY_CLASSNAME )
+                                           .addMember( "nestedActionsAllowed", "true" )
                                            .addMember( "depType", "$T.AREZ_OR_NONE", DEP_TYPE_CLASSNAME )
                                            .build() )
                          .addStatement( "persistState()" )
+                         .build() );
+
+    // Add hook so that sidecar will save state unless the peer was disposed first
+    // TODO: We should consider making this optional as it adds code-size when rarely required
+    builder.addMethod( MethodSpec.methodBuilder( "preDispose" )
+                         .addAnnotation( PRE_DISPOSE_CLASSNAME )
+                         .addCode( CodeBlock.builder()
+                                     .beginControlFlow( "if ( $T.isNotDisposed( _peer ) )", DISPOSABLE_CLASSNAME )
+                                     .addStatement( "persistState()" )
+                                     .endControlFlow()
+                                     .build() )
                          .build() );
 
     builder.addMethod( buildPersistStateMethod( descriptor ) );
@@ -113,7 +120,10 @@ final class SidecarGenerator
     final MethodSpec.Builder method =
       MethodSpec
         .methodBuilder( "persistState" )
-        .addModifiers( Modifier.PRIVATE );
+        .addAnnotation( AnnotationSpec.builder( ACTION_CLASSNAME )
+                          .addMember( "mutation", "false" )
+                          .addMember( "verifyRequired", "false" )
+                          .build() );
     for ( final String storeName : descriptor.getStoreNames() )
     {
       final String fieldName = "_" + storeVar( storeName );

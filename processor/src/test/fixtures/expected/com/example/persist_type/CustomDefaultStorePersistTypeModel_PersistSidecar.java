@@ -1,11 +1,12 @@
 package com.example.persist_type;
 
 import arez.Arez;
-import arez.ArezContext;
+import arez.Disposable;
+import arez.annotations.Action;
 import arez.annotations.ComponentDependency;
-import arez.annotations.ContextRef;
 import arez.annotations.DepType;
 import arez.annotations.Observe;
+import arez.annotations.PreDispose;
 import arez.annotations.Priority;
 import arez.component.Identifiable;
 import arez.persist.runtime.Scope;
@@ -35,9 +36,6 @@ abstract class CustomDefaultStorePersistTypeModel_PersistSidecar {
     _dsStore = Objects.requireNonNull( dsStore );
   }
 
-  @ContextRef
-  abstract ArezContext context();
-
   @Nonnull
   private String getComponentId() {
     return String.valueOf( Objects.requireNonNull( Identifiable.getArezId( _peer ) ) );
@@ -45,13 +43,25 @@ abstract class CustomDefaultStorePersistTypeModel_PersistSidecar {
 
   @Observe(
       priority = Priority.LOWEST,
+      nestedActionsAllowed = true,
       depType = DepType.AREZ_OR_NONE
   )
   void savePersistentProperties() {
     persistState();
   }
 
-  private void persistState() {
+  @PreDispose
+  void preDispose() {
+    if ( Disposable.isNotDisposed( _peer ) ) {
+      persistState();
+    }
+  }
+
+  @Action(
+      mutation = false,
+      verifyRequired = false
+  )
+  void persistState() {
     if ( !_dsStore.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
       _dsStore.save( _scope, Keys.TYPE, getComponentId(), state );
