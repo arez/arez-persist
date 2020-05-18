@@ -115,6 +115,12 @@ final class SidecarGenerator
   }
 
   @Nonnull
+  private static ClassName getArezSidecarName( @Nonnull final TypeElement element )
+  {
+    return GeneratorUtil.getGeneratedClassName( element, "Arez_", "_PersistSidecar" );
+  }
+
+  @Nonnull
   private static ClassName getSidecarName( @Nonnull final TypeElement element )
   {
     return GeneratorUtil.getGeneratedClassName( element, "", "_PersistSidecar" );
