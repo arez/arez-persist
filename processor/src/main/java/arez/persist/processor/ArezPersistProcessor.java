@@ -18,6 +18,7 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeKind;
+import javax.lang.model.type.TypeMirror;
 import org.realityforge.proton.AbstractStandardProcessor;
 import org.realityforge.proton.AnnotationsUtil;
 import org.realityforge.proton.DeferredElementSet;
@@ -103,7 +104,8 @@ public final class ArezPersistProcessor
         AnnotationsUtil.findAnnotationByType( method, Constants.PERSIST_CLASSNAME );
       if ( null != persistAnnotation )
       {
-        if ( TypeKind.VOID == method.getReturnType().getKind() )
+        final TypeMirror returnType = method.getReturnType();
+        if ( TypeKind.VOID == returnType.getKind() )
         {
           throw new ProcessorException( MemberChecks.must( Constants.PERSIST_CLASSNAME,
                                                            "be present on the accessor method of the " +
@@ -111,6 +113,8 @@ public final class ArezPersistProcessor
                                                            " property" ),
                                         method );
         }
+        //TODO: Verify the return type is one of the variants we handle
+
         final String persistName = extractPersistName( method, persistAnnotation );
         final String persistStore = extractStore( element, persistAnnotation, defaultStore );
 
