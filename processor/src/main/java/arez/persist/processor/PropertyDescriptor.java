@@ -27,6 +27,12 @@ final class PropertyDescriptor
   }
 
   @Nonnull
+  String getConstantName()
+  {
+    return "KEY_" + getName();
+  }
+
+  @Nonnull
   String getStore()
   {
     return _store;

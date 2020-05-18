@@ -1,5 +1,7 @@
 package arez.persist.processor;
 
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.TypeSpec;
 import java.util.Collections;
 import javax.annotation.Nonnull;
@@ -11,6 +13,9 @@ import org.realityforge.proton.SuppressWarningsUtil;
 
 final class SidecarGenerator
 {
+  @Nonnull
+  private static final ClassName AREZ_CLASSNAME = ClassName.get( "arez", "Arez" );
+
   private SidecarGenerator()
   {
   }
@@ -37,6 +42,21 @@ final class SidecarGenerator
                                                         builder,
                                                         Collections.emptyList(),
                                                         Collections.singletonList( element.asType() ) );
+
+    int propertyIndex = 0;
+    for ( final PropertyDescriptor property : descriptor.getProperties() )
+    {
+      final FieldSpec.Builder field =
+        FieldSpec
+          .builder( String.class, property.getConstantName(), Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL )
+          .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
+          .initializer( "$T.areNamesEnabled() ? $S : $S",
+                        AREZ_CLASSNAME,
+                        property.getName(),
+                        String.valueOf( (char) ( 'a' + propertyIndex ) ) );
+      builder.addField( field.build() );
+      propertyIndex++;
+    }
 
     return builder.build();
   }
