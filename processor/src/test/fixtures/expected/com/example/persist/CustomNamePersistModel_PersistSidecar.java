@@ -6,6 +6,11 @@ import javax.annotation.Nonnull;
 
 @Generated("arez.persist.processor.ArezPersistProcessor")
 abstract class CustomNamePersistModel_PersistSidecar {
-  @Nonnull
-  private static final String KEY_v = Arez.areNamesEnabled() ? "v" : "a";
+  private static final class Keys {
+    @Nonnull
+    private static final String TYPE = Arez.areNamesEnabled() ? "CustomNamePersistModel" : CustomNamePersistModel.class.getName();
+
+    @Nonnull
+    private static final String PROPERTY_v = Arez.areNamesEnabled() ? "v" : "a";
+  }
 }

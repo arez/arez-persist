@@ -43,21 +43,44 @@ final class SidecarGenerator
                                                         Collections.emptyList(),
                                                         Collections.singletonList( element.asType() ) );
 
+    // Create a nested keys type to eliminate any possibility GWT will
+    // attempt to create a <clinit> for sidecar type and the deopt that brings  .
+    builder.addType( buildKeysType( descriptor ) );
+
+    return builder.build();
+  }
+
+  @Nonnull
+  private static TypeSpec buildKeysType( @Nonnull final TypeDescriptor descriptor )
+  {
+    final TypeSpec.Builder keys = TypeSpec.classBuilder( "Keys" );
+    keys.addModifiers( Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL );
+    keys.addField( FieldSpec
+                     .builder( String.class, "TYPE", Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL )
+                     .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
+                     .initializer( "$T.areNamesEnabled() ? $S : $T.class.getName()",
+                                   AREZ_CLASSNAME,
+                                   descriptor.getName(),
+                                   descriptor.getElement() )
+                     .build() );
+
     int propertyIndex = 0;
     for ( final PropertyDescriptor property : descriptor.getProperties() )
     {
-      final FieldSpec.Builder field =
-        FieldSpec
-          .builder( String.class, property.getConstantName(), Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL )
-          .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
-          .initializer( "$T.areNamesEnabled() ? $S : $S",
-                        AREZ_CLASSNAME,
-                        property.getName(),
-                        String.valueOf( (char) ( 'a' + propertyIndex ) ) );
-      builder.addField( field.build() );
+      keys.addField( FieldSpec
+                       .builder( String.class,
+                                 property.getConstantName(),
+                                 Modifier.PRIVATE,
+                                 Modifier.STATIC,
+                                 Modifier.FINAL )
+                       .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
+                       .initializer( "$T.areNamesEnabled() ? $S : $S",
+                                     AREZ_CLASSNAME,
+                                     property.getName(),
+                                     String.valueOf( (char) ( 'a' + propertyIndex ) ) )
+                       .build() );
       propertyIndex++;
     }
-
-    return builder.build();
+    return keys.build();
   }
 }

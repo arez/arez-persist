@@ -6,12 +6,17 @@ import javax.annotation.Nonnull;
 
 @Generated("arez.persist.processor.ArezPersistProcessor")
 abstract class MultiPropertyPersistModel_PersistSidecar {
-  @Nonnull
-  private static final String KEY_getValue = Arez.areNamesEnabled() ? "getValue" : "a";
+  private static final class Keys {
+    @Nonnull
+    private static final String TYPE = Arez.areNamesEnabled() ? "MultiPropertyPersistModel" : MultiPropertyPersistModel.class.getName();
 
-  @Nonnull
-  private static final String KEY_getValue3 = Arez.areNamesEnabled() ? "getValue3" : "b";
+    @Nonnull
+    private static final String PROPERTY_getValue = Arez.areNamesEnabled() ? "getValue" : "a";
 
-  @Nonnull
-  private static final String KEY_getValue2 = Arez.areNamesEnabled() ? "getValue2" : "c";
+    @Nonnull
+    private static final String PROPERTY_getValue3 = Arez.areNamesEnabled() ? "getValue3" : "b";
+
+    @Nonnull
+    private static final String PROPERTY_getValue2 = Arez.areNamesEnabled() ? "getValue2" : "c";
+  }
 }

@@ -29,7 +29,7 @@ final class PropertyDescriptor
   @Nonnull
   String getConstantName()
   {
-    return "KEY_" + getName();
+    return "PROPERTY_" + getName();
   }
 
   @Nonnull
