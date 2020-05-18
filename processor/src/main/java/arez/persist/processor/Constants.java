@@ -6,6 +6,8 @@ final class Constants
 {
   @Nonnull
   static final String PERSIST_TYPE_CLASSNAME = "arez.persist.PersistType";
+  @Nonnull
+  static final String PERSIST_CLASSNAME = "arez.persist.Persist";
 
   private Constants()
   {
