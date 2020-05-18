@@ -31,6 +31,8 @@ public final class ArezPersistProcessorTest
   {
     return new Object[][]
       {
+        new Object[]{ "com.example.persist.MissingObservablePersistModel",
+                      "@Persist target must be also be annotated with the arez.annotations.Observable annotation" }
       };
   }
 
