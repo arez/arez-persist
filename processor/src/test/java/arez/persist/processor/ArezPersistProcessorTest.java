@@ -54,7 +54,7 @@ public final class ArezPersistProcessorTest
   {
     assertFailedCompile( classname, messageFragment );
   }
-/*
+
   @DataProvider( name = "compileWithWarnings" )
   public Object[][] compileWithWarnings()
   {
@@ -69,6 +69,7 @@ public final class ArezPersistProcessorTest
     assertCompilesWithSingleWarning( classname, messageFragment );
   }
 
+/*
   @DataProvider( name = "compileWithoutWarnings" )
   public Object[][] compileWithoutWarnings()
   {
