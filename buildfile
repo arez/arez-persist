@@ -73,6 +73,8 @@ define 'arez-persist' do
   define 'processor' do
     pom.dependency_filter = Proc.new { |_| false }
 
+    project.processorpath << [:arez_processor]
+
     compile.with :javax_annotation,
                  :proton_core,
                  :javapoet
