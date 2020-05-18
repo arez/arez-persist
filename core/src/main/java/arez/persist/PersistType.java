@@ -28,6 +28,7 @@ public @interface PersistType
   /**
    * The key identifying the default store where the observable data is stored.
    * Individual properties annotated with the {@link Persist} annotation can still override the store used.
+   * The name of the defaultStore must comply with the requirements for a java identifier.
    *
    * @return the key identifying the default store where the observable data is stored.
    */

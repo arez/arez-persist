@@ -26,6 +26,7 @@ public @interface Persist
 
   /**
    * The key identifying the store where the observable data is stored.
+   * The name of the store must comply with the requirements for a java identifier.
    *
    * @return the key identifying the store where the observable data is stored.
    */
