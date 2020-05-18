@@ -16,3 +16,5 @@ complete as there is too much un-said.
   types and react4j and other frameworks that generate `@ArezComponent` know to copy it down ... somehow.
   An annotation on the annotation seems likely the solution. This would make all sidecar solutions a lot
   easier to implement.
+
+* Generate a warning if `defaultStore` is specified and never used.
