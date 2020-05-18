@@ -181,13 +181,9 @@ public final class ArezPersistProcessor
     {
       return true;
     }
-    else if ( TypeKind.DECLARED == kind )
-    {
-      return VALID_TYPES.contains( type.toString() );
-    }
     else
     {
-      return false;
+      return TypeKind.DECLARED == kind && VALID_TYPES.contains( type.toString() );
     }
   }
 
