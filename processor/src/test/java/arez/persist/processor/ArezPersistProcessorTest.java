@@ -39,7 +39,7 @@ public final class ArezPersistProcessorTest
   {
     assertFailedCompile( classname, messageFragment );
   }
-
+/*
   @DataProvider( name = "compileWithWarnings" )
   public Object[][] compileWithWarnings()
   {
@@ -73,6 +73,7 @@ public final class ArezPersistProcessorTest
   {
     assertSuccessfulCompile( classname, deriveExpectedOutputs( classname ) );
   }
+ */
 
   @Nonnull
   String[] deriveExpectedOutputs( @Nonnull final String classname )
