@@ -43,6 +43,8 @@ public final class ArezPersistProcessorTest
                       "@Persist target must not specify a store parameter that is not a valid java identifier" },
         new Object[]{ "com.example.persist.MissingObservablePersistModel",
                       "@Persist target must be also be annotated with the arez.annotations.Observable annotation" },
+        new Object[]{ "com.example.persist.SetterPersistModel",
+                      "@Persist target must be present on the accessor method of the @Observable property" },
 
         new Object[]{ "com.example.persist_type.BadDefaultStorePersistTypeModel",
                       "@PersistType target must not specify a defaultStore parameter that is not a valid java identifier" },
