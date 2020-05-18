@@ -180,8 +180,8 @@ public final class ArezPersistProcessor
     final String defaultStore = AnnotationsUtil.getAnnotationValueValue( annotation, "defaultStore" );
     if ( !SourceVersion.isIdentifier( defaultStore ) )
     {
-      throw new ProcessorException( MemberChecks.must( Constants.PERSIST_TYPE_CLASSNAME,
-                                                       "use a valid java identifier for the defaultStore name" ),
+      throw new ProcessorException( MemberChecks.mustNot( Constants.PERSIST_TYPE_CLASSNAME,
+                                                          "specify a defaultStore parameter that is not a valid java identifier" ),
                                     element,
                                     annotation );
     }
