@@ -89,7 +89,7 @@ public final class ArezPersistProcessor
       throw new ProcessorException( MemberChecks.must( Constants.PERSIST_TYPE_CLASSNAME,
                                                        "be present on a type annotated with the " +
                                                        MemberChecks.toSimpleName( Constants.AREZ_COMPONENT_CLASSNAME ) +
-                                                       " annotation"),
+                                                       " annotation" ),
                                     element );
     }
 
