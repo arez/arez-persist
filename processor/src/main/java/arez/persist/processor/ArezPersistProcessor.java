@@ -167,7 +167,7 @@ public final class ArezPersistProcessor
       else
       {
         throw new ProcessorException( MemberChecks.mustNot( Constants.PERSIST_TYPE_CLASSNAME,
-                                                            "specify a name that is not a valid java identifier" ),
+                                                            "specify a name parameter that is not a valid java identifier" ),
                                       element,
                                       annotation );
       }
