@@ -50,4 +50,11 @@ public final class ArezPersistProcessor
     throws Exception
   {
   }
+
+  private void emitSidecar( @Nonnull final TypeDescriptor type )
+    throws IOException
+  {
+    final String packageName = GeneratorUtil.getQualifiedPackageName( type.getElement() );
+    emitTypeSpec( packageName, SidecarGenerator.buildType( processingEnv, type ) );
+  }
 }
