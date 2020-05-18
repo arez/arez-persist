@@ -18,7 +18,9 @@ public final class ArezPersistProcessorTest
       {
         new Object[]{ "com.example.persist.BasicPersistModel" },
         new Object[]{ "com.example.persist.CustomNamePersistModel" },
-        new Object[]{ "com.example.persist.CustomStorePersistModel" }
+        new Object[]{ "com.example.persist.CustomStorePersistModel" },
+
+        new Object[]{ "com.example.persist_type.CustomNamePersistTypeModel" }
       };
   }
 
