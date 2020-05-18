@@ -14,7 +14,8 @@ public @interface PersistType
 {
   /**
    * Return the name used to persist the type.
-   * If not specified, then the name of the arez component property will be used.
+   * If not specified, then the simple name of the class will be used. The name should comply with the
+   * requirements for a java identifier.
    *
    * <p>It should be noted that production mode persistent properties that are not persisted across
    * reloads will use synthetic keys as an optimization strategy.</p>
