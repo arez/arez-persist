@@ -1,14 +1,16 @@
 package arez.persist.processor;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Modifier;
@@ -84,7 +86,34 @@ final class SidecarGenerator
                                         Objects.class,
                                         IDENTIFIABLE_CLASSNAME )
                          .build() );
+
+    builder.addMethod( buildPersistStateMethod( descriptor ) );
     return builder.build();
+  }
+
+  @Nonnull
+  private static MethodSpec buildPersistStateMethod( @Nonnull final TypeDescriptor descriptor )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec
+        .methodBuilder( "persistState" )
+        .addModifiers( Modifier.PRIVATE );
+    for ( final String storeName : descriptor.getStoreNames() )
+    {
+      final String fieldName = "_" + storeVar( storeName );
+      final CodeBlock.Builder block = CodeBlock.builder();
+      block.beginControlFlow( "if ( !$N.isDisposed() )", fieldName );
+      block.addStatement( "final $T state = new $T<>()",
+                          ParameterizedTypeName.get( Map.class, String.class, Object.class ),
+                          HashMap.class );
+      block.addStatement( "$N.save( _scope, $T.TYPE, getComponentId(), state )",
+                          fieldName,
+                          ClassName.bestGuess( "Keys" ) );
+      block.endControlFlow();
+      method.addCode( block.build() );
+    }
+
+    return method.build();
   }
 
   private static void buildFieldAndConstructor( @Nonnull final TypeDescriptor descriptor,
