@@ -159,7 +159,7 @@ define 'arez-persist' do
                                :jvm_args => '-ea -Dbraincheck.environment=development -Darez.environment=development -Darez.persist.environment=development -Darez.persist.output_fixture_data=false -Darez.persist.core.compile_target=../target/arez-persist_core/idea/classes')
   ipr.add_testng_configuration('processor',
                                :module => 'processor',
-                               :jvm_args => '-ea -Darez.persist.output_fixture_data=true -Darez.fixture_dir=src/test/fixtures')
+                               :jvm_args => '-ea -Darez.persist.output_fixture_data=true -Darez.persist.fixture_dir=src/test/fixtures')
   ipr.add_testng_configuration('integration-tests',
                                :module => 'integration-tests',
                                :jvm_args => '-ea -Dbraincheck.environment=development -Darez.environment=development -Darez.persist.output_fixture_data=true -Darez.persist.integration_fixture_dir=src/test/resources')
