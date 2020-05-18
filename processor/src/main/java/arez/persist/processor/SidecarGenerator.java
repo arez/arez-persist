@@ -58,6 +58,15 @@ final class SidecarGenerator
     // attempt to create a <clinit> for sidecar type and the deopt that brings  .
     builder.addType( buildKeysType( descriptor ) );
 
+    buildFieldAndConstructor( descriptor, builder );
+
+    return builder.build();
+  }
+
+  private static void buildFieldAndConstructor( @Nonnull final TypeDescriptor descriptor,
+                                                @Nonnull final TypeSpec.Builder builder )
+  {
+    final TypeElement element = descriptor.getElement();
     final MethodSpec.Builder ctor = MethodSpec.constructorBuilder();
     builder.addField( FieldSpec
                         .builder( SCOPE_CLASSNAME, "_scope", Modifier.PRIVATE, Modifier.FINAL )
@@ -101,16 +110,6 @@ final class SidecarGenerator
     }
 
     builder.addMethod( ctor.build() );
-/*
-  @Nonnull
-  static TreeNode_PersistSidecar attach( @Nonnull final PersistScope scope, @Nonnull final TreeNode peer )
-  {
-    final PersistStore store = ArezPersist.getPersistStore( StoreTypes.LOCAL );
-    return new Arez_TreeNode_PersistSidecar( scope, store, peer );
-  }
- */
-
-    return builder.build();
   }
 
   @Nonnull
