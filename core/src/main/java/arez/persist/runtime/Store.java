@@ -35,6 +35,10 @@ public final class Store
    */
   @Nonnull
   private final SafeProcedure _commitTriggerAction = this::commit;
+  /**
+   * Flag indicating this store has been disposed.
+   */
+  private boolean _disposed;
 
   /**
    * Create the store.
@@ -163,8 +167,22 @@ public final class Store
     }
   }
 
+  /**
+   * Return true if this service has been disposed.
+   * A disposed service should not be interacted with.
+   *
+   * @return true if this service has been disposed, false otherwise.
+   * @see #dispose()
+   */
+  public boolean isDisposed()
+  {
+    return _disposed;
+  }
+
   void dispose()
   {
+    assert !_disposed;
+    _disposed = true;
     _storageService.dispose();
   }
 

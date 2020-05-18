@@ -1,5 +1,6 @@
 package arez.persist.runtime;
 
+import arez.SafeProcedure;
 import arez.persist.StoreTypes;
 import grim.annotations.OmitClinit;
 import grim.annotations.OmitSymbol;
@@ -58,10 +59,12 @@ public final class ArezPersist
    *
    * @param name    the name of the store.
    * @param service the associated StorageService.
+   * @return the action to invoke to deregister service.
    */
-  public static void registerStore( @Nonnull final String name, @Nonnull final StorageService service )
+  @Nonnull
+  public static SafeProcedure registerStore( @Nonnull final String name, @Nonnull final StorageService service )
   {
-    Registry.registerStore( name, service );
+    return Registry.registerStore( name, service );
   }
 
   /**

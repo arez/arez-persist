@@ -1,5 +1,6 @@
 package arez.persist.runtime;
 
+import arez.SafeProcedure;
 import grim.annotations.OmitSymbol;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,8 +101,9 @@ final class Registry
    *
    * @param name    the name of the store.
    * @param service the associated StorageService.
+   * @return the action to invoke to deregister service.
    */
-  static void registerStore( @Nonnull final String name, @Nonnull final StorageService service )
+  static SafeProcedure registerStore( @Nonnull final String name, @Nonnull final StorageService service )
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
@@ -118,6 +120,29 @@ final class Registry
     catch ( final Throwable t )
     {
       LogUtil.getLogger().log( "Failed to restore state for store named '" + name + "'", t );
+    }
+    return () -> deregisterStore( name );
+  }
+
+  /**
+   * Deregister a store with the specified name.
+   *
+   * @param name the name of the store.
+   */
+  private static void deregisterStore( @Nonnull final String name )
+  {
+    final Store store = c_stores.remove( name );
+    if ( null != store )
+    {
+      assert !store.isDisposed();
+      try
+      {
+        store.dispose();
+      }
+      catch ( final Throwable t )
+      {
+        LogUtil.getLogger().log( "Failed to dispose store named '" + name + "'", t );
+      }
     }
   }
 
