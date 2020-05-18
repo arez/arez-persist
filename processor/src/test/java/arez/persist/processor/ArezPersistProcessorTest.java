@@ -41,6 +41,8 @@ public final class ArezPersistProcessorTest
                       "@Persist target must not specify a name parameter that is not a valid java identifier" },
         new Object[]{ "com.example.persist.BadStorePersistModel",
                       "@Persist target must not specify a store parameter that is not a valid java identifier" },
+        new Object[]{ "com.example.persist.DuplicateNamePersistModel",
+                      "@Persist target must has the same name 'X' as another persistent property declared by the name. The other property is accessed by the method named getValue" },
         new Object[]{ "com.example.persist.MissingObservablePersistModel",
                       "@Persist target must be also be annotated with the arez.annotations.Observable annotation" },
         new Object[]{ "com.example.persist.SetterPersistModel",

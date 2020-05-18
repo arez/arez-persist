@@ -127,8 +127,7 @@ public final class ArezPersistProcessor
                                                            "has the same name '" + persistName +
                                                            "' as another persistent property declared by the name. " +
                                                            "The other property is accessed by the method named " +
-                                                           existing.getGetter().getSimpleName() +
-                                                           " property" ),
+                                                           existing.getGetter().getSimpleName() ),
                                         method );
         }
         else
