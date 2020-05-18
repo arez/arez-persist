@@ -91,6 +91,7 @@ public final class Store
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
+      apiInvariant( () -> !isDisposed(), () -> "Store.save() invoked after the store has been disposed" );
       apiInvariant( () -> !scope.isDisposed(),
                     () -> "Store.save() passed a disposed scope named '" + scope.getName() + "'" );
     }
@@ -124,6 +125,7 @@ public final class Store
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
+      apiInvariant( () -> !isDisposed(), () -> "Store.remove() invoked after the store has been disposed" );
       apiInvariant( () -> !scope.isDisposed(),
                     () -> "Store.remove() passed a disposed scope named '" + scope.getName() + "'" );
     }
@@ -151,6 +153,7 @@ public final class Store
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
+      apiInvariant( () -> !isDisposed(), () -> "Store.get() invoked after the store has been disposed" );
       apiInvariant( () -> !scope.isDisposed(),
                     () -> "Store.get() passed a disposed scope named '" + scope.getName() + "'" );
     }
