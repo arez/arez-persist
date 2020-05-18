@@ -19,6 +19,7 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import javax.tools.Diagnostic;
 import org.realityforge.proton.AbstractStandardProcessor;
 import org.realityforge.proton.AnnotationsUtil;
 import org.realityforge.proton.DeferredElementSet;
@@ -116,7 +117,7 @@ public final class ArezPersistProcessor
         //TODO: Verify the return type is one of the variants we handle
 
         final String persistName = extractPersistName( method, persistAnnotation );
-        final String persistStore = extractStore( element, persistAnnotation, defaultStore );
+        final String persistStore = extractStore( element, method, persistAnnotation, defaultStore );
 
         final PropertyDescriptor existing = properties.get( persistName );
         if ( null != existing )
@@ -208,7 +209,8 @@ public final class ArezPersistProcessor
   }
 
   @Nonnull
-  private String extractStore( @Nonnull final TypeElement element,
+  private String extractStore( @Nonnull final TypeElement typeElement,
+                               @Nonnull final ExecutableElement element,
                                @Nonnull final AnnotationMirror annotation,
                                @Nonnull final String defaultStore )
   {
@@ -219,9 +221,23 @@ public final class ArezPersistProcessor
     }
     else if ( SourceVersion.isIdentifier( store ) )
     {
+      if ( defaultStore.equals( store ) &&
+           typeElement == element.getEnclosingElement() &&
+           ElementsUtil.isWarningNotSuppressed( element, Constants.WARNING_UNNECESSARY_STORE ) )
+      {
+        final String message =
+          MemberChecks.shouldNot( Constants.PERSIST_CLASSNAME,
+                                  "specify the store parameter when it is the same as the defaultStore " +
+                                  "parameter in the specified by the " +
+                                  MemberChecks.toSimpleName( Constants.PERSIST_TYPE_CLASSNAME ) +
+                                  " annotation on the enclosing type. " +
+                                  MemberChecks.suppressedBy( Constants.WARNING_UNNECESSARY_STORE ) );
+        processingEnv.getMessager().printMessage( Diagnostic.Kind.WARNING, message, element );
+      }
       return store;
     }
     else
+
     {
       throw new ProcessorException( MemberChecks.mustNot( Constants.PERSIST_CLASSNAME,
                                                           "specify a store parameter that is not a valid java identifier" ),

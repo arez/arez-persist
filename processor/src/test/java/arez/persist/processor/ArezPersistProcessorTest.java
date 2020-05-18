@@ -63,6 +63,8 @@ public final class ArezPersistProcessorTest
   {
     return new Object[][]
       {
+        new Object[]{ "com.example.persist.UnnecessaryCustomStorePersistModel",
+                      "@Persist target should not specify the store parameter when it is the same as the defaultStore parameter in the specified by the @PersistType annotation on the enclosing type. This warning can be suppressed by annotating the element with @SuppressWarnings( \"ArezPersist:UnnecessaryStore\" )" }
       };
   }
 

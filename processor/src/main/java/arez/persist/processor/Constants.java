@@ -12,6 +12,8 @@ final class Constants
   static final String PERSIST_TYPE_CLASSNAME = "arez.persist.PersistType";
   @Nonnull
   static final String PERSIST_CLASSNAME = "arez.persist.Persist";
+  @Nonnull
+  static final String WARNING_UNNECESSARY_STORE = "ArezPersist:UnnecessaryStore";
 
   private Constants()
   {
