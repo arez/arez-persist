@@ -4,6 +4,9 @@ import arez.Arez;
 import arez.ArezContext;
 import arez.annotations.ComponentDependency;
 import arez.annotations.ContextRef;
+import arez.annotations.DepType;
+import arez.annotations.Observe;
+import arez.annotations.Priority;
 import arez.component.Identifiable;
 import arez.persist.runtime.Scope;
 import arez.persist.runtime.Store;
@@ -47,6 +50,14 @@ abstract class MultiStorePersistModel_PersistSidecar {
   @Nonnull
   private String getComponentId() {
     return String.valueOf( Objects.requireNonNull( Identifiable.getArezId( _peer ) ) );
+  }
+
+  @Observe(
+      priority = Priority.LOWEST,
+      depType = DepType.AREZ_OR_NONE
+  )
+  void savePersistentProperties() {
+    persistState();
   }
 
   private void persistState() {

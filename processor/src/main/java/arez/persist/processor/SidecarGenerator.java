@@ -1,5 +1,6 @@
 package arez.persist.processor;
 
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
@@ -31,6 +32,12 @@ final class SidecarGenerator
     ClassName.get( "arez.annotations", "ComponentDependency" );
   @Nonnull
   private static final ClassName CONTEXT_REF_CLASSNAME = ClassName.get( "arez.annotations", "ContextRef" );
+  @Nonnull
+  private static final ClassName OBSERVE_CLASSNAME = ClassName.get( "arez.annotations", "Observe" );
+  @Nonnull
+  private static final ClassName PRIORITY_CLASSNAME = ClassName.get( "arez.annotations", "Priority" );
+  @Nonnull
+  private static final ClassName DEP_TYPE_CLASSNAME = ClassName.get( "arez.annotations", "DepType" );
   @Nonnull
   private static final ClassName SCOPE_CLASSNAME = ClassName.get( "arez.persist.runtime", "Scope" );
   @Nonnull
@@ -85,6 +92,15 @@ final class SidecarGenerator
                                         String.class,
                                         Objects.class,
                                         IDENTIFIABLE_CLASSNAME )
+                         .build() );
+
+    // Add observer that actually persists state on change
+    builder.addMethod( MethodSpec.methodBuilder( "savePersistentProperties" )
+                         .addAnnotation( AnnotationSpec.builder( OBSERVE_CLASSNAME )
+                                           .addMember( "priority", "$T.LOWEST", PRIORITY_CLASSNAME )
+                                           .addMember( "depType", "$T.AREZ_OR_NONE", DEP_TYPE_CLASSNAME )
+                                           .build() )
+                         .addStatement( "persistState()" )
                          .build() );
 
     builder.addMethod( buildPersistStateMethod( descriptor ) );
