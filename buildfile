@@ -146,7 +146,7 @@ define 'arez-persist' do
           :link => %w(https://docs.oracle.com/javase/8/docs/api http://www.gwtproject.org/javadoc/latest/ https://arez.github.io/api)
     )
 
-  cleanup_javadocs(project, 'arez-persist')
+  cleanup_javadocs(project, 'arez/persist')
 
   iml.excluded_directories << project._('tmp')
 
