@@ -2,6 +2,7 @@ package arez.persist.processor;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.lang.model.element.TypeElement;
 
@@ -49,5 +50,16 @@ final class TypeDescriptor
   List<PropertyDescriptor> getProperties()
   {
     return _properties;
+  }
+
+  @Nonnull
+  List<String> getStoreNames()
+  {
+    return getProperties()
+      .stream()
+      .map( PropertyDescriptor::getStore )
+      .sorted()
+      .distinct()
+      .collect( Collectors.toList() );
   }
 }

@@ -113,13 +113,7 @@ final class SidecarGenerator
                          .build() );
     ctor.addStatement( "$N = $T.requireNonNull( $N )", "_peer", Objects.class, "peer" );
 
-    final List<String> storeNames = descriptor.getProperties()
-      .stream()
-      .map( PropertyDescriptor::getStore )
-      .sorted()
-      .distinct()
-      .collect( Collectors.toList() );
-    for ( final String storeName : storeNames )
+    for ( final String storeName : descriptor.getStoreNames() )
     {
       final String varName = storeVar( storeName );
       final String fieldName = "_" + varName;
