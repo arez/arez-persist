@@ -20,6 +20,16 @@ public final class ArezPersistProcessorTest
         new Object[]{ "com.example.persist.CustomNamePersistModel" },
         new Object[]{ "com.example.persist.CustomStorePersistModel" },
 
+        new Object[]{ "com.example.persist.types.TypeBooleanPersistModel" },
+        new Object[]{ "com.example.persist.types.TypeBytePersistModel" },
+        new Object[]{ "com.example.persist.types.TypeCharPersistModel" },
+        new Object[]{ "com.example.persist.types.TypeDoublePersistModel" },
+        new Object[]{ "com.example.persist.types.TypeFloatPersistModel" },
+        new Object[]{ "com.example.persist.types.TypeIntPersistModel" },
+        new Object[]{ "com.example.persist.types.TypeLongPersistModel" },
+        new Object[]{ "com.example.persist.types.TypeShortPersistModel" },
+        new Object[]{ "com.example.persist.types.TypeStringPersistModel" },
+
         new Object[]{ "com.example.persist_type.CustomDefaultStorePersistTypeModel" },
         new Object[]{ "com.example.persist_type.CustomNamePersistTypeModel" }
       };
@@ -81,12 +91,19 @@ public final class ArezPersistProcessorTest
     assertCompilesWithSingleWarning( classname, messageFragment );
   }
 
-/*
   @DataProvider( name = "compileWithoutWarnings" )
   public Object[][] compileWithoutWarnings()
   {
     return new Object[][]
       {
+        new Object[]{ "com.example.persist.types.TypeBoxedBooleanPersistModel" },
+        new Object[]{ "com.example.persist.types.TypeBoxedBytePersistModel" },
+        new Object[]{ "com.example.persist.types.TypeBoxedCharacterPersistModel" },
+        new Object[]{ "com.example.persist.types.TypeBoxedDoublePersistModel" },
+        new Object[]{ "com.example.persist.types.TypeBoxedFloatPersistModel" },
+        new Object[]{ "com.example.persist.types.TypeBoxedIntegerPersistModel" },
+        new Object[]{ "com.example.persist.types.TypeBoxedLongPersistModel" },
+        new Object[]{ "com.example.persist.types.TypeBoxedShortPersistModel" }
       };
   }
 
@@ -95,7 +112,6 @@ public final class ArezPersistProcessorTest
   {
     assertCompilesWithoutWarnings( classname );
   }
- */
 
   void assertSuccessfulCompile( @Nonnull final String classname )
     throws Exception
