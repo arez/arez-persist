@@ -4,6 +4,7 @@ import arez.ArezTestUtil;
 import arez.persist.AbstractTest;
 import org.realityforge.guiceyloops.shared.ValueUtil;
 import org.testng.annotations.Test;
+import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class ScopeTest
@@ -196,5 +197,39 @@ public final class ScopeTest
     assertNull( store.get( scope, type, id2 ) );
     assertNull( store.get( childScope, type, id3 ) );
     assertNull( store.get( peerScope, type, id4 ) );
+  }
+
+  @Test
+  public void noDisposeRootScope()
+  {
+    final Scope scope = ArezPersist.getRootScope();
+
+    assertInvariantFailure( () -> ArezPersist.disposeScope( scope ),
+                            "disposeScope() invoked with the root scope" );
+  }
+
+  @Test
+  public void canNotInteractWithDisposedScope()
+  {
+    final Scope scope = ArezPersist.getRootScope().findOrCreateScope( ValueUtil.randomString() );
+    final String storeName = ValueUtil.randomString();
+    ArezPersist.registerStore( storeName, mock( StorageService.class ) );
+    final Store store = ArezPersist.getStore( storeName );
+
+    ArezPersist.disposeScope( scope );
+
+    assertInvariantFailure( () -> ArezPersist.disposeScope( scope ),
+                            "disposeScope() passed a disposed scope named '" + scope.getName() + "'" );
+    assertInvariantFailure( () -> ArezPersist.releaseScope( scope ),
+                            "releaseScope() passed a disposed scope named '" + scope.getName() + "'" );
+    assertInvariantFailure( () -> store.remove( scope, ValueUtil.randomString(), ValueUtil.randomString() ),
+                            "Store.remove() passed a disposed scope named '" + scope.getName() + "'" );
+    assertInvariantFailure( () -> store.get( scope, ValueUtil.randomString(), ValueUtil.randomString() ),
+                            "Store.get() passed a disposed scope named '" + scope.getName() + "'" );
+    assertInvariantFailure( () -> store.save( scope,
+                                              ValueUtil.randomString(),
+                                              ValueUtil.randomString(),
+                                              randomState() ),
+                            "Store.save() passed a disposed scope named '" + scope.getName() + "'" );
   }
 }
