@@ -16,6 +16,7 @@ public final class ArezPersistProcessorTest
   {
     return new Object[][]
       {
+        new Object[]{ "com.example.persist.BasicPersistModel" }
       };
   }
 
