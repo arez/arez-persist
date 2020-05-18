@@ -14,7 +14,8 @@ import org.realityforge.proton.DeferredElementSet;
 /**
  * Annotation processor that analyzes Arez annotated source and generates models from the annotations.
  */
-@SupportedAnnotationTypes( Constants.PERSIST_TYPE_CLASSNAME )
+@SupportedAnnotationTypes( { Constants.PERSIST_TYPE_CLASSNAME,
+                             Constants.PERSIST_CLASSNAME } )
 @SupportedSourceVersion( SourceVersion.RELEASE_8 )
 @SupportedOptions( { "arez.persist.defer.unresolved", "arez.persist.defer.errors", "arez.persist.debug" } )
 public final class ArezPersistProcessor
