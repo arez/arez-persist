@@ -37,7 +37,7 @@ public final class ArezPersistProcessorTest
         new Object[]{ "com.example.persist.BadNamePersistModel",
                       "@Persist target must not specify a name parameter that is not a valid java identifier" },
         new Object[]{ "com.example.persist.BadStorePersistModel",
-                      "@Persist target must not must not specify a store parameter that is not a valid java identifier" },
+                      "@Persist target must not specify a store parameter that is not a valid java identifier" },
         new Object[]{ "com.example.persist.MissingObservablePersistModel",
                       "@Persist target must be also be annotated with the arez.annotations.Observable annotation" },
 

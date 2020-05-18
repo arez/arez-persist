@@ -224,7 +224,7 @@ public final class ArezPersistProcessor
     else
     {
       throw new ProcessorException( MemberChecks.mustNot( Constants.PERSIST_CLASSNAME,
-                                                          "must not specify a store parameter that is not a valid java identifier" ),
+                                                          "specify a store parameter that is not a valid java identifier" ),
                                     element,
                                     annotation );
     }
