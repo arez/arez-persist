@@ -17,7 +17,7 @@ public final class ArezPersistProcessorTest
     return new Object[][]
       {
         new Object[]{ "com.example.persist.BasicPersistModel" },
-        new Object[]{ "com.example.persist.BasicPersistModel" }
+        new Object[]{ "com.example.persist.CustomNamePersistModel" },
         new Object[]{ "com.example.persist.CustomStorePersistModel" }
       };
   }
