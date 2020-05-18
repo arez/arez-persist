@@ -56,7 +56,7 @@ final class SidecarGenerator
     final TypeElement element = descriptor.getElement();
     final TypeSpec.Builder builder =
       TypeSpec
-        .classBuilder( GeneratorUtil.getGeneratedClassName( element, "", "_PersistSidecar" ) )
+        .classBuilder( getSidecarName( element ) )
         .addModifiers( Modifier.ABSTRACT );
     if ( element.getModifiers().contains( Modifier.PUBLIC ) )
     {
@@ -112,6 +112,12 @@ final class SidecarGenerator
 
     builder.addMethod( buildPersistStateMethod( descriptor ) );
     return builder.build();
+  }
+
+  @Nonnull
+  private static ClassName getSidecarName( @Nonnull final TypeElement element )
+  {
+    return GeneratorUtil.getGeneratedClassName( element, "", "_PersistSidecar" );
   }
 
   @Nonnull
