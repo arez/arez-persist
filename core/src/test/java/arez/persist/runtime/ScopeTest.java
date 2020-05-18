@@ -2,9 +2,6 @@ package arez.persist.runtime;
 
 import arez.ArezTestUtil;
 import arez.persist.AbstractTest;
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Nonnull;
 import org.realityforge.guiceyloops.shared.ValueUtil;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
@@ -199,13 +196,5 @@ public final class ScopeTest
     assertNull( store.get( scope, type, id2 ) );
     assertNull( store.get( childScope, type, id3 ) );
     assertNull( store.get( peerScope, type, id4 ) );
-  }
-
-  @Nonnull
-  private Map<String, Object> randomState()
-  {
-    final HashMap<String, Object> state = new HashMap<>();
-    state.put( ValueUtil.randomString(), ValueUtil.randomString() );
-    return state;
   }
 }
