@@ -34,7 +34,7 @@ public final class ConvertersTest
                                           @Nonnull final T value,
                                           @Nonnull final Object encodedValue )
   {
-    final Converter converter = ArezPersist.findConverter( type );
+    final Converter converter = ArezPersist.getConverter( type );
     assertEquals( converter.encode( value ), encodedValue );
     assertEquals( converter.decode( encodedValue ), value );
   }

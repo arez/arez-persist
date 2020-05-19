@@ -189,7 +189,7 @@ final class Registry
    */
   @SuppressWarnings( "unchecked" )
   @Nonnull
-  static <A> Converter<A, ?> findConverter( @Nonnull final Class<A> type )
+  static <A> Converter<A, ?> getConverter( @Nonnull final Class<A> type )
   {
     final Converter<A, ?> converter = (Converter<A, ?>) c_converters.get( type );
     return null == converter ? IdentityConverter.instance() : converter;

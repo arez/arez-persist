@@ -186,9 +186,9 @@ public final class ArezPersist
    * @return the converter if any.
    */
   @Nonnull
-  public static <A> Converter<A, ?> findConverter( @Nonnull final Class<A> type )
+  public static <A> Converter<A, ?> getConverter( @Nonnull final Class<A> type )
   {
-    return Registry.findConverter( type );
+    return Registry.getConverter( type );
   }
 
   static void registerApplicationStoreIfEnabled()

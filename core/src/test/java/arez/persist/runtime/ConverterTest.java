@@ -11,11 +11,11 @@ public final class ConverterTest
   extends AbstractTest
 {
   @Test
-  public void findConverter_noConverterRegistered()
+  public void getConverter_noConverterRegistered()
   {
     assertEquals( Registry.getConverters().size(), 0 );
 
-    final Converter<Integer, ?> converter = ArezPersist.findConverter( Integer.class );
+    final Converter<Integer, ?> converter = ArezPersist.getConverter( Integer.class );
 
     assertEquals( Registry.getConverters().size(), 0 );
 
@@ -26,7 +26,7 @@ public final class ConverterTest
   }
 
   @Test
-  public void findConverter_converterRegistered()
+  public void getConverter_converterRegistered()
   {
     final Converter converter = mock( Converter.class );
 
@@ -36,7 +36,7 @@ public final class ConverterTest
 
     assertEquals( Registry.getConverters().size(), 1 );
 
-    assertSame( ArezPersist.findConverter( String.class ), converter );
+    assertSame( ArezPersist.getConverter( String.class ), converter );
   }
 
   @Test
