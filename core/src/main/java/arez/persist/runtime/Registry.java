@@ -22,6 +22,11 @@ final class Registry
   @Nonnull
   private static final Map<String, Store> c_stores = new HashMap<>();
   /**
+   * The map of converters for application types.
+   */
+  @Nonnull
+  private static final Map<Class<?>, Converter<?, ?>> c_converters = new HashMap<>();
+  /**
    * The root scope.
    */
   @Nonnull
@@ -156,10 +161,50 @@ final class Registry
     return Objects.requireNonNull( c_stores.get( name ) );
   }
 
+  /**
+   * Register a converter for a type.
+   * It is an error to register multiple converters with the same name.
+   *
+   * @param type      the application type.
+   * @param converter the converter.
+   * @return the action to invoke to deregister converter.
+   */
+  static <A> SafeProcedure registerConverter( @Nonnull final Class<A> type, @Nonnull final Converter<A, ?> converter )
+  {
+    if ( ArezPersist.shouldCheckApiInvariants() )
+    {
+      apiInvariant( () -> !c_converters.containsKey( type ),
+                    () -> "registerConverter() invoked with type '" + type.getName() +
+                          "' but a converter is already registered for that type" );
+    }
+    c_converters.put( type, converter );
+    return () -> c_converters.remove( type );
+  }
+
+  /**
+   * Return the converter registered for the specified application type or the identity converter if none are specified.
+   *
+   * @param type the application type.
+   * @return the converter if any.
+   */
+  @SuppressWarnings( "unchecked" )
+  @Nonnull
+  static <A> Converter<A, ?> findConverter( @Nonnull final Class<A> type )
+  {
+    final Converter<A, ?> converter = (Converter<A, ?>) c_converters.get( type );
+    return null == converter ? IdentityConverter.instance() : converter;
+  }
+
   @Nonnull
   static Map<String, Store> getStores()
   {
     return c_stores;
+  }
+
+  @Nonnull
+  static Map<Class<?>, Converter<?, ?>> getConverters()
+  {
+    return c_converters;
   }
 
   /**
@@ -171,6 +216,7 @@ final class Registry
   {
     c_stores.values().forEach( Store::dispose );
     c_stores.clear();
+    c_converters.clear();
     ArezPersist.registerApplicationStoreIfEnabled();
     releaseScope( c_rootScope );
     c_rootScope = new Scope( null, Scope.ROOT_SCOPE_NAME );

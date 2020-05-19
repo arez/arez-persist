@@ -165,6 +165,32 @@ public final class ArezPersist
     Registry.releaseScope( scope );
   }
 
+  /**
+   * Register a converter for a type.
+   * It is an error to register multiple converters with the same name.
+   *
+   * @param type      the application type.
+   * @param converter the converter.
+   * @return the action to invoke to deregister converter.
+   */
+  public static <A> SafeProcedure registerConverter( @Nonnull final Class<A> type,
+                                                     @Nonnull final Converter<A, ?> converter )
+  {
+    return Registry.registerConverter( type, converter );
+  }
+
+  /**
+   * Return the converter registered for the specified application type or the identity converter if none are specified.
+   *
+   * @param type the application type.
+   * @return the converter if any.
+   */
+  @Nonnull
+  public static <A> Converter<A, ?> findConverter( @Nonnull final Class<A> type )
+  {
+    return Registry.findConverter( type );
+  }
+
   static void registerApplicationStoreIfEnabled()
   {
     if ( isApplicationStoreEnabled() )
