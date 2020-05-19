@@ -29,4 +29,52 @@ public final class ArezPersistBrowserUtil
   {
     ArezPersist.registerStore( StoreTypes.LOCAL, WebStorageService.createLocalStorageService( persistenceKey ) );
   }
+
+  /**
+   * Register a character converter that is useful when converting to json representation.
+   */
+  public static void registerCharacterConverter()
+  {
+    ArezPersist.registerConverter( Character.class, new CharacterConverter() );
+  }
+
+  /**
+   * Register a byte converter that is useful when converting to json representation.
+   */
+  public static void registerByteConverter()
+  {
+    ArezPersist.registerConverter( Byte.class, new ByteConverter() );
+  }
+
+  /**
+   * Register a Short converter that is useful when converting to json representation.
+   */
+  public static void registerShortConverter()
+  {
+    ArezPersist.registerConverter( Short.class, new ShortConverter() );
+  }
+
+  /**
+   * Register a Integer converter that is useful when converting to json representation.
+   */
+  public static void registerIntegerConverter()
+  {
+    ArezPersist.registerConverter( Integer.class, new IntegerConverter() );
+  }
+
+  /**
+   * Register a Long converter that is useful when converting to json representation.
+   */
+  public static void registerLongConverter()
+  {
+    ArezPersist.registerConverter( Long.class, new LongConverter() );
+  }
+
+  /**
+   * Register a Float converter that is useful when converting to json representation.
+   */
+  public static void registerFloatConverter()
+  {
+    ArezPersist.registerConverter( Float.class, new FloatConverter() );
+  }
 }
