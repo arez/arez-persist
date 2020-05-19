@@ -13,18 +13,14 @@ final class TypeDescriptor
   @Nonnull
   private final TypeElement _element;
   @Nonnull
-  private final String _defaultStore;
-  @Nonnull
   private final List<PropertyDescriptor> _properties;
 
   TypeDescriptor( @Nonnull final String name,
                   @Nonnull final TypeElement element,
-                  @Nonnull final String defaultStore,
                   @Nonnull final List<PropertyDescriptor> properties )
   {
     _name = Objects.requireNonNull( name );
     _element = Objects.requireNonNull( element );
-    _defaultStore = Objects.requireNonNull( defaultStore );
     _properties = Objects.requireNonNull( properties );
   }
 
@@ -38,12 +34,6 @@ final class TypeDescriptor
   TypeElement getElement()
   {
     return _element;
-  }
-
-  @Nonnull
-  String getDefaultStore()
-  {
-    return _defaultStore;
   }
 
   @Nonnull

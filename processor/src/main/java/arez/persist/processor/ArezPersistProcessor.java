@@ -171,7 +171,7 @@ public final class ArezPersistProcessor
                                     element );
     }
 
-    emitSidecar( new TypeDescriptor( name, element, defaultStore, new ArrayList<>( properties.values() ) ) );
+    emitSidecar( new TypeDescriptor( name, element, new ArrayList<>( properties.values() ) ) );
   }
 
   private boolean isValidPropertyType( @Nonnull final TypeMirror type )
