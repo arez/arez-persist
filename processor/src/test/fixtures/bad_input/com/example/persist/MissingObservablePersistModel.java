@@ -9,7 +9,8 @@ import arez.persist.PersistType;
 public abstract class MissingObservablePersistModel
 {
   @Persist
-  public abstract int getValue();
-
-  public abstract void setValue( int v );
+  public int getValue()
+  {
+    return 1;
+  }
 }
