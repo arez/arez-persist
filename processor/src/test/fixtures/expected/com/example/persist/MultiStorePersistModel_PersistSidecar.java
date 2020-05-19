@@ -119,14 +119,30 @@ abstract class MultiStorePersistModel_PersistSidecar {
   void persistState() {
     if ( !_aStore.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
+      final int $prop$_getValue = _peer.getValue();
+      if ( 0 != $prop$_getValue ) {
+        state.put( Keys.PROPERTY_getValue, $prop$_getValue );
+      }
+      final String $prop$_getValue2 = _peer.getValue2();
+      if ( null != $prop$_getValue2 ) {
+        state.put( Keys.PROPERTY_getValue2, $prop$_getValue2 );
+      }
       _aStore.save( _scope, Keys.TYPE, getComponentId(), state );
     }
     if ( !_appStore.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
+      final Double $prop$_getValue4 = _peer.getValue4();
+      if ( null != $prop$_getValue4 ) {
+        state.put( Keys.PROPERTY_getValue4, $prop$_getValue4 );
+      }
       _appStore.save( _scope, Keys.TYPE, getComponentId(), state );
     }
     if ( !_bStore.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
+      final Double $prop$_getValue3 = _peer.getValue3();
+      if ( null != $prop$_getValue3 ) {
+        state.put( Keys.PROPERTY_getValue3, $prop$_getValue3 );
+      }
       _bStore.save( _scope, Keys.TYPE, getComponentId(), state );
     }
   }

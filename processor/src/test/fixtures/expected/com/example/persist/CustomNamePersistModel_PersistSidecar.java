@@ -98,6 +98,10 @@ abstract class CustomNamePersistModel_PersistSidecar {
   void persistState() {
     if ( !_appStore.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
+      final int $prop$_v = _peer.getValue();
+      if ( 0 != $prop$_v ) {
+        state.put( Keys.PROPERTY_v, $prop$_v );
+      }
       _appStore.save( _scope, Keys.TYPE, getComponentId(), state );
     }
   }

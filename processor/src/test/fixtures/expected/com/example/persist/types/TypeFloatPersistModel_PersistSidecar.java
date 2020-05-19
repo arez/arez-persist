@@ -98,6 +98,10 @@ abstract class TypeFloatPersistModel_PersistSidecar {
   void persistState() {
     if ( !_appStore.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
+      final float $prop$_getValue = _peer.getValue();
+      if ( 0.0F != $prop$_getValue ) {
+        state.put( Keys.PROPERTY_getValue, $prop$_getValue );
+      }
       _appStore.save( _scope, Keys.TYPE, getComponentId(), state );
     }
   }

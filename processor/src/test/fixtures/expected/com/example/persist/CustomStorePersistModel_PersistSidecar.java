@@ -98,6 +98,10 @@ abstract class CustomStorePersistModel_PersistSidecar {
   void persistState() {
     if ( !_sStore.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
+      final int $prop$_getValue = _peer.getValue();
+      if ( 0 != $prop$_getValue ) {
+        state.put( Keys.PROPERTY_getValue, $prop$_getValue );
+      }
       _sStore.save( _scope, Keys.TYPE, getComponentId(), state );
     }
   }

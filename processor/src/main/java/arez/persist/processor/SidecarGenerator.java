@@ -14,8 +14,11 @@ import java.util.Map;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeKind;
+import javax.lang.model.type.TypeMirror;
 import org.realityforge.proton.GeneratorUtil;
 import org.realityforge.proton.SuppressWarningsUtil;
 
@@ -238,6 +241,46 @@ final class SidecarGenerator
       block.addStatement( "final $T state = new $T<>()",
                           ParameterizedTypeName.get( Map.class, String.class, Object.class ),
                           HashMap.class );
+      for ( final PropertyDescriptor property : descriptor.getPropertiesByStore( storeName ) )
+      {
+        final ExecutableElement getter = property.getGetter();
+        final String propName = "$prop$_" + property.getName();
+        final TypeMirror returnType = getter.getReturnType();
+        block.addStatement( "final $T $N = _peer.$N()", returnType, propName, getter.getSimpleName() );
+        final CodeBlock.Builder subBlock = CodeBlock.builder();
+        final TypeKind kind = returnType.getKind();
+        if ( TypeKind.DECLARED == kind )
+        {
+          subBlock.beginControlFlow( "if ( null != $N )", propName );
+        }
+        else if ( TypeKind.BOOLEAN == kind )
+        {
+          subBlock.beginControlFlow( "if ( $N )", propName );
+        }
+        else if ( TypeKind.LONG == kind )
+        {
+          subBlock.beginControlFlow( "if ( 0L != $N )", propName );
+        }
+        else if ( TypeKind.INT == kind || TypeKind.SHORT == kind || TypeKind.BYTE == kind || TypeKind.CHAR == kind )
+        {
+          subBlock.beginControlFlow( "if ( 0 != $N )", propName );
+        }
+        else if ( TypeKind.FLOAT == kind )
+        {
+          subBlock.beginControlFlow( "if ( 0.0F != $N )", propName );
+        }
+        else if ( TypeKind.DOUBLE == kind )
+        {
+          subBlock.beginControlFlow( "if ( 0.0 != $N )", propName );
+        }
+        subBlock.addStatement( "state.put( $T.$N, $N )",
+                               ClassName.bestGuess( "Keys" ),
+                               property.getConstantName(),
+                               propName );
+        subBlock.endControlFlow();
+        block.add( subBlock.build() );
+      }
+
       block.addStatement( "$N.save( _scope, $T.TYPE, getComponentId(), state )",
                           fieldName,
                           ClassName.bestGuess( "Keys" ) );
