@@ -53,6 +53,12 @@ final class TypeDescriptor
   }
 
   @Nonnull
+  List<PropertyDescriptor> getPropertiesByStore( @Nonnull final String storeName )
+  {
+    return _properties.stream().filter( p -> p.getStore().equals( storeName ) ).collect( Collectors.toList() );
+  }
+
+  @Nonnull
   List<String> getStoreNames()
   {
     return getProperties()
