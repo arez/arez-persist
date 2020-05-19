@@ -18,7 +18,6 @@ final class Registry
 {
   /**
    * The map of registered stores.
-   * There is no support for removing registrations at this time.
    */
   @Nonnull
   private static final Map<String, Store> c_stores = new HashMap<>();
