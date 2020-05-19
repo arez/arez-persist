@@ -8,6 +8,7 @@ import arez.annotations.ComponentDependency;
 import arez.annotations.DepType;
 import arez.annotations.Feature;
 import arez.annotations.Observe;
+import arez.annotations.PostConstruct;
 import arez.annotations.PreDispose;
 import arez.annotations.Priority;
 import arez.component.Identifiable;
@@ -70,6 +71,23 @@ abstract class TypeBytePersistModel_PersistSidecar {
   void preDispose() {
     if ( Disposable.isNotDisposed( _peer ) ) {
       persistState();
+    }
+  }
+
+  @PostConstruct
+  void postConstruct() {
+    restoreState();
+  }
+
+  @Action(
+      verifyRequired = false
+  )
+  void restoreState() {
+    final String $ap$_id = getComponentId();
+    if ( !_appStore.isDisposed() ) {
+      final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id );
+      if ( null != state ) {
+      }
     }
   }
 

@@ -39,6 +39,8 @@ final class SidecarGenerator
   @Nonnull
   private static final ClassName OBSERVE_CLASSNAME = ClassName.get( "arez.annotations", "Observe" );
   @Nonnull
+  private static final ClassName POST_CONSTRUCT_CLASSNAME = ClassName.get( "arez.annotations", "PostConstruct" );
+  @Nonnull
   private static final ClassName PRE_DISPOSE_CLASSNAME = ClassName.get( "arez.annotations", "PreDispose" );
   @Nonnull
   private static final ClassName PRIORITY_CLASSNAME = ClassName.get( "arez.annotations", "Priority" );
@@ -125,7 +127,15 @@ final class SidecarGenerator
                                      .build() )
                          .build() );
 
+    // Restore state when the component is created
+    builder.addMethod( MethodSpec.methodBuilder( "postConstruct" )
+                         .addAnnotation( POST_CONSTRUCT_CLASSNAME )
+                         .addStatement( "restoreState()" )
+                         .build() );
+
+    builder.addMethod( buildRestoreStateMethod( descriptor ) );
     builder.addMethod( buildPersistStateMethod( descriptor ) );
+
     return builder.build();
   }
 
@@ -176,6 +186,38 @@ final class SidecarGenerator
   private static ClassName getSidecarName( @Nonnull final TypeElement element )
   {
     return GeneratorUtil.getGeneratedClassName( element, "", "_PersistSidecar" );
+  }
+
+  @Nonnull
+  private static MethodSpec buildRestoreStateMethod( @Nonnull final TypeDescriptor descriptor )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec
+        .methodBuilder( "restoreState" )
+        .addAnnotation( AnnotationSpec.builder( ACTION_CLASSNAME )
+                          .addMember( "verifyRequired", "false" )
+                          .build() );
+    final String idVar = "$ap$_id";
+    method.addStatement( "final $T $N = getComponentId()", String.class, idVar );
+    for ( final String storeName : descriptor.getStoreNames() )
+    {
+      final String fieldName = "_" + storeVar( storeName );
+      final CodeBlock.Builder block = CodeBlock.builder();
+      block.beginControlFlow( "if ( !$N.isDisposed() )", fieldName );
+      block.addStatement( "final $T state = $N.get( _scope, $T.TYPE, $N )",
+                          ParameterizedTypeName.get( Map.class, String.class, Object.class ),
+                          fieldName,
+                          ClassName.bestGuess( "Keys" ),
+                          idVar );
+      final CodeBlock.Builder stateBlock = CodeBlock.builder();
+      stateBlock.beginControlFlow( "if ( null != state )" );
+      stateBlock.endControlFlow();
+      block.add( stateBlock.build() );
+      block.endControlFlow();
+      method.addCode( block.build() );
+    }
+
+    return method.build();
   }
 
   @Nonnull
