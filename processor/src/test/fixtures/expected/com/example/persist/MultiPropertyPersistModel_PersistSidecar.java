@@ -13,6 +13,7 @@ import arez.annotations.PreDispose;
 import arez.annotations.Priority;
 import arez.component.Identifiable;
 import arez.persist.runtime.ArezPersist;
+import arez.persist.runtime.Converter;
 import arez.persist.runtime.Scope;
 import arez.persist.runtime.Store;
 import java.util.HashMap;
@@ -126,5 +127,20 @@ abstract class MultiPropertyPersistModel_PersistSidecar {
 
     @Nonnull
     private static final String PROPERTY_getValue2 = Arez.areNamesEnabled() ? "getValue2" : "c";
+  }
+
+  @SuppressWarnings({
+      "unchecked",
+      "rawtypes"
+  })
+  private static final class Converters {
+    @Nonnull
+    private static final Converter CONVERTER_int = ArezPersist.getConverter( int.class );
+
+    @Nonnull
+    private static final Converter CONVERTER_java__lang__Double = ArezPersist.getConverter( Double.class );
+
+    @Nonnull
+    private static final Converter CONVERTER_java__lang__String = ArezPersist.getConverter( String.class );
   }
 }

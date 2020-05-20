@@ -9,9 +9,12 @@ import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.ExecutableElement;
@@ -51,6 +54,8 @@ final class SidecarGenerator
   private static final ClassName DEP_TYPE_CLASSNAME = ClassName.get( "arez.annotations", "DepType" );
   @Nonnull
   private static final ClassName AREZ_PERSIST_CLASSNAME = ClassName.get( "arez.persist.runtime", "ArezPersist" );
+  @Nonnull
+  private static final ClassName CONVERTER_CLASSNAME = ClassName.get( "arez.persist.runtime", "Converter" );
   @Nonnull
   private static final ClassName SCOPE_CLASSNAME = ClassName.get( "arez.persist.runtime", "Scope" );
   @Nonnull
@@ -93,6 +98,9 @@ final class SidecarGenerator
     // Create a nested keys type to eliminate any possibility GWT will
     // attempt to create a <clinit> for sidecar type and the deopt that brings  .
     builder.addType( buildKeysType( descriptor ) );
+
+    // Create a separate class to hold converters to eliminate <clinit>
+    builder.addType( buildConvertersType( descriptor ) );
 
     buildFieldAndConstructor( descriptor, builder );
 
@@ -372,5 +380,47 @@ final class SidecarGenerator
       propertyIndex++;
     }
     return keys.build();
+  }
+
+  @Nonnull
+  private static TypeSpec buildConvertersType( @Nonnull final TypeDescriptor descriptor )
+  {
+    final TypeSpec.Builder builder = TypeSpec.classBuilder( "Converters" );
+    builder.addModifiers( Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL );
+    builder.addAnnotation( AnnotationSpec.builder( SuppressWarnings.class )
+                             .addMember( "value", "$S", "unchecked" )
+                             .addMember( "value", "$S", "rawtypes" )
+                             .build() );
+
+    final List<TypeMirror> typesToConvert =
+      descriptor.getProperties()
+        .stream()
+        .map( p -> p.getGetter().getReturnType() )
+        .sorted( Comparator.comparing( TypeMirror::toString ) )
+        .distinct()
+        .collect( Collectors.toList() );
+    for ( final TypeMirror typeMirror : typesToConvert )
+    {
+      builder.addField( FieldSpec
+                          .builder( CONVERTER_CLASSNAME,
+                                    converterName( typeMirror ),
+                                    Modifier.PRIVATE,
+                                    Modifier.STATIC,
+                                    Modifier.FINAL )
+                          .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
+                          .initializer( "$T.getConverter( $T.class )", AREZ_PERSIST_CLASSNAME, typeMirror )
+                          .build() );
+    }
+    return builder.build();
+  }
+
+  @Nonnull
+  private static String converterName( @Nonnull final TypeMirror typeMirror )
+  {
+    return "CONVERTER_" +
+           typeMirror.toString()
+             .replaceAll( "\\[", "_" )
+             .replaceAll( "]", "_" )
+             .replaceAll( "\\.", "__" );
   }
 }
