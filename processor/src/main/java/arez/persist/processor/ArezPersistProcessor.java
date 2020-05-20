@@ -9,7 +9,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedOptions;
@@ -41,6 +44,10 @@ import org.realityforge.proton.ProcessorException;
 public final class ArezPersistProcessor
   extends AbstractStandardProcessor
 {
+  @Nonnull
+  private static final Pattern GETTER_PATTERN = Pattern.compile( "^get([A-Z].*)$" );
+  @Nonnull
+  private static final Pattern ISSER_PATTERN = Pattern.compile( "^is([A-Z].*)$" );
   /**
    * Sentinel value indicating the default value.
    */
@@ -144,6 +151,22 @@ public final class ArezPersistProcessor
         final String persistName = extractPersistName( method, persistAnnotation );
         final String persistStore = extractStore( element, method, persistAnnotation, defaultStore );
 
+        final String setterName = "set" + firstCharacterToUpperCase( persistName );
+        final ExecutableElement setter = methods
+          .stream()
+          .filter( m -> TypeKind.VOID == m.getReturnType().getKind() &&
+                        setterName.equals( m.getSimpleName().toString() ) &&
+                        1 == m.getParameters().size() &&
+                        processingEnv.getTypeUtils().isSameType( m.getParameters().get( 0 ).asType(), returnType ) )
+          .findAny()
+          .orElse( null );
+        if ( null == setter )
+        {
+          throw new ProcessorException( MemberChecks.must( Constants.PERSIST_CLASSNAME,
+                                                           "be paired with a setter named " + setterName ),
+                                        method );
+        }
+
         final PropertyDescriptor existing = properties.get( persistName );
         if ( null != existing )
         {
@@ -156,7 +179,7 @@ public final class ArezPersistProcessor
         }
         else
         {
-          properties.put( persistName, new PropertyDescriptor( persistName, persistStore, method ) );
+          properties.put( persistName, new PropertyDescriptor( persistName, persistStore, method, setter ) );
         }
       }
     }
@@ -224,23 +247,20 @@ public final class ArezPersistProcessor
   }
 
   @Nonnull
-  private String extractPersistName( @Nonnull final Element element,
+  private String extractPersistName( @Nonnull final ExecutableElement method,
                                      @Nonnull final AnnotationMirror annotation )
   {
     final String declaredValue = AnnotationsUtil.getAnnotationValueValue( annotation, "name" );
-    if ( DEFAULT_SENTINEL.equals( declaredValue ) )
+    final String value = getPropertyAccessorName( method, declaredValue );
+    if ( SourceVersion.isIdentifier( value ) )
     {
-      return element.getSimpleName().toString();
-    }
-    else if ( SourceVersion.isIdentifier( declaredValue ) )
-    {
-      return declaredValue;
+      return value;
     }
     else
     {
       throw new ProcessorException( MemberChecks.mustNot( Constants.PERSIST_CLASSNAME,
                                                           "specify a name parameter that is not a valid java identifier" ),
-                                    element,
+                                    method,
                                     annotation );
     }
   }
@@ -305,5 +325,64 @@ public final class ArezPersistProcessor
   {
     final String packageName = GeneratorUtil.getQualifiedPackageName( type.getElement() );
     emitTypeSpec( packageName, SidecarGenerator.buildType( processingEnv, type ) );
+  }
+
+  @SuppressWarnings( "SameParameterValue" )
+  @Nonnull
+  private String getPropertyAccessorName( @Nonnull final ExecutableElement method, @Nonnull final String specifiedName )
+    throws ProcessorException
+  {
+    String name = deriveName( method, GETTER_PATTERN, specifiedName );
+    if ( null != name )
+    {
+      return name;
+    }
+    if ( method.getReturnType().getKind() == TypeKind.BOOLEAN )
+    {
+      name = deriveName( method, ISSER_PATTERN, specifiedName );
+      if ( null != name )
+      {
+        return name;
+      }
+    }
+    return method.getSimpleName().toString();
+  }
+
+  @Nullable
+  private String deriveName( @Nonnull final ExecutableElement method,
+                             @Nonnull final Pattern pattern,
+                             @Nonnull final String name )
+    throws ProcessorException
+  {
+    if ( DEFAULT_SENTINEL.equals( name ) )
+    {
+      final String methodName = method.getSimpleName().toString();
+      final Matcher matcher = pattern.matcher( methodName );
+      if ( matcher.find() )
+      {
+        final String candidate = matcher.group( 1 );
+        return firstCharacterToLowerCase( candidate );
+      }
+      else
+      {
+        return null;
+      }
+    }
+    else
+    {
+      return name;
+    }
+  }
+
+  @Nonnull
+  private String firstCharacterToLowerCase( @Nonnull final String name )
+  {
+    return Character.toLowerCase( name.charAt( 0 ) ) + name.substring( 1 );
+  }
+
+  @Nonnull
+  private String firstCharacterToUpperCase( @Nonnull final String name )
+  {
+    return Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
   }
 }

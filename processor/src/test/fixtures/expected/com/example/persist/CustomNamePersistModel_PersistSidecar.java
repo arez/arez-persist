@@ -91,6 +91,7 @@ abstract class CustomNamePersistModel_PersistSidecar {
       if ( null != state ) {
         final Integer $prop$_v = (Integer) state.get( Keys.PROPERTY_v );
         if ( null != $prop$_v ) {
+          _peer.setV( $prop$_v );
         }
       }
     }

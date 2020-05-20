@@ -9,9 +9,9 @@ import arez.persist.PersistType;
 @ArezComponent
 abstract class CustomNamePersistModel
 {
-  @Observable
+  @Observable( name = "v" )
   @Persist( name = "v" )
   public abstract int getValue();
 
-  public abstract void setValue( int v );
+  public abstract void setV( int v );
 }

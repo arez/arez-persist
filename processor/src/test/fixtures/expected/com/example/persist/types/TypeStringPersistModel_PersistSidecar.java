@@ -89,8 +89,9 @@ abstract class TypeStringPersistModel_PersistSidecar {
     if ( !_appStore.isDisposed() ) {
       final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
-        final String $prop$_getValue = (String) state.get( Keys.PROPERTY_getValue );
-        if ( null != $prop$_getValue ) {
+        final String $prop$_value = (String) state.get( Keys.PROPERTY_value );
+        if ( null != $prop$_value ) {
+          _peer.setValue( $prop$_value );
         }
       }
     }
@@ -103,9 +104,9 @@ abstract class TypeStringPersistModel_PersistSidecar {
   void persistState() {
     if ( !_appStore.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
-      final String $prop$_getValue = _peer.getValue();
-      if ( null != $prop$_getValue ) {
-        state.put( Keys.PROPERTY_getValue, $prop$_getValue );
+      final String $prop$_value = _peer.getValue();
+      if ( null != $prop$_value ) {
+        state.put( Keys.PROPERTY_value, $prop$_value );
       }
       _appStore.save( _scope, Keys.TYPE, getComponentId(), state, Converters.TYPE_CONVERTER );
     }
@@ -116,7 +117,7 @@ abstract class TypeStringPersistModel_PersistSidecar {
     private static final String TYPE = Arez.areNamesEnabled() ? "TypeStringPersistModel" : TypeStringPersistModel.class.getName();
 
     @Nonnull
-    private static final String PROPERTY_getValue = Arez.areNamesEnabled() ? "getValue" : "a";
+    private static final String PROPERTY_value = Arez.areNamesEnabled() ? "value" : "a";
   }
 
   @SuppressWarnings({
@@ -133,7 +134,7 @@ abstract class TypeStringPersistModel_PersistSidecar {
     @Nonnull
     private static TypeConverter createTypeConverter() {
       final Map<String, Converter> converters = new HashMap<>();
-      converters.put( "getValue", CONVERTER_java__lang__String );
+      converters.put( "value", CONVERTER_java__lang__String );
       return new TypeConverter( converters );
     }
   }

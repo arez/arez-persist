@@ -100,27 +100,31 @@ abstract class MultiStorePersistModel_PersistSidecar {
     if ( !_aStore.isDisposed() ) {
       final Map<String, Object> state = _aStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
-        final Integer $prop$_getValue = (Integer) state.get( Keys.PROPERTY_getValue );
-        if ( null != $prop$_getValue ) {
+        final String $prop$_value2 = (String) state.get( Keys.PROPERTY_value2 );
+        if ( null != $prop$_value2 ) {
+          _peer.setValue2( $prop$_value2 );
         }
-        final String $prop$_getValue2 = (String) state.get( Keys.PROPERTY_getValue2 );
-        if ( null != $prop$_getValue2 ) {
+        final Integer $prop$_value = (Integer) state.get( Keys.PROPERTY_value );
+        if ( null != $prop$_value ) {
+          _peer.setValue( $prop$_value );
         }
       }
     }
     if ( !_appStore.isDisposed() ) {
       final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
-        final Double $prop$_getValue4 = (Double) state.get( Keys.PROPERTY_getValue4 );
-        if ( null != $prop$_getValue4 ) {
+        final Double $prop$_value4 = (Double) state.get( Keys.PROPERTY_value4 );
+        if ( null != $prop$_value4 ) {
+          _peer.setValue4( $prop$_value4 );
         }
       }
     }
     if ( !_bStore.isDisposed() ) {
       final Map<String, Object> state = _bStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
-        final Double $prop$_getValue3 = (Double) state.get( Keys.PROPERTY_getValue3 );
-        if ( null != $prop$_getValue3 ) {
+        final Double $prop$_value3 = (Double) state.get( Keys.PROPERTY_value3 );
+        if ( null != $prop$_value3 ) {
+          _peer.setValue3( $prop$_value3 );
         }
       }
     }
@@ -133,29 +137,29 @@ abstract class MultiStorePersistModel_PersistSidecar {
   void persistState() {
     if ( !_aStore.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
-      final int $prop$_getValue = _peer.getValue();
-      if ( 0 != $prop$_getValue ) {
-        state.put( Keys.PROPERTY_getValue, $prop$_getValue );
+      final String $prop$_value2 = _peer.getValue2();
+      if ( null != $prop$_value2 ) {
+        state.put( Keys.PROPERTY_value2, $prop$_value2 );
       }
-      final String $prop$_getValue2 = _peer.getValue2();
-      if ( null != $prop$_getValue2 ) {
-        state.put( Keys.PROPERTY_getValue2, $prop$_getValue2 );
+      final int $prop$_value = _peer.getValue();
+      if ( 0 != $prop$_value ) {
+        state.put( Keys.PROPERTY_value, $prop$_value );
       }
       _aStore.save( _scope, Keys.TYPE, getComponentId(), state, Converters.TYPE_CONVERTER );
     }
     if ( !_appStore.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
-      final Double $prop$_getValue4 = _peer.getValue4();
-      if ( null != $prop$_getValue4 ) {
-        state.put( Keys.PROPERTY_getValue4, $prop$_getValue4 );
+      final Double $prop$_value4 = _peer.getValue4();
+      if ( null != $prop$_value4 ) {
+        state.put( Keys.PROPERTY_value4, $prop$_value4 );
       }
       _appStore.save( _scope, Keys.TYPE, getComponentId(), state, Converters.TYPE_CONVERTER );
     }
     if ( !_bStore.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
-      final Double $prop$_getValue3 = _peer.getValue3();
-      if ( null != $prop$_getValue3 ) {
-        state.put( Keys.PROPERTY_getValue3, $prop$_getValue3 );
+      final Double $prop$_value3 = _peer.getValue3();
+      if ( null != $prop$_value3 ) {
+        state.put( Keys.PROPERTY_value3, $prop$_value3 );
       }
       _bStore.save( _scope, Keys.TYPE, getComponentId(), state, Converters.TYPE_CONVERTER );
     }
@@ -166,16 +170,16 @@ abstract class MultiStorePersistModel_PersistSidecar {
     private static final String TYPE = Arez.areNamesEnabled() ? "MultiStorePersistModel" : MultiStorePersistModel.class.getName();
 
     @Nonnull
-    private static final String PROPERTY_getValue = Arez.areNamesEnabled() ? "getValue" : "a";
+    private static final String PROPERTY_value2 = Arez.areNamesEnabled() ? "value2" : "a";
 
     @Nonnull
-    private static final String PROPERTY_getValue3 = Arez.areNamesEnabled() ? "getValue3" : "b";
+    private static final String PROPERTY_value4 = Arez.areNamesEnabled() ? "value4" : "b";
 
     @Nonnull
-    private static final String PROPERTY_getValue4 = Arez.areNamesEnabled() ? "getValue4" : "c";
+    private static final String PROPERTY_value3 = Arez.areNamesEnabled() ? "value3" : "c";
 
     @Nonnull
-    private static final String PROPERTY_getValue2 = Arez.areNamesEnabled() ? "getValue2" : "d";
+    private static final String PROPERTY_value = Arez.areNamesEnabled() ? "value" : "d";
   }
 
   @SuppressWarnings({
@@ -198,10 +202,10 @@ abstract class MultiStorePersistModel_PersistSidecar {
     @Nonnull
     private static TypeConverter createTypeConverter() {
       final Map<String, Converter> converters = new HashMap<>();
-      converters.put( "getValue", CONVERTER_int );
-      converters.put( "getValue3", CONVERTER_java__lang__Double );
-      converters.put( "getValue4", CONVERTER_java__lang__Double );
-      converters.put( "getValue2", CONVERTER_java__lang__String );
+      converters.put( "value2", CONVERTER_java__lang__String );
+      converters.put( "value4", CONVERTER_java__lang__Double );
+      converters.put( "value3", CONVERTER_java__lang__Double );
+      converters.put( "value", CONVERTER_int );
       return new TypeConverter( converters );
     }
   }

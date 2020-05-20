@@ -12,12 +12,18 @@ final class PropertyDescriptor
   private final String _store;
   @Nonnull
   private final ExecutableElement _getter;
+  @Nonnull
+  private final ExecutableElement _setter;
 
-  PropertyDescriptor( @Nonnull final String name, @Nonnull final String store, @Nonnull final ExecutableElement getter )
+  PropertyDescriptor( @Nonnull final String name,
+                      @Nonnull final String store,
+                      @Nonnull final ExecutableElement getter,
+                      @Nonnull final ExecutableElement setter )
   {
     _name = Objects.requireNonNull( name );
     _store = Objects.requireNonNull( store );
     _getter = Objects.requireNonNull( getter );
+    _setter = Objects.requireNonNull( setter );
   }
 
   @Nonnull
@@ -42,5 +48,11 @@ final class PropertyDescriptor
   ExecutableElement getGetter()
   {
     return _getter;
+  }
+
+  @Nonnull
+  ExecutableElement getSetter()
+  {
+    return _setter;
   }
 }

@@ -89,14 +89,17 @@ abstract class MultiPropertyPersistModel_PersistSidecar {
     if ( !_appStore.isDisposed() ) {
       final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
-        final Integer $prop$_getValue = (Integer) state.get( Keys.PROPERTY_getValue );
-        if ( null != $prop$_getValue ) {
+        final String $prop$_value2 = (String) state.get( Keys.PROPERTY_value2 );
+        if ( null != $prop$_value2 ) {
+          _peer.setValue2( $prop$_value2 );
         }
-        final Double $prop$_getValue3 = (Double) state.get( Keys.PROPERTY_getValue3 );
-        if ( null != $prop$_getValue3 ) {
+        final Double $prop$_value3 = (Double) state.get( Keys.PROPERTY_value3 );
+        if ( null != $prop$_value3 ) {
+          _peer.setValue3( $prop$_value3 );
         }
-        final String $prop$_getValue2 = (String) state.get( Keys.PROPERTY_getValue2 );
-        if ( null != $prop$_getValue2 ) {
+        final Integer $prop$_value = (Integer) state.get( Keys.PROPERTY_value );
+        if ( null != $prop$_value ) {
+          _peer.setValue( $prop$_value );
         }
       }
     }
@@ -109,17 +112,17 @@ abstract class MultiPropertyPersistModel_PersistSidecar {
   void persistState() {
     if ( !_appStore.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
-      final int $prop$_getValue = _peer.getValue();
-      if ( 0 != $prop$_getValue ) {
-        state.put( Keys.PROPERTY_getValue, $prop$_getValue );
+      final String $prop$_value2 = _peer.getValue2();
+      if ( null != $prop$_value2 ) {
+        state.put( Keys.PROPERTY_value2, $prop$_value2 );
       }
-      final Double $prop$_getValue3 = _peer.getValue3();
-      if ( null != $prop$_getValue3 ) {
-        state.put( Keys.PROPERTY_getValue3, $prop$_getValue3 );
+      final Double $prop$_value3 = _peer.getValue3();
+      if ( null != $prop$_value3 ) {
+        state.put( Keys.PROPERTY_value3, $prop$_value3 );
       }
-      final String $prop$_getValue2 = _peer.getValue2();
-      if ( null != $prop$_getValue2 ) {
-        state.put( Keys.PROPERTY_getValue2, $prop$_getValue2 );
+      final int $prop$_value = _peer.getValue();
+      if ( 0 != $prop$_value ) {
+        state.put( Keys.PROPERTY_value, $prop$_value );
       }
       _appStore.save( _scope, Keys.TYPE, getComponentId(), state, Converters.TYPE_CONVERTER );
     }
@@ -130,13 +133,13 @@ abstract class MultiPropertyPersistModel_PersistSidecar {
     private static final String TYPE = Arez.areNamesEnabled() ? "MultiPropertyPersistModel" : MultiPropertyPersistModel.class.getName();
 
     @Nonnull
-    private static final String PROPERTY_getValue = Arez.areNamesEnabled() ? "getValue" : "a";
+    private static final String PROPERTY_value2 = Arez.areNamesEnabled() ? "value2" : "a";
 
     @Nonnull
-    private static final String PROPERTY_getValue3 = Arez.areNamesEnabled() ? "getValue3" : "b";
+    private static final String PROPERTY_value3 = Arez.areNamesEnabled() ? "value3" : "b";
 
     @Nonnull
-    private static final String PROPERTY_getValue2 = Arez.areNamesEnabled() ? "getValue2" : "c";
+    private static final String PROPERTY_value = Arez.areNamesEnabled() ? "value" : "c";
   }
 
   @SuppressWarnings({
@@ -159,9 +162,9 @@ abstract class MultiPropertyPersistModel_PersistSidecar {
     @Nonnull
     private static TypeConverter createTypeConverter() {
       final Map<String, Converter> converters = new HashMap<>();
-      converters.put( "getValue", CONVERTER_int );
-      converters.put( "getValue3", CONVERTER_java__lang__Double );
-      converters.put( "getValue2", CONVERTER_java__lang__String );
+      converters.put( "value2", CONVERTER_java__lang__String );
+      converters.put( "value3", CONVERTER_java__lang__Double );
+      converters.put( "value", CONVERTER_int );
       return new TypeConverter( converters );
     }
   }

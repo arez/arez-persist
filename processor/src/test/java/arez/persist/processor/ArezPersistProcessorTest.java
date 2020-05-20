@@ -61,6 +61,8 @@ public final class ArezPersistProcessorTest
                       "@Persist target must has the same name 'X' as another persistent property declared by the name. The other property is accessed by the method named getValue" },
         new Object[]{ "com.example.persist.MissingObservablePersistModel",
                       "@Persist target must be also be annotated with the arez.annotations.Observable annotation" },
+        new Object[]{ "com.example.persist.MissingSetterPersistModel",
+                      "@Persist target must be paired with a setter named setValue" },
         new Object[]{ "com.example.persist.SetterPersistModel",
                       "@Persist target must be present on the accessor method of the @Observable property" },
 

@@ -9,11 +9,12 @@ import arez.persist.PersistType;
 @ArezComponent
 abstract class DuplicateNamePersistModel
 {
-  @Observable
+  @Observable( name = "X" )
   @Persist( name = "X" )
   public abstract int getValue();
 
-  public abstract void setValue( int v );
+  @Observable( name = "X" )
+  public abstract void setX( int v );
 
   @Observable
   @Persist( name = "X" )
