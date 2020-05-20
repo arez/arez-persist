@@ -23,6 +23,7 @@ public final class ArezPersistProcessorTest
         new Object[]{ "com.example.persist.CustomStorePersistModel" },
         new Object[]{ "com.example.persist.MultiPropertyPersistModel" },
         new Object[]{ "com.example.persist.MultiStorePersistModel" },
+        new Object[]{ "com.example.persist.ObjectTypePersistModel" },
 
         new Object[]{ "com.example.persist.types.TypeBooleanPersistModel" },
         new Object[]{ "com.example.persist.types.TypeBytePersistModel" },
@@ -57,8 +58,6 @@ public final class ArezPersistProcessorTest
                       "@Persist target must not specify a name parameter that is not a valid java identifier" },
         new Object[]{ "com.example.persist.BadStorePersistModel",
                       "@Persist target must not specify a store parameter that is not a valid java identifier" },
-        new Object[]{ "com.example.persist.BadTypePersistModel",
-                      "@Persist target must return a primitive value, a boxed primitive or a string. Other types are not (yet) supported" },
         new Object[]{ "com.example.persist.DuplicateNamePersistModel",
                       "@Persist target must has the same name 'X' as another persistent property declared by the name. The other property is accessed by the method named getValue" },
         new Object[]{ "com.example.persist.MissingObservablePersistModel",

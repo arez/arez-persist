@@ -234,12 +234,23 @@ final class SidecarGenerator
       {
         final TypeName typeName = TypeName.get( property.getGetter().getReturnType() ).box();
         final String propName = "$prop$_" + property.getName();
-        stateBlock.addStatement( "final $T $N = ($T) state.get( $T.$N )",
-                                 typeName,
-                                 propName,
-                                 typeName,
-                                 ClassName.bestGuess( "Keys" ),
-                                 property.getConstantName() );
+        if ( TypeName.OBJECT.equals( typeName ) )
+        {
+          stateBlock.addStatement( "final $T $N = ( $T.$N )",
+                                   typeName,
+                                   propName,
+                                   ClassName.bestGuess( "Keys" ),
+                                   property.getConstantName() );
+        }
+        else
+        {
+          stateBlock.addStatement( "final $T $N = ($T) state.get( $T.$N )",
+                                   typeName,
+                                   propName,
+                                   typeName,
+                                   ClassName.bestGuess( "Keys" ),
+                                   property.getConstantName() );
+        }
         final CodeBlock.Builder setterBlock = CodeBlock.builder();
         setterBlock.beginControlFlow( "if ( null != $N )", propName );
         setterBlock.addStatement( "_peer.$N( $N )", property.getSetter().getSimpleName(), propName );

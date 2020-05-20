@@ -2,10 +2,7 @@ package arez.persist.processor;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,22 +50,6 @@ public final class ArezPersistProcessor
    */
   @Nonnull
   private static final String DEFAULT_SENTINEL = "<default>";
-  /**
-   * The set of types that are handled by the framework. In the future we
-   * should expand support or consider the notion of converters to serialize and deserialize
-   * arbitrary types.
-   */
-  @Nonnull
-  private static final Set<String> VALID_TYPES =
-    Collections.unmodifiableSet( new HashSet<>( Arrays.asList( Boolean.class.getName(),
-                                                               Character.class.getName(),
-                                                               Byte.class.getName(),
-                                                               Short.class.getName(),
-                                                               Integer.class.getName(),
-                                                               Long.class.getName(),
-                                                               Float.class.getName(),
-                                                               Double.class.getName(),
-                                                               String.class.getName() ) ) );
   @Nonnull
   private final DeferredElementSet _deferredTypes = new DeferredElementSet();
 
@@ -142,12 +123,6 @@ public final class ArezPersistProcessor
                                                            " property" ),
                                         method );
         }
-        if ( !isValidPropertyType( returnType ) )
-        {
-          throw new ProcessorException( MemberChecks.must( Constants.PERSIST_CLASSNAME,
-                                                           "return a primitive value, a boxed primitive or a string. Other types are not (yet) supported" ),
-                                        method );
-        }
 
         final String persistName = extractPersistName( method, persistAnnotation );
         final String persistStore = extractStore( element, method, persistAnnotation, defaultStore );
@@ -196,19 +171,6 @@ public final class ArezPersistProcessor
     }
 
     emitSidecar( new TypeDescriptor( name, persistOnDispose, element, new ArrayList<>( properties.values() ) ) );
-  }
-
-  private boolean isValidPropertyType( @Nonnull final TypeMirror type )
-  {
-    final TypeKind kind = type.getKind();
-    if ( kind.isPrimitive() )
-    {
-      return true;
-    }
-    else
-    {
-      return TypeKind.DECLARED == kind && VALID_TYPES.contains( type.toString() );
-    }
   }
 
   @Nonnull

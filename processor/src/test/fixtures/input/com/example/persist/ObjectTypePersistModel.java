@@ -7,7 +7,7 @@ import arez.persist.PersistType;
 
 @PersistType
 @ArezComponent
-abstract class BadTypePersistModel
+abstract class ObjectTypePersistModel
 {
   @Observable
   @Persist
