@@ -12,6 +12,6 @@ abstract class SetterPersistModel
   public abstract int getValue();
 
   @Observable
-  @Persist( store = "*my-store*" )
+  @Persist
   public abstract void setValue( int v );
 }
