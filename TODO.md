@@ -4,6 +4,12 @@ This document is essentially a list of shorthand notes describing work yet to be
 Unfortunately it is not complete enough for other people to pick work off the list and
 complete as there is too much un-said.
 
+* Implement restore functionality
+
+* Use TypeConverter in generated code
+
+* update example to use this library
+
 * Figure out a way for Sting/Dagger/other factory created components can integrate with the sidecar infrastructure.
 
 * Determine if we want to support custom persistent ids divorced from arez component ids. This would be required
