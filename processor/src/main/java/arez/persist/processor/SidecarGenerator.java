@@ -60,6 +60,8 @@ final class SidecarGenerator
   private static final ClassName SCOPE_CLASSNAME = ClassName.get( "arez.persist.runtime", "Scope" );
   @Nonnull
   private static final ClassName STORE_CLASSNAME = ClassName.get( "arez.persist.runtime", "Store" );
+  @Nonnull
+  private static final ClassName TYPE_CONVERTER_CLASSNAME = ClassName.get( "arez.persist.runtime", "TypeConverter" );
 
   private SidecarGenerator()
   {
@@ -215,11 +217,12 @@ final class SidecarGenerator
       final String fieldName = "_" + storeVar( storeName );
       final CodeBlock.Builder block = CodeBlock.builder();
       block.beginControlFlow( "if ( !$N.isDisposed() )", fieldName );
-      block.addStatement( "final $T state = $N.get( _scope, $T.TYPE, $N )",
+      block.addStatement( "final $T state = $N.get( _scope, $T.TYPE, $N, $T.TYPE_CONVERTER )",
                           ParameterizedTypeName.get( Map.class, String.class, Object.class ),
                           fieldName,
                           ClassName.bestGuess( "Keys" ),
-                          idVar );
+                          idVar,
+                          ClassName.bestGuess( "Converters" ) );
       final CodeBlock.Builder stateBlock = CodeBlock.builder();
       stateBlock.beginControlFlow( "if ( null != state )" );
       stateBlock.endControlFlow();
@@ -289,9 +292,10 @@ final class SidecarGenerator
         block.add( subBlock.build() );
       }
 
-      block.addStatement( "$N.save( _scope, $T.TYPE, getComponentId(), state )",
+      block.addStatement( "$N.save( _scope, $T.TYPE, getComponentId(), state, $T.TYPE_CONVERTER )",
                           fieldName,
-                          ClassName.bestGuess( "Keys" ) );
+                          ClassName.bestGuess( "Keys" ),
+                          ClassName.bestGuess( "Converters" ) );
       block.endControlFlow();
       method.addCode( block.build() );
     }
@@ -411,6 +415,35 @@ final class SidecarGenerator
                           .initializer( "$T.getConverter( $T.class )", AREZ_PERSIST_CLASSNAME, typeMirror )
                           .build() );
     }
+
+    builder.addField( FieldSpec
+                        .builder( TYPE_CONVERTER_CLASSNAME,
+                                  "TYPE_CONVERTER",
+                                  Modifier.PRIVATE,
+                                  Modifier.STATIC,
+                                  Modifier.FINAL )
+                        .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
+                        .initializer( "createTypeConverter()" )
+                        .build() );
+
+    final MethodSpec.Builder method = MethodSpec.methodBuilder( "createTypeConverter" )
+      .addModifiers( Modifier.PRIVATE, Modifier.STATIC )
+      .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
+      .returns( TYPE_CONVERTER_CLASSNAME );
+    method.addStatement( "final $T converters = new $T<>()",
+                         ParameterizedTypeName.get( ClassName.get( Map.class ),
+                                                    ClassName.get( String.class ),
+                                                    CONVERTER_CLASSNAME ),
+                         HashMap.class );
+    for ( final PropertyDescriptor property : descriptor.getProperties() )
+    {
+      method.addStatement( "converters.put( $S, $N )",
+                           property.getName(),
+                           converterName( property.getGetter().getReturnType() ) );
+    }
+    method.addStatement( "return new $T( converters )", TYPE_CONVERTER_CLASSNAME );
+    builder.addMethod( method.build() );
+
     return builder.build();
   }
 

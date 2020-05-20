@@ -6,8 +6,6 @@ complete as there is too much un-said.
 
 * Implement restore functionality
 
-* Use TypeConverter in generated code
-
 * update example to use this library
 
 * Figure out a way for Sting/Dagger/other factory created components can integrate with the sidecar infrastructure.

@@ -16,6 +16,7 @@ import arez.persist.runtime.ArezPersist;
 import arez.persist.runtime.Converter;
 import arez.persist.runtime.Scope;
 import arez.persist.runtime.Store;
+import arez.persist.runtime.TypeConverter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -86,7 +87,7 @@ abstract class TypeDoublePersistModel_PersistSidecar {
   void restoreState() {
     final String $ap$_id = getComponentId();
     if ( !_appStore.isDisposed() ) {
-      final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id );
+      final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
       }
     }
@@ -103,7 +104,7 @@ abstract class TypeDoublePersistModel_PersistSidecar {
       if ( 0.0 != $prop$_getValue ) {
         state.put( Keys.PROPERTY_getValue, $prop$_getValue );
       }
-      _appStore.save( _scope, Keys.TYPE, getComponentId(), state );
+      _appStore.save( _scope, Keys.TYPE, getComponentId(), state, Converters.TYPE_CONVERTER );
     }
   }
 
@@ -122,5 +123,15 @@ abstract class TypeDoublePersistModel_PersistSidecar {
   private static final class Converters {
     @Nonnull
     private static final Converter CONVERTER_double = ArezPersist.getConverter( double.class );
+
+    @Nonnull
+    private static final TypeConverter TYPE_CONVERTER = createTypeConverter();
+
+    @Nonnull
+    private static TypeConverter createTypeConverter() {
+      final Map<String, Converter> converters = new HashMap<>();
+      converters.put( "getValue", CONVERTER_double );
+      return new TypeConverter( converters );
+    }
   }
 }
