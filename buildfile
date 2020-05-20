@@ -114,7 +114,7 @@ define 'arez-persist' do
     end
 
     test.using :testng
-    test.options[:properties] = { 'arez.persist.processor_fixture_dir' => _('src/test/fixtures') }
+    test.options[:properties] = { 'arez.persist.fixture_dir' => _('src/test/fixtures') }
     test.compile.with :guiceyloops
 
     iml.test_source_directories << _('src/test/fixtures/input')
@@ -155,7 +155,7 @@ define 'arez-persist' do
 
   iml.excluded_directories << project._('tmp')
 
-  ipr.add_default_testng_configuration(:jvm_args => "-ea -Dbraincheck.environment=development -Darez.environment=development -Darez.persist.environment=development -Darez.persist.output_fixture_data=false -Darez.persist.processor_fixture_dir=processor/src/test/resources -Darez.persist.integration_fixture_dir=integration-tests/src/test/resources -Darez.persist.core.compile_target=target/arez-persist_core/idea/classes")
+  ipr.add_default_testng_configuration(:jvm_args => "-ea -Dbraincheck.environment=development -Darez.environment=development -Darez.persist.environment=development -Darez.persist.output_fixture_data=false -Darez.persist.fixture_dir=processor/src/test/resources -Darez.persist.integration_fixture_dir=integration-tests/src/test/resources -Darez.persist.core.compile_target=target/arez-persist_core/idea/classes")
 
   ipr.add_testng_configuration('core',
                                :module => 'core',
