@@ -122,6 +122,7 @@ public final class ArezPersistProcessor
     final AnnotationMirror annotation =
       AnnotationsUtil.getAnnotationByType( element, Constants.PERSIST_TYPE_CLASSNAME );
     final String name = extractPersistTypeName( element, annotation );
+    final boolean persistOnDispose = AnnotationsUtil.getAnnotationValueValue( annotation, "persistOnDispose" );
     final String defaultStore = extractDefaultStore( element, annotation );
     final List<ExecutableElement> methods =
       ElementsUtil.getMethods( element, processingEnv.getElementUtils(), processingEnv.getTypeUtils() );
@@ -194,7 +195,7 @@ public final class ArezPersistProcessor
                                     element );
     }
 
-    emitSidecar( new TypeDescriptor( name, element, new ArrayList<>( properties.values() ) ) );
+    emitSidecar( new TypeDescriptor( name, persistOnDispose, element, new ArrayList<>( properties.values() ) ) );
   }
 
   private boolean isValidPropertyType( @Nonnull final TypeMirror type )

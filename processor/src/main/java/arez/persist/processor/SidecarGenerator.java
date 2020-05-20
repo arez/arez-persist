@@ -131,16 +131,18 @@ final class SidecarGenerator
                          .addStatement( "persistState()" )
                          .build() );
 
+    if ( descriptor.isPersistOnDispose() )
     // Add hook so that sidecar will save state unless the peer was disposed first
-    // TODO: We should consider making this optional as it adds code-size when rarely required
-    builder.addMethod( MethodSpec.methodBuilder( "preDispose" )
-                         .addAnnotation( PRE_DISPOSE_CLASSNAME )
-                         .addCode( CodeBlock.builder()
-                                     .beginControlFlow( "if ( $T.isNotDisposed( _peer ) )", DISPOSABLE_CLASSNAME )
-                                     .addStatement( "persistState()" )
-                                     .endControlFlow()
-                                     .build() )
-                         .build() );
+    {
+      builder.addMethod( MethodSpec.methodBuilder( "preDispose" )
+                           .addAnnotation( PRE_DISPOSE_CLASSNAME )
+                           .addCode( CodeBlock.builder()
+                                       .beginControlFlow( "if ( $T.isNotDisposed( _peer ) )", DISPOSABLE_CLASSNAME )
+                                       .addStatement( "persistState()" )
+                                       .endControlFlow()
+                                       .build() )
+                           .build() );
+    }
 
     // Restore state when the component is created
     builder.addMethod( MethodSpec.methodBuilder( "postConstruct" )

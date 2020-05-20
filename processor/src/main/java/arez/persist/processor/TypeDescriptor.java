@@ -10,16 +10,19 @@ final class TypeDescriptor
 {
   @Nonnull
   private final String _name;
+  private final boolean _persistOnDispose;
   @Nonnull
   private final TypeElement _element;
   @Nonnull
   private final List<PropertyDescriptor> _properties;
 
   TypeDescriptor( @Nonnull final String name,
+                  final boolean persistOnDispose,
                   @Nonnull final TypeElement element,
                   @Nonnull final List<PropertyDescriptor> properties )
   {
     _name = Objects.requireNonNull( name );
+    _persistOnDispose = persistOnDispose;
     _element = Objects.requireNonNull( element );
     _properties = Objects.requireNonNull( properties );
   }
@@ -28,6 +31,11 @@ final class TypeDescriptor
   String getName()
   {
     return _name;
+  }
+
+  boolean isPersistOnDispose()
+  {
+    return _persistOnDispose;
   }
 
   @Nonnull

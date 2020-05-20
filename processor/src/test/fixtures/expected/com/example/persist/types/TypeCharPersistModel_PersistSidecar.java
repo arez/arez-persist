@@ -1,7 +1,6 @@
 package com.example.persist.types;
 
 import arez.Arez;
-import arez.Disposable;
 import arez.annotations.Action;
 import arez.annotations.ArezComponent;
 import arez.annotations.ComponentDependency;
@@ -9,7 +8,6 @@ import arez.annotations.DepType;
 import arez.annotations.Feature;
 import arez.annotations.Observe;
 import arez.annotations.PostConstruct;
-import arez.annotations.PreDispose;
 import arez.annotations.Priority;
 import arez.component.Identifiable;
 import arez.persist.runtime.ArezPersist;
@@ -67,13 +65,6 @@ abstract class TypeCharPersistModel_PersistSidecar {
   )
   void savePersistentProperties() {
     persistState();
-  }
-
-  @PreDispose
-  void preDispose() {
-    if ( Disposable.isNotDisposed( _peer ) ) {
-      persistState();
-    }
   }
 
   @PostConstruct

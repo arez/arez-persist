@@ -34,4 +34,15 @@ public @interface PersistType
    */
   @Nonnull
   String defaultStore() default StoreTypes.APPLICATION;
+
+  /**
+   * Setting controlling whether the sidecar attempts to force a persist of state when the sidecar is disposed.
+   * This is usually performed as part of the normal arez reaction cycle but can be skipped unless the sidecar
+   * is explicitly disposed within another arez transaction while a change has been made to persistent properties
+   * that have yet to be committed to the storage service. This is not normally a problem so it is disabled by
+   * default to reduce generated code size.
+   *
+   * @return true to force a persist when the sidecar is disposed, false otherwise.
+   */
+  boolean persistOnDispose() default false;
 }

@@ -1,6 +1,7 @@
-package com.example.persist.types;
+package com.example.persist_type;
 
 import arez.Arez;
+import arez.Disposable;
 import arez.annotations.Action;
 import arez.annotations.ArezComponent;
 import arez.annotations.ComponentDependency;
@@ -8,6 +9,7 @@ import arez.annotations.DepType;
 import arez.annotations.Feature;
 import arez.annotations.Observe;
 import arez.annotations.PostConstruct;
+import arez.annotations.PreDispose;
 import arez.annotations.Priority;
 import arez.component.Identifiable;
 import arez.persist.runtime.ArezPersist;
@@ -28,29 +30,29 @@ import javax.annotation.Nonnull;
     observable = Feature.DISABLE
 )
 @Generated("arez.persist.processor.ArezPersistProcessor")
-abstract class TypeBooleanPersistModel_PersistSidecar {
+abstract class PersistOnDisposeTruePersistTypeModel_PersistSidecar {
   @Nonnull
   private final Scope _scope;
 
   @ComponentDependency
   @Nonnull
-  final TypeBooleanPersistModel _peer;
+  final PersistOnDisposeTruePersistTypeModel _peer;
 
   @Nonnull
   private final Store _appStore;
 
-  TypeBooleanPersistModel_PersistSidecar(@Nonnull final Scope scope,
-      @Nonnull final TypeBooleanPersistModel peer, @Nonnull final Store appStore) {
+  PersistOnDisposeTruePersistTypeModel_PersistSidecar(@Nonnull final Scope scope,
+      @Nonnull final PersistOnDisposeTruePersistTypeModel peer, @Nonnull final Store appStore) {
     _scope = Objects.requireNonNull( scope );
     _peer = Objects.requireNonNull( peer );
     _appStore = Objects.requireNonNull( appStore );
   }
 
   @Nonnull
-  static TypeBooleanPersistModel_PersistSidecar attach(@Nonnull final Scope scope,
-      @Nonnull final TypeBooleanPersistModel peer) {
+  static PersistOnDisposeTruePersistTypeModel_PersistSidecar attach(@Nonnull final Scope scope,
+      @Nonnull final PersistOnDisposeTruePersistTypeModel peer) {
     final Store appStore = ArezPersist.getStore( "app" );
-    return new Arez_TypeBooleanPersistModel_PersistSidecar( scope, peer, appStore );
+    return new Arez_PersistOnDisposeTruePersistTypeModel_PersistSidecar( scope, peer, appStore );
   }
 
   @Nonnull
@@ -67,6 +69,13 @@ abstract class TypeBooleanPersistModel_PersistSidecar {
     persistState();
   }
 
+  @PreDispose
+  void preDispose() {
+    if ( Disposable.isNotDisposed( _peer ) ) {
+      persistState();
+    }
+  }
+
   @PostConstruct
   void postConstruct() {
     restoreState();
@@ -80,7 +89,7 @@ abstract class TypeBooleanPersistModel_PersistSidecar {
     if ( !_appStore.isDisposed() ) {
       final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
-        final Boolean $prop$_value = (Boolean) state.get( Keys.PROPERTY_value );
+        final Integer $prop$_value = (Integer) state.get( Keys.PROPERTY_value );
         if ( null != $prop$_value ) {
           _peer.setValue( $prop$_value );
         }
@@ -95,8 +104,8 @@ abstract class TypeBooleanPersistModel_PersistSidecar {
   void persistState() {
     if ( !_appStore.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
-      final boolean $prop$_value = _peer.getValue();
-      if ( $prop$_value ) {
+      final int $prop$_value = _peer.getValue();
+      if ( 0 != $prop$_value ) {
         state.put( Keys.PROPERTY_value, $prop$_value );
       }
       _appStore.save( _scope, Keys.TYPE, getComponentId(), state, Converters.TYPE_CONVERTER );
@@ -105,7 +114,7 @@ abstract class TypeBooleanPersistModel_PersistSidecar {
 
   private static final class Keys {
     @Nonnull
-    private static final String TYPE = Arez.areNamesEnabled() ? "TypeBooleanPersistModel" : TypeBooleanPersistModel.class.getName();
+    private static final String TYPE = Arez.areNamesEnabled() ? "PersistOnDisposeTruePersistTypeModel" : PersistOnDisposeTruePersistTypeModel.class.getName();
 
     @Nonnull
     private static final String PROPERTY_value = Arez.areNamesEnabled() ? "value" : "a";
@@ -117,7 +126,7 @@ abstract class TypeBooleanPersistModel_PersistSidecar {
   })
   private static final class Converters {
     @Nonnull
-    private static final Converter CONVERTER_boolean = ArezPersist.getConverter( boolean.class );
+    private static final Converter CONVERTER_int = ArezPersist.getConverter( int.class );
 
     @Nonnull
     private static final TypeConverter TYPE_CONVERTER = createTypeConverter();
@@ -125,7 +134,7 @@ abstract class TypeBooleanPersistModel_PersistSidecar {
     @Nonnull
     private static TypeConverter createTypeConverter() {
       final Map<String, Converter> converters = new HashMap<>();
-      converters.put( "value", CONVERTER_boolean );
+      converters.put( "value", CONVERTER_int );
       return new TypeConverter( converters );
     }
   }
