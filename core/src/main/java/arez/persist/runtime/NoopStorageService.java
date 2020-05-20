@@ -34,9 +34,19 @@ final class NoopStorageService
 
   @Nonnull
   @Override
-  public Object encodeState( @Nonnull final Map<String, Object> state )
+  public Object encodeState( @Nonnull final Map<String, Object> state,
+                             @Nonnull final TypeConverter converter )
   {
     // No serialization required as never stored to backend
     return state;
+  }
+
+  @SuppressWarnings( "unchecked" )
+  @Nonnull
+  @Override
+  public Map<String, Object> decodeState( @Nonnull final Object encoded, @Nonnull final TypeConverter converter )
+  {
+    // No serialization required as never stored to backend
+    return (Map<String, Object>) encoded;
   }
 }

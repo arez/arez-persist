@@ -5,6 +5,7 @@ import arez.SafeProcedure;
 import java.util.Map;
 import java.util.Objects;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Interface implemented to provide the state storage and retrieval services.
@@ -48,27 +49,39 @@ public interface StorageService
 
   /**
    * Encode state in a way that makes storage to the backend easier.
-   * This is invoked when the change occurs and thus should be relatively fast.
+   * This is invoked when the state change occurs.
    *
-   * @param state the component state.
+   * @param state     the component state.
+   * @param converter the converter for the type.
    * @return the encoded form for this service.
    */
   @Nonnull
-  Object encodeState( @Nonnull Map<String, Object> state );
+  Object encodeState( @Nonnull Map<String, Object> state, @Nonnull final TypeConverter converter );
+
+  /**
+   * Decode state from backend storage form.
+   * This occurs on access to state.
+   *
+   * @param encoded   the encoded component state.
+   * @param converter the converter for the type.
+   * @return the decoded form of component state.
+   */
+  @Nonnull
+  Map<String, Object> decodeState( @Nonnull Object encoded, @Nonnull final TypeConverter converter );
 
   /**
    * An entry containing the state for a particular component.
    */
   final class Entry
   {
-    @Nonnull
-    private final Map<String, Object> _data;
+    @Nullable
+    private Map<String, Object> _data;
     @Nonnull
     private final Object _encoded;
 
-    public Entry( @Nonnull final Map<String, Object> data, @Nonnull final Object encoded )
+    public Entry( @Nullable final Map<String, Object> data, @Nonnull final Object encoded )
     {
-      _data = Objects.requireNonNull( data );
+      _data = data;
       _encoded = Objects.requireNonNull( encoded );
     }
 
@@ -77,10 +90,15 @@ public interface StorageService
      *
      * @return the decoded data.
      */
-    @Nonnull
+    @Nullable
     public Map<String, Object> getData()
     {
       return _data;
+    }
+
+    void setData( @Nullable final Map<String, Object> data )
+    {
+      _data = data;
     }
 
     /**

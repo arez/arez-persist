@@ -79,15 +79,17 @@ public final class Store
    * If the state value is empty this operation is effectively a remove. If any changes are made to
    * the store as a result of this operation then a commit is scheduled.
    *
-   * @param scope the scope in which the state is saved.
-   * @param type  the string that identifies the type of component.
-   * @param id    a string representation of the component id.
-   * @param state the state to store.
+   * @param scope     the scope in which the state is saved.
+   * @param type      the string that identifies the type of component.
+   * @param id        a string representation of the component id.
+   * @param state     the state to store.
+   * @param converter the converter to use to encode state for storage.
    */
   public void save( @Nonnull final Scope scope,
                     @Nonnull final String type,
                     @Nonnull final String id,
-                    @Nonnull final Map<String, Object> state )
+                    @Nonnull final Map<String, Object> state,
+                    @Nonnull final TypeConverter converter )
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
@@ -108,7 +110,7 @@ public final class Store
       _config
         .computeIfAbsent( scope, t -> new HashMap<>() )
         .computeIfAbsent( type, t -> new HashMap<>() )
-        .put( id, new StorageService.Entry( state, _storageService.encodeState( state ) ) );
+        .put( id, new StorageService.Entry( state, _storageService.encodeState( state, converter ) ) );
       scheduleCommit();
     }
   }
@@ -141,15 +143,17 @@ public final class Store
    * Retrieve the state for a single component from the store.
    * If the state does not exist then a null is returned.
    *
-   * @param scope the scope in which the state is saved.
-   * @param type  the string that identifies the type of component.
-   * @param id    a string representation of the component id.
+   * @param scope     the scope in which the state is saved.
+   * @param type      the string that identifies the type of component.
+   * @param id        a string representation of the component id.
+   * @param converter the converter to use to decode state from storage.
    * @return the component state if it exists, else null.
    */
   @Nullable
   public Map<String, Object> get( @Nonnull final Scope scope,
                                   @Nonnull final String type,
-                                  @Nonnull final String id )
+                                  @Nonnull final String id,
+                                  @Nonnull final TypeConverter converter )
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
@@ -162,7 +166,24 @@ public final class Store
     if ( null != typeMap )
     {
       final StorageService.Entry entry = typeMap.get( id );
-      return null == entry ? null : entry.getData();
+      if ( null == entry )
+      {
+        return null;
+      }
+      else
+      {
+        final Map<String, Object> data = entry.getData();
+        if ( null == data )
+        {
+          final Map<String, Object> decoded = _storageService.decodeState( entry.getEncoded(), converter );
+          entry.setData( decoded );
+          return decoded;
+        }
+        else
+        {
+          return data;
+        }
+      }
     }
     else
     {
@@ -211,5 +232,11 @@ public final class Store
       _storageService.commit( _config );
       _committed = true;
     }
+  }
+
+  @Nonnull
+  Map<Scope, Map<String, Map<String, StorageService.Entry>>> getConfig()
+  {
+    return _config;
   }
 }

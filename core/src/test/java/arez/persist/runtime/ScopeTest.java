@@ -2,6 +2,7 @@ package arez.persist.runtime;
 
 import arez.ArezTestUtil;
 import arez.persist.AbstractTest;
+import java.util.Collections;
 import org.realityforge.guiceyloops.shared.ValueUtil;
 import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
@@ -148,6 +149,8 @@ public final class ScopeTest
   @Test
   public void releaseScope()
   {
+    final TypeConverter converter = new TypeConverter( Collections.emptyMap() );
+
     final Scope parent = ArezPersist.getRootScope();
 
     final Scope scope = parent.findOrCreateScope( ValueUtil.randomString() );
@@ -167,36 +170,37 @@ public final class ScopeTest
     final String id2 = ValueUtil.randomString();
     final String id3 = ValueUtil.randomString();
     final String id4 = ValueUtil.randomString();
-    store.save( parent, type, id1, randomState() );
-    store.save( scope, type, id2, randomState() );
-    store.save( childScope, type, id3, randomState() );
-    store.save( peerScope, type, id4, randomState() );
 
-    assertNotNull( store.get( parent, type, id1 ) );
-    assertNotNull( store.get( scope, type, id2 ) );
-    assertNotNull( store.get( childScope, type, id3 ) );
-    assertNotNull( store.get( peerScope, type, id4 ) );
+    store.save( parent, type, id1, randomState(), converter );
+    store.save( scope, type, id2, randomState(), converter );
+    store.save( childScope, type, id3, randomState(), converter );
+    store.save( peerScope, type, id4, randomState(), converter );
 
-    ArezPersist.releaseScope( scope );
-
-    assertNotNull( store.get( parent, type, id1 ) );
-    assertNull( store.get( scope, type, id2 ) );
-    assertNull( store.get( childScope, type, id3 ) );
-    assertNotNull( store.get( peerScope, type, id4 ) );
+    assertNotNull( store.get( parent, type, id1, converter ) );
+    assertNotNull( store.get( scope, type, id2, converter ) );
+    assertNotNull( store.get( childScope, type, id3, converter ) );
+    assertNotNull( store.get( peerScope, type, id4, converter ) );
 
     ArezPersist.releaseScope( scope );
 
-    assertNotNull( store.get( parent, type, id1 ) );
-    assertNull( store.get( scope, type, id2 ) );
-    assertNull( store.get( childScope, type, id3 ) );
-    assertNotNull( store.get( peerScope, type, id4 ) );
+    assertNotNull( store.get( parent, type, id1, converter ) );
+    assertNull( store.get( scope, type, id2, converter ) );
+    assertNull( store.get( childScope, type, id3, converter ) );
+    assertNotNull( store.get( peerScope, type, id4, converter ) );
+
+    ArezPersist.releaseScope( scope );
+
+    assertNotNull( store.get( parent, type, id1, converter ) );
+    assertNull( store.get( scope, type, id2, converter ) );
+    assertNull( store.get( childScope, type, id3, converter ) );
+    assertNotNull( store.get( peerScope, type, id4, converter ) );
 
     ArezPersist.releaseScope( parent );
 
-    assertNull( store.get( parent, type, id1 ) );
-    assertNull( store.get( scope, type, id2 ) );
-    assertNull( store.get( childScope, type, id3 ) );
-    assertNull( store.get( peerScope, type, id4 ) );
+    assertNull( store.get( parent, type, id1, converter ) );
+    assertNull( store.get( scope, type, id2, converter ) );
+    assertNull( store.get( childScope, type, id3, converter ) );
+    assertNull( store.get( peerScope, type, id4, converter ) );
   }
 
   @Test
@@ -211,6 +215,8 @@ public final class ScopeTest
   @Test
   public void canNotInteractWithDisposedScope()
   {
+    final TypeConverter converter = new TypeConverter( Collections.emptyMap() );
+
     final Scope scope = ArezPersist.getRootScope().findOrCreateScope( ValueUtil.randomString() );
     final String storeName = ValueUtil.randomString();
     ArezPersist.registerStore( storeName, mock( StorageService.class ) );
@@ -224,12 +230,13 @@ public final class ScopeTest
                             "releaseScope() passed a disposed scope named '" + scope.getName() + "'" );
     assertInvariantFailure( () -> store.remove( scope, ValueUtil.randomString(), ValueUtil.randomString() ),
                             "Store.remove() passed a disposed scope named '" + scope.getName() + "'" );
-    assertInvariantFailure( () -> store.get( scope, ValueUtil.randomString(), ValueUtil.randomString() ),
+    assertInvariantFailure( () -> store.get( scope, ValueUtil.randomString(), ValueUtil.randomString(), converter ),
                             "Store.get() passed a disposed scope named '" + scope.getName() + "'" );
     assertInvariantFailure( () -> store.save( scope,
                                               ValueUtil.randomString(),
                                               ValueUtil.randomString(),
-                                              randomState() ),
+                                              randomState(),
+                                              converter ),
                             "Store.save() passed a disposed scope named '" + scope.getName() + "'" );
   }
 }

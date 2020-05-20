@@ -4,6 +4,7 @@ import arez.SafeProcedure;
 import arez.persist.runtime.ArezPersist;
 import arez.persist.runtime.Scope;
 import arez.persist.runtime.StorageService;
+import arez.persist.runtime.TypeConverter;
 import elemental2.core.Global;
 import elemental2.core.JsArray;
 import elemental2.core.JsObject;
@@ -119,14 +120,31 @@ final class WebStorageService
 
   @Nonnull
   @Override
-  public Object encodeState( @Nonnull final Map<String, Object> state )
+  public Object encodeState( @Nonnull final Map<String, Object> state, @Nonnull final TypeConverter converter )
   {
     final JsPropertyMap<Object> encoded = JsPropertyMap.of();
     for ( final Map.Entry<String, Object> entry : state.entrySet() )
     {
-      encoded.set( entry.getKey(), entry.getValue() );
+      final String key = entry.getKey();
+      encoded.set( key, converter.encode( key, entry.getValue() ) );
     }
     return encoded;
+  }
+
+  @Nonnull
+  @Override
+  public Map<String, Object> decodeState( @Nonnull final Object encoded, @Nonnull final TypeConverter converter )
+  {
+    final JsPropertyMap<Object> propertyMap = Js.cast( encoded );
+    final Map<String, Object> data = new HashMap<>();
+    final JsArray<String> keys = JsObject.keys( encoded );
+    final int keyCount = keys.length;
+    for ( int i = 0; i < keyCount; i++ )
+    {
+      final String key = keys.getAt( i );
+      data.put( key, converter.decode( key, propertyMap.get( key ) ) );
+    }
+    return data;
   }
 
   @Override
@@ -172,7 +190,7 @@ final class WebStorageService
     {
       final String id = ids.getAt( j );
       final JsPropertyMap<Object> encoded = Js.uncheckedCast( idMap.get( id ) );
-      entryMap.put( id, new StorageService.Entry( decodeState( encoded ), encoded ) );
+      entryMap.put( id, new StorageService.Entry( null, encoded ) );
     }
     state.computeIfAbsent( scope, s -> new HashMap<>() ).put( typeName, entryMap );
   }
@@ -186,19 +204,5 @@ final class WebStorageService
     {
       _commitTriggerAction.call();
     }
-  }
-
-  @Nonnull
-  private Map<String, Object> decodeState( @Nonnull final JsPropertyMap<Object> encoded )
-  {
-    final Map<String, Object> data = new HashMap<>();
-    final JsArray<String> keys = JsObject.keys( encoded );
-    final int keyCount = keys.length;
-    for ( int i = 0; i < keyCount; i++ )
-    {
-      final String key = keys.getAt( i );
-      data.put( key, encoded.get( key ) );
-    }
-    return data;
   }
 }
