@@ -126,7 +126,7 @@ define 'arez-persist' do
   define 'integration-tests' do
     project.enable_annotation_processor = true
 
-    test.options[:properties] = TEST_OPTIONS.merge('arez.persist.integration_fixture_dir' => _('src/test/resources'))
+    test.options[:properties] = TEST_OPTIONS
     test.options[:java_args] = ['-ea']
 
     test.using :testng
@@ -155,7 +155,7 @@ define 'arez-persist' do
 
   iml.excluded_directories << project._('tmp')
 
-  ipr.add_default_testng_configuration(:jvm_args => "-ea -Dbraincheck.environment=development -Darez.environment=development -Darez.persist.environment=development -Darez.persist.output_fixture_data=false -Darez.persist.fixture_dir=processor/src/test/resources -Darez.persist.integration_fixture_dir=integration-tests/src/test/resources -Darez.persist.core.compile_target=target/arez-persist_core/idea/classes")
+  ipr.add_default_testng_configuration(:jvm_args => "-ea -Dbraincheck.environment=development -Darez.environment=development -Darez.persist.environment=development -Darez.persist.output_fixture_data=false -Darez.persist.fixture_dir=processor/src/test/resources -Darez.persist.core.compile_target=target/arez-persist_core/idea/classes")
 
   ipr.add_testng_configuration('core',
                                :module => 'core',
@@ -165,7 +165,7 @@ define 'arez-persist' do
                                :jvm_args => '-ea -Darez.persist.output_fixture_data=true -Darez.persist.fixture_dir=src/test/fixtures')
   ipr.add_testng_configuration('integration-tests',
                                :module => 'integration-tests',
-                               :jvm_args => '-ea -Dbraincheck.environment=development -Darez.environment=development -Darez.persist.output_fixture_data=true -Darez.persist.integration_fixture_dir=src/test/resources')
+                               :jvm_args => '-ea -Dbraincheck.environment=development -Darez.environment=development -Darez.persist.environment=development')
 
   ipr.add_component_from_artifact(:idea_codestyle)
 
