@@ -57,7 +57,7 @@ abstract class TypeLongPersistModel_PersistSidecar {
 
   @Nonnull
   private String getComponentId() {
-    return String.valueOf( Objects.requireNonNull( Identifiable.getArezId( _peer ) ) );
+    return String.valueOf( Objects.<Object>requireNonNull( Identifiable.getArezId( _peer ) ) );
   }
 
   @Observe(

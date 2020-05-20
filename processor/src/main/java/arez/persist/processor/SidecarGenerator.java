@@ -114,9 +114,10 @@ final class SidecarGenerator
                          .returns( String.class )
                          .addModifiers( Modifier.PRIVATE )
                          .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
-                         .addStatement( "return $T.valueOf( $T.requireNonNull( $T.getArezId( _peer ) ) )",
+                         .addStatement( "return $T.valueOf( $T.<$T>requireNonNull( $T.getArezId( _peer ) ) )",
                                         String.class,
                                         Objects.class,
+                                        Object.class,
                                         IDENTIFIABLE_CLASSNAME )
                          .build() );
 
