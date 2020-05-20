@@ -1,9 +1,8 @@
 <module>
   <inherits name='arez.Arez'/>
-  <inherits name='elemental2.webstorage.WebStorage'/>
 
   <source path='' includes='*.java'/>
-  <source path='runtime' includes='**/*.java'/>
+  <source path='runtime' includes='*.java'/>
 
   <!--
     These properties are all defined in arez.persist.runtime.Config
