@@ -15,7 +15,9 @@ public @interface Persist
   /**
    * Return the name used to persist the property.
    * If unspecified and the method is named according to javabeans getter conventions then the java bean property name
-   * will be used, otherwise the name of the method will be used.
+   * will be used, otherwise the name of the method will be used. It should be notes that during the code generation
+   * the name will also be used to look up the setter used to restore the property. So if the property is named
+   * {@code expanded} then the library will expect a setter method named {@code setExpanded}.
    *
    * <p>It should be noted that production mode persistent properties that are not persisted across
    * reloads will use synthetic keys as an optimization strategy.</p>
