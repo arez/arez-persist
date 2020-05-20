@@ -89,6 +89,9 @@ abstract class CustomStorePersistModel_PersistSidecar {
     if ( !_sStore.isDisposed() ) {
       final Map<String, Object> state = _sStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
+        final Integer $prop$_getValue = (Integer) state.get( Keys.PROPERTY_getValue );
+        if ( null != $prop$_getValue ) {
+        }
       }
     }
   }

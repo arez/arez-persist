@@ -89,6 +89,9 @@ abstract class TypeFloatPersistModel_PersistSidecar {
     if ( !_appStore.isDisposed() ) {
       final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
+        final Float $prop$_getValue = (Float) state.get( Keys.PROPERTY_getValue );
+        if ( null != $prop$_getValue ) {
+        }
       }
     }
   }

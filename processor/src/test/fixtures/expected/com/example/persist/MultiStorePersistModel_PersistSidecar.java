@@ -100,16 +100,28 @@ abstract class MultiStorePersistModel_PersistSidecar {
     if ( !_aStore.isDisposed() ) {
       final Map<String, Object> state = _aStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
+        final Integer $prop$_getValue = (Integer) state.get( Keys.PROPERTY_getValue );
+        if ( null != $prop$_getValue ) {
+        }
+        final String $prop$_getValue2 = (String) state.get( Keys.PROPERTY_getValue2 );
+        if ( null != $prop$_getValue2 ) {
+        }
       }
     }
     if ( !_appStore.isDisposed() ) {
       final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
+        final Double $prop$_getValue4 = (Double) state.get( Keys.PROPERTY_getValue4 );
+        if ( null != $prop$_getValue4 ) {
+        }
       }
     }
     if ( !_bStore.isDisposed() ) {
       final Map<String, Object> state = _bStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
+        final Double $prop$_getValue3 = (Double) state.get( Keys.PROPERTY_getValue3 );
+        if ( null != $prop$_getValue3 ) {
+        }
       }
     }
   }

@@ -89,6 +89,9 @@ abstract class CustomNamePersistModel_PersistSidecar {
     if ( !_appStore.isDisposed() ) {
       final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
+        final Integer $prop$_v = (Integer) state.get( Keys.PROPERTY_v );
+        if ( null != $prop$_v ) {
+        }
       }
     }
   }

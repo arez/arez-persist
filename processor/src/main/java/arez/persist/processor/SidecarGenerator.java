@@ -7,6 +7,7 @@ import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import java.util.Collections;
 import java.util.Comparator;
@@ -225,6 +226,24 @@ final class SidecarGenerator
                           ClassName.bestGuess( "Converters" ) );
       final CodeBlock.Builder stateBlock = CodeBlock.builder();
       stateBlock.beginControlFlow( "if ( null != state )" );
+
+      for ( final PropertyDescriptor property : descriptor.getPropertiesByStore( storeName ) )
+      {
+        final ExecutableElement getter = property.getGetter();
+        final TypeName typeName = TypeName.get( getter.getReturnType() ).box();
+        final String propName = "$prop$_" + property.getName();
+        stateBlock.addStatement( "final $T $N = ($T) state.get( $T.$N )",
+                                 typeName,
+                                 propName,
+                                 typeName,
+                                 ClassName.bestGuess( "Keys" ),
+                                 property.getConstantName() );
+        final CodeBlock.Builder setterBlock = CodeBlock.builder();
+        setterBlock.beginControlFlow( "if ( null != $N )", propName );
+        setterBlock.endControlFlow();
+        stateBlock.add( setterBlock.build() );
+      }
+
       stateBlock.endControlFlow();
       block.add( stateBlock.build() );
       block.endControlFlow();
