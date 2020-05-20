@@ -172,6 +172,7 @@ public final class ArezPersist
    * @param type      the application type.
    * @param converter the converter.
    * @return the action to invoke to deregister converter.
+   * @param <A> the type of the value.
    */
   public static <A> SafeProcedure registerConverter( @Nonnull final Class<A> type,
                                                      @Nonnull final Converter<A, ?> converter )
@@ -184,6 +185,7 @@ public final class ArezPersist
    *
    * @param type the application type.
    * @return the converter if any.
+   * @param <A> the type of the value.
    */
   @Nonnull
   public static <A> Converter<A, ?> getConverter( @Nonnull final Class<A> type )
