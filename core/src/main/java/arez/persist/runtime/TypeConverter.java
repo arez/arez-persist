@@ -28,6 +28,8 @@ public final class TypeConverter
    * @param key   the property name.
    * @param encoded the encoded form of the value.
    * @return the value.
+   * @param <A> the type of the value.
+   * @param <E> the type of the encoded value.
    */
   public <A, E> A decode( @Nonnull final String key, @Nullable E encoded )
   {
@@ -48,6 +50,8 @@ public final class TypeConverter
    * @param key   the property name.
    * @param value the decoded value.
    * @return the encoded form of the value.
+   * @param <A> the type of the value.
+   * @param <E> the type of the encoded value.
    */
   public <A, E> E encode( @Nonnull final String key, @Nullable A value )
   {
