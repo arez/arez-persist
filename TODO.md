@@ -6,8 +6,6 @@ complete as there is too much un-said.
 
 * Implement restore functionality
 
-* update example to use this library
-
 * Figure out a way for Sting/Dagger/other factory created components can integrate with the sidecar infrastructure.
 
 * Determine if we want to support custom persistent ids divorced from arez component ids. This would be required
