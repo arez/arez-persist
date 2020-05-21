@@ -19,4 +19,3 @@ complete as there is too much un-said.
 
 * Add some hook that can be called by a service worker when loading a new version of the app that just
   resets all the browser state. Or maybe this exists in the host application?
-
