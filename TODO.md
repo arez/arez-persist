@@ -16,6 +16,3 @@ complete as there is too much un-said.
   types and react4j and other frameworks that generate `@ArezComponent` know to copy it down ... somehow.
   An annotation on the annotation seems likely the solution. This would make all sidecar solutions a lot
   easier to implement.
-
-* Add some hook that can be called by a service worker when loading a new version of the app that just
-  resets all the browser state. Or maybe this exists in the host application?
