@@ -20,4 +20,3 @@ complete as there is too much un-said.
 * Add some hook that can be called by a service worker when loading a new version of the app that just
   resets all the browser state. Or maybe this exists in the host application?
 
-* Consider analyzing the Arez component in greater depth and generating a compile error if the component does not have the required properties enabled. Namely it MUST have an `requireId=ENABLE` and `disposeNotifier=ENABLE` and possibly other things? The componentId should also be able to be cleanly converted to a string.
