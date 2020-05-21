@@ -136,13 +136,13 @@ HEADER
 
       client = Octokit::Client.new(:netrc => true, :auto_paginate => true)
       client.login
-      client.create_release('arez/arez', tag, :name => tag, :body => changes, :draft => false, :prerelease => prerelease)
+      client.create_release('arez/arez-persist', tag, :name => tag, :body => changes, :draft => false, :prerelease => prerelease)
 
-      candidates = client.list_milestones('arez/arez').select {|m| m[:title].to_s == tag}
+      candidates = client.list_milestones('arez/arez-persist').select {|m| m[:title].to_s == tag}
       unless candidates.empty?
         milestone = candidates[0]
         unless milestone[:state] == 'closed'
-          client.update_milestone('arez/arez', milestone[:number], :state => 'closed')
+          client.update_milestone('arez/arez-persist', milestone[:number], :state => 'closed')
         end
       end
     end
