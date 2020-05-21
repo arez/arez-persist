@@ -5,7 +5,7 @@
 
 This library provides annotation driven infrastructure for persisting observable properties on
 Arez components. The library has built-in support for storing properties in memory, within a browser
-session or across browser sessions but allows users to supply there own mechanisms for persisting state.
+session or across browser sessions but allows users to supply their own mechanisms for persisting state.
 
 ## Quick Start
 
