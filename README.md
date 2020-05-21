@@ -20,8 +20,37 @@ The simplest way to use the library;
    <version>0.00</version>
 </dependency>
 ```
+* To enable the annotation processor used by the framework, you need add the following
+  snippet to configure the maven compiler plugin from within the `pom.xml`:
 
-TODO
+```xml
+<project>
+  ...
+  <plugins>
+    ...
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.5.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <useIncrementalCompilation>false</useIncrementalCompilation>
+          <annotationProcessorPaths>
+            <path>
+               <groupId>org.realityforge.arez.persist</groupId>
+               <artifactId>arez-persist-processor</artifactId>
+               <version>0.00</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+      ...
+    </plugins>
+  </build>
+</project>
+```
+
 
 # More Information
 
