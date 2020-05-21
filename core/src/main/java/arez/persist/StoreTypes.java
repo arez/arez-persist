@@ -21,7 +21,7 @@ public final class StoreTypes
   /**
    * The property is persisted across the session. i.e. The value of the property will be
    * persisted across reloads within the same tab. This persist strategy is only available
-   * when {@link ArezPersistBrowserUtil#registerSessionScopedStore(String)} has been invoked.
+   * when {@link ArezPersistBrowserUtil#registerSessionStore(String)} has been invoked.
    */
   @Nonnull
   public static final String SESSION = "session";
@@ -29,7 +29,7 @@ public final class StoreTypes
    * The property is persisted when using the same browser. i.e. The value of the property will be
    * persisted across reloads within the same browser. If multiple browsers are open and concurrently
    * persisting storage then they may overwrite each other and the last value persisted "wins".
-   * This persist strategy is only available when {@link ArezPersistBrowserUtil#registerLocalScopedStore(String)}
+   * This persist strategy is only available when {@link ArezPersistBrowserUtil#registerLocalStore(String)}
    * has been invoked.
    */
   @Nonnull
