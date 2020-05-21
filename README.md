@@ -51,6 +51,30 @@ The simplest way to use the library;
 </project>
 ```
 
+* If you are using ArezPersist within a GWT application you will also need to inherit the appropriate
+  GWT module in your `.gwt.xml` file. It is usually sufficient to add:
+
+```xml
+<module>
+  ...
+  <inherits name='arez.persist.Persist'/>
+  ...
+</module>
+```
+
+  If you want the framework to perform validation and invariant checking you can instead inherit
+  the `Dev` module instead. The `Dev` module is very useful during development as it adds a
+  level of safety and error checking, but it should not be used in production environments as it adds
+  some overhead in terms of code size and execution speed. The `Dev` module can be added via:
+
+```xml
+<module>
+  ...
+  <inherits name='arez.persist.PersistDev'/>
+  ...
+</module>
+```
+
 
 # More Information
 
