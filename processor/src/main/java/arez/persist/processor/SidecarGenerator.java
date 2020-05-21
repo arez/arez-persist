@@ -150,8 +150,8 @@ final class SidecarGenerator
                          .addStatement( "restoreState()" )
                          .build() );
 
-    builder.addMethod( buildRestoreStateMethod( descriptor ) );
-    builder.addMethod( buildPersistStateMethod( descriptor ) );
+    builder.addMethod( buildRestoreStateMethod( processingEnv, descriptor ) );
+    builder.addMethod( buildPersistStateMethod( processingEnv, descriptor ) );
 
     return builder.build();
   }
@@ -206,7 +206,8 @@ final class SidecarGenerator
   }
 
   @Nonnull
-  private static MethodSpec buildRestoreStateMethod( @Nonnull final TypeDescriptor descriptor )
+  private static MethodSpec buildRestoreStateMethod( @Nonnull final ProcessingEnvironment processingEnv,
+                                                     @Nonnull final TypeDescriptor descriptor )
   {
     final MethodSpec.Builder method =
       MethodSpec
@@ -214,6 +215,13 @@ final class SidecarGenerator
         .addAnnotation( AnnotationSpec.builder( ACTION_CLASSNAME )
                           .addMember( "verifyRequired", "false" )
                           .build() );
+
+    SuppressWarningsUtil.addSuppressWarningsIfRequired( processingEnv,
+                                                        method,
+                                                        descriptor.getProperties()
+                                                          .stream()
+                                                          .map( p -> p.getGetter().getReturnType() )
+                                                          .collect( Collectors.toList() ) );
     final String idVar = "$ap$_id";
     method.addStatement( "final $T $N = getComponentId()", String.class, idVar );
     for ( final String storeName : descriptor.getStoreNames() )
@@ -268,7 +276,8 @@ final class SidecarGenerator
   }
 
   @Nonnull
-  private static MethodSpec buildPersistStateMethod( @Nonnull final TypeDescriptor descriptor )
+  private static MethodSpec buildPersistStateMethod( @Nonnull final ProcessingEnvironment processingEnv,
+                                                     @Nonnull final TypeDescriptor descriptor )
   {
     final MethodSpec.Builder method =
       MethodSpec
@@ -277,6 +286,14 @@ final class SidecarGenerator
                           .addMember( "mutation", "false" )
                           .addMember( "verifyRequired", "false" )
                           .build() );
+
+    SuppressWarningsUtil.addSuppressWarningsIfRequired( processingEnv,
+                                                        method,
+                                                        descriptor.getProperties()
+                                                          .stream()
+                                                          .map( p -> p.getGetter().getReturnType() )
+                                                          .collect( Collectors.toList() ) );
+
     for ( final String storeName : descriptor.getStoreNames() )
     {
       final String fieldName = "_" + storeVar( storeName );

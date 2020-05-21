@@ -31,6 +31,7 @@ public final class ArezPersistProcessorTest
         new Object[]{ "com.example.persist.types.TypeDoublePersistModel" },
         new Object[]{ "com.example.persist.types.TypeFloatPersistModel" },
         new Object[]{ "com.example.persist.types.TypeIntPersistModel" },
+        new Object[]{ "com.example.persist.types.TypeRawListPersistModel" },
         new Object[]{ "com.example.persist.types.TypeLongPersistModel" },
         new Object[]{ "com.example.persist.types.TypeShortPersistModel" },
         new Object[]{ "com.example.persist.types.TypeStringPersistModel" },
