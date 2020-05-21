@@ -16,7 +16,7 @@ The simplest way to use the library;
 ```xml
 <dependency>
    <groupId>org.realityforge.arez.persist</groupId>
-   <artifactId>arez-persist</artifactId>
+   <artifactId>arez-persist-core</artifactId>
    <version>0.00</version>
 </dependency>
 ```
