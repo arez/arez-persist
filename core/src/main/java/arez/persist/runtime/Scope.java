@@ -2,6 +2,7 @@ package arez.persist.runtime;
 
 import arez.Arez;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -146,9 +147,10 @@ public final class Scope
   }
 
   @Nonnull
-  Collection<Scope> getNestedScopes()
+  public Collection<Scope> getNestedScopes()
   {
-    return _nestedScopes.values();
+    final Collection<Scope> scopes = _nestedScopes.values();
+    return ArezPersist.shouldCheckApiInvariants() ? Collections.unmodifiableCollection( scopes ) : scopes;
   }
 
   /**
