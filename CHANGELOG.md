@@ -1,5 +1,7 @@
 # Change Log
 
+### Unreleased
+
 ### [v0.03](https://github.com/arez/arez-testng/tree/v0.03) (2020-05-22) · [Full Changelog](https://github.com/arez/arez-testng/compare/v0.02...v0.03)
 
 * Allow access to nested scopes by making the `Scope.getNestedScopes()` method public.
