@@ -54,6 +54,12 @@ abstract class TypeDoublePersistModel_PersistSidecar {
   }
 
   @Nonnull
+  static void scheduleAttach(@Nonnull final Scope scope,
+      @Nonnull final TypeDoublePersistModel peer) {
+    Arez.context().task( Arez.areNamesEnabled() ? "TypeDoublePersistModel.attach" : null, () -> attach( scope, peer ) );
+  }
+
+  @Nonnull
   private String getComponentId() {
     return String.valueOf( Objects.<Object>requireNonNull( Identifiable.getArezId( _peer ) ) );
   }

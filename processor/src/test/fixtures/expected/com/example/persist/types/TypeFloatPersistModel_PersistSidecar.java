@@ -54,6 +54,12 @@ abstract class TypeFloatPersistModel_PersistSidecar {
   }
 
   @Nonnull
+  static void scheduleAttach(@Nonnull final Scope scope,
+      @Nonnull final TypeFloatPersistModel peer) {
+    Arez.context().task( Arez.areNamesEnabled() ? "TypeFloatPersistModel.attach" : null, () -> attach( scope, peer ) );
+  }
+
+  @Nonnull
   private String getComponentId() {
     return String.valueOf( Objects.<Object>requireNonNull( Identifiable.getArezId( _peer ) ) );
   }

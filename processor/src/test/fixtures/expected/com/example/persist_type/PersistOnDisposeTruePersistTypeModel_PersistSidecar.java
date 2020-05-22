@@ -56,6 +56,12 @@ abstract class PersistOnDisposeTruePersistTypeModel_PersistSidecar {
   }
 
   @Nonnull
+  static void scheduleAttach(@Nonnull final Scope scope,
+      @Nonnull final PersistOnDisposeTruePersistTypeModel peer) {
+    Arez.context().task( Arez.areNamesEnabled() ? "PersistOnDisposeTruePersistTypeModel.attach" : null, () -> attach( scope, peer ) );
+  }
+
+  @Nonnull
   private String getComponentId() {
     return String.valueOf( Objects.<Object>requireNonNull( Identifiable.getArezId( _peer ) ) );
   }

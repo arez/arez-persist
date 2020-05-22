@@ -108,6 +108,7 @@ final class SidecarGenerator
     buildFieldAndConstructor( descriptor, builder );
 
     builder.addMethod( buildAttachMethod( descriptor ) );
+    builder.addMethod( buildScheduleAttachMethod( descriptor ) );
 
     // build method to get component id as string from peer
     builder.addMethod( MethodSpec.methodBuilder( "getComponentId" )
@@ -189,6 +190,31 @@ final class SidecarGenerator
     }
 
     method.addStatement( "return new $T( scope, peer" + storeParams + " )", getArezSidecarName( element ) );
+
+    return method.build();
+  }
+
+  @Nonnull
+  private static MethodSpec buildScheduleAttachMethod( @Nonnull final TypeDescriptor descriptor )
+  {
+    final TypeElement element = descriptor.getElement();
+
+    final MethodSpec.Builder method =
+      MethodSpec
+        .methodBuilder( "scheduleAttach" )
+        .addModifiers( Modifier.STATIC )
+        .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
+        .addParameter( ParameterSpec.builder( SCOPE_CLASSNAME, "scope", Modifier.FINAL )
+                         .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
+                         .build() )
+        .addParameter( ParameterSpec.builder( ClassName.get( element ), "peer", Modifier.FINAL )
+                         .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
+                         .build() );
+
+    method.addStatement( "$T.context().task( $T.areNamesEnabled() ? $S : null, () -> attach( scope, peer ) )",
+                         AREZ_CLASSNAME,
+                         AREZ_CLASSNAME,
+                         descriptor.getName() + ".attach" );
 
     return method.build();
   }

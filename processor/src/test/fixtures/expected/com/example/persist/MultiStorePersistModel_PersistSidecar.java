@@ -65,6 +65,12 @@ abstract class MultiStorePersistModel_PersistSidecar {
   }
 
   @Nonnull
+  static void scheduleAttach(@Nonnull final Scope scope,
+      @Nonnull final MultiStorePersistModel peer) {
+    Arez.context().task( Arez.areNamesEnabled() ? "MultiStorePersistModel.attach" : null, () -> attach( scope, peer ) );
+  }
+
+  @Nonnull
   private String getComponentId() {
     return String.valueOf( Objects.<Object>requireNonNull( Identifiable.getArezId( _peer ) ) );
   }

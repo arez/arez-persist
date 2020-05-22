@@ -54,6 +54,11 @@ abstract class BasicPersistModel_PersistSidecar {
   }
 
   @Nonnull
+  static void scheduleAttach(@Nonnull final Scope scope, @Nonnull final BasicPersistModel peer) {
+    Arez.context().task( Arez.areNamesEnabled() ? "BasicPersistModel.attach" : null, () -> attach( scope, peer ) );
+  }
+
+  @Nonnull
   private String getComponentId() {
     return String.valueOf( Objects.<Object>requireNonNull( Identifiable.getArezId( _peer ) ) );
   }

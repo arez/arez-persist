@@ -54,6 +54,12 @@ abstract class CustomDefaultStorePersistTypeModel_PersistSidecar {
   }
 
   @Nonnull
+  static void scheduleAttach(@Nonnull final Scope scope,
+      @Nonnull final CustomDefaultStorePersistTypeModel peer) {
+    Arez.context().task( Arez.areNamesEnabled() ? "CustomDefaultStorePersistTypeModel.attach" : null, () -> attach( scope, peer ) );
+  }
+
+  @Nonnull
   private String getComponentId() {
     return String.valueOf( Objects.<Object>requireNonNull( Identifiable.getArezId( _peer ) ) );
   }

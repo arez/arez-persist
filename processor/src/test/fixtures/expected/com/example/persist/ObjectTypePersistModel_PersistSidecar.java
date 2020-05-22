@@ -54,6 +54,12 @@ abstract class ObjectTypePersistModel_PersistSidecar {
   }
 
   @Nonnull
+  static void scheduleAttach(@Nonnull final Scope scope,
+      @Nonnull final ObjectTypePersistModel peer) {
+    Arez.context().task( Arez.areNamesEnabled() ? "ObjectTypePersistModel.attach" : null, () -> attach( scope, peer ) );
+  }
+
+  @Nonnull
   private String getComponentId() {
     return String.valueOf( Objects.<Object>requireNonNull( Identifiable.getArezId( _peer ) ) );
   }
