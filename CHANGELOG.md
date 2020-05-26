@@ -1,5 +1,7 @@
 # Change Log
 
+### Unreleased
+
 ### [v0.04](https://github.com/arez/arez-testng/tree/v0.04) (2020-05-26) · [Full Changelog](https://github.com/arez/arez-testng/compare/v0.03...v0.04)
 
 * Use the namespace of the generated sidecar to define the name of task to schedule an attach to avoid collisions with names in the peer component.
