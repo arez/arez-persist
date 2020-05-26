@@ -214,7 +214,7 @@ final class SidecarGenerator
     method.addStatement( "$T.context().task( $T.areNamesEnabled() ? $S : null, () -> attach( scope, peer ) )",
                          AREZ_CLASSNAME,
                          AREZ_CLASSNAME,
-                         descriptor.getName() + ".attach" );
+                         descriptor.getName() + "_PersistSidecar.attach" );
 
     return method.build();
   }

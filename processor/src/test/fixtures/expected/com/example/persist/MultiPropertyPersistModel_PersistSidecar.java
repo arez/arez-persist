@@ -56,7 +56,7 @@ abstract class MultiPropertyPersistModel_PersistSidecar {
   @Nonnull
   static void scheduleAttach(@Nonnull final Scope scope,
       @Nonnull final MultiPropertyPersistModel peer) {
-    Arez.context().task( Arez.areNamesEnabled() ? "MultiPropertyPersistModel.attach" : null, () -> attach( scope, peer ) );
+    Arez.context().task( Arez.areNamesEnabled() ? "MultiPropertyPersistModel_PersistSidecar.attach" : null, () -> attach( scope, peer ) );
   }
 
   @Nonnull

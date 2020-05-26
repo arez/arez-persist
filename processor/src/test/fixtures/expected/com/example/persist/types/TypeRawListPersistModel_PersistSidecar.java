@@ -57,7 +57,7 @@ abstract class TypeRawListPersistModel_PersistSidecar {
   @Nonnull
   static void scheduleAttach(@Nonnull final Scope scope,
       @Nonnull final TypeRawListPersistModel peer) {
-    Arez.context().task( Arez.areNamesEnabled() ? "TypeRawListPersistModel.attach" : null, () -> attach( scope, peer ) );
+    Arez.context().task( Arez.areNamesEnabled() ? "TypeRawListPersistModel_PersistSidecar.attach" : null, () -> attach( scope, peer ) );
   }
 
   @Nonnull
