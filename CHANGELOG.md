@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Upgrade the `org.realityforge.arez.testng` artifact to version `0.12`.
 * Simplify generated code for naming tasks to avoid triggering source analysis code warnings.
 
 ### [v0.04](https://github.com/arez/arez-testng/tree/v0.04) (2020-05-26) · [Full Changelog](https://github.com/arez/arez-testng/compare/v0.03...v0.04)
