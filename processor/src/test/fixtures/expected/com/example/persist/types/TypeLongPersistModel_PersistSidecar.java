@@ -29,6 +29,8 @@ import javax.annotation.Nonnull;
 )
 @Generated("arez.persist.processor.ArezPersistProcessor")
 abstract class TypeLongPersistModel_PersistSidecar {
+  private static int c_nextTaskId;
+
   @Nonnull
   private final Scope _scope;
 
@@ -55,7 +57,7 @@ abstract class TypeLongPersistModel_PersistSidecar {
 
   @Nonnull
   static void scheduleAttach(@Nonnull final Scope scope, @Nonnull final TypeLongPersistModel peer) {
-    Arez.context().task( Arez.areNamesEnabled() ? "TypeLongPersistModel_PersistSidecar.attach" : null, () -> attach( scope, peer ) );
+    Arez.context().task( Arez.areNamesEnabled() ? "TypeLongPersistModel_PersistSidecar.attach" + "." + ( ++c_nextTaskId ) : null, () -> attach( scope, peer ) );
   }
 
   @Nonnull

@@ -98,6 +98,8 @@ final class SidecarGenerator
                                                         Collections.emptyList(),
                                                         Collections.singletonList( element.asType() ) );
 
+    builder.addField( FieldSpec.builder( TypeName.INT, "c_nextTaskId", Modifier.PRIVATE, Modifier.STATIC ).build() );
+
     // Create a nested keys type to eliminate any possibility GWT will
     // attempt to create a <clinit> for sidecar type and the deopt that brings  .
     builder.addType( buildKeysType( descriptor ) );
@@ -211,7 +213,10 @@ final class SidecarGenerator
                          .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
                          .build() );
 
-    method.addStatement( "$T.context().task( $T.areNamesEnabled() ? $S : null, () -> attach( scope, peer ) )",
+    method.addStatement( "$T.context().task( " +
+                         "$T.areNamesEnabled() ? $S + \".\" + ( ++c_nextTaskId ) : null, " +
+                         "() -> attach( scope, peer ) " +
+                         ")",
                          AREZ_CLASSNAME,
                          AREZ_CLASSNAME,
                          descriptor.getName() + "_PersistSidecar.attach" );
