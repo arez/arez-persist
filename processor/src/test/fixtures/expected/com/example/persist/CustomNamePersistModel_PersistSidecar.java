@@ -58,7 +58,7 @@ abstract class CustomNamePersistModel_PersistSidecar {
   @Nonnull
   static void scheduleAttach(@Nonnull final Scope scope,
       @Nonnull final CustomNamePersistModel peer) {
-    Arez.context().task( Arez.areNamesEnabled() ? "CustomNamePersistModel_PersistSidecar.attach" + "." + ( ++c_nextTaskId ) : null, () -> attach( scope, peer ) );
+    Arez.context().task( Arez.areNamesEnabled() ? "CustomNamePersistModel_PersistSidecar.attach." + ( ++c_nextTaskId ) : null, () -> attach( scope, peer ) );
   }
 
   @Nonnull
