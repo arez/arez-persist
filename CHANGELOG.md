@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Upgrade the `org.realityforge.proton` artifacts to version `0.51`.
 * Upgrade the `org.realityforge.arez` artifacts to version `0.180`.
 * Upgrade the `org.realityforge.arez.testng` artifact to version `0.12`.
 * Simplify generated code for naming tasks to avoid triggering source analysis code warnings.
