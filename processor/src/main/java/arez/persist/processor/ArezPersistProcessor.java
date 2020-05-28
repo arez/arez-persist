@@ -114,49 +114,7 @@ public final class ArezPersistProcessor
         AnnotationsUtil.findAnnotationByType( method, Constants.PERSIST_CLASSNAME );
       if ( null != persistAnnotation )
       {
-        final TypeMirror returnType = method.getReturnType();
-        if ( TypeKind.VOID == returnType.getKind() )
-        {
-          throw new ProcessorException( MemberChecks.must( Constants.PERSIST_CLASSNAME,
-                                                           "be present on the accessor method of the " +
-                                                           MemberChecks.toSimpleName( Constants.OBSERVABLE_CLASSNAME ) +
-                                                           " property" ),
-                                        method );
-        }
-
-        final String persistName = extractPersistName( method, persistAnnotation );
-        final String persistStore = extractStore( element, method, persistAnnotation, defaultStore );
-
-        final String setterName = "set" + firstCharacterToUpperCase( persistName );
-        final ExecutableElement setter = methods
-          .stream()
-          .filter( m -> TypeKind.VOID == m.getReturnType().getKind() &&
-                        setterName.equals( m.getSimpleName().toString() ) &&
-                        1 == m.getParameters().size() &&
-                        processingEnv.getTypeUtils().isSameType( m.getParameters().get( 0 ).asType(), returnType ) )
-          .findAny()
-          .orElse( null );
-        if ( null == setter )
-        {
-          throw new ProcessorException( MemberChecks.must( Constants.PERSIST_CLASSNAME,
-                                                           "be paired with a setter named " + setterName ),
-                                        method );
-        }
-
-        final PropertyDescriptor existing = properties.get( persistName );
-        if ( null != existing )
-        {
-          throw new ProcessorException( MemberChecks.must( Constants.PERSIST_CLASSNAME,
-                                                           "has the same name '" + persistName +
-                                                           "' as another persistent property declared by the name. " +
-                                                           "The other property is accessed by the method named " +
-                                                           existing.getGetter().getSimpleName() ),
-                                        method );
-        }
-        else
-        {
-          properties.put( persistName, new PropertyDescriptor( persistName, persistStore, method, setter ) );
-        }
+        processPersistAnnotation( element, method, persistAnnotation, methods, defaultStore, properties );
       }
     }
 
@@ -171,6 +129,58 @@ public final class ArezPersistProcessor
     }
 
     emitSidecar( new TypeDescriptor( name, persistOnDispose, element, new ArrayList<>( properties.values() ) ) );
+  }
+
+  private void processPersistAnnotation( @Nonnull final TypeElement element,
+                                         @Nonnull final ExecutableElement method,
+                                         @Nonnull final AnnotationMirror persistAnnotation,
+                                         @Nonnull final List<ExecutableElement> methods,
+                                         @Nonnull final String defaultStore,
+                                         @Nonnull final Map<String, PropertyDescriptor> properties )
+  {
+    final TypeMirror returnType = method.getReturnType();
+    if ( TypeKind.VOID == returnType.getKind() )
+    {
+      throw new ProcessorException( MemberChecks.must( Constants.PERSIST_CLASSNAME,
+                                                       "be present on the accessor method of the " +
+                                                       MemberChecks.toSimpleName( Constants.OBSERVABLE_CLASSNAME ) +
+                                                       " property" ),
+                                    method );
+    }
+
+    final String persistName = extractPersistName( method, persistAnnotation );
+    final String persistStore = extractStore( element, method, persistAnnotation, defaultStore );
+
+    final String setterName = "set" + firstCharacterToUpperCase( persistName );
+    final ExecutableElement setter = methods
+      .stream()
+      .filter( m -> TypeKind.VOID == m.getReturnType().getKind() &&
+                    setterName.equals( m.getSimpleName().toString() ) &&
+                    1 == m.getParameters().size() &&
+                    processingEnv.getTypeUtils().isSameType( m.getParameters().get( 0 ).asType(), returnType ) )
+      .findAny()
+      .orElse( null );
+    if ( null == setter )
+    {
+      throw new ProcessorException( MemberChecks.must( Constants.PERSIST_CLASSNAME,
+                                                       "be paired with a setter named " + setterName ),
+                                    method );
+    }
+
+    final PropertyDescriptor existing = properties.get( persistName );
+    if ( null != existing )
+    {
+      throw new ProcessorException( MemberChecks.must( Constants.PERSIST_CLASSNAME,
+                                                       "has the same name '" + persistName +
+                                                       "' as another persistent property declared by the name. " +
+                                                       "The other property is accessed by the method named " +
+                                                       existing.getGetter().getSimpleName() ),
+                                    method );
+    }
+    else
+    {
+      properties.put( persistName, new PropertyDescriptor( persistName, persistStore, method, setter ) );
+    }
   }
 
   @Nonnull
