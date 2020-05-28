@@ -6,6 +6,7 @@
 * Upgrade the `org.realityforge.arez` artifacts to version `0.180`.
 * Upgrade the `org.realityforge.arez.testng` artifact to version `0.12`.
 * Simplify generated code for naming tasks to avoid triggering source analysis code warnings.
+* Introduce a `@PersistId` annotation that can be used to identify an instance of a type.
 
 ### [v0.04](https://github.com/arez/arez-persist/tree/v0.04) (2020-05-26) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.03...v0.04)
 

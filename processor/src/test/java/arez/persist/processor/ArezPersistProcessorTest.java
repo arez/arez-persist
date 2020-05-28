@@ -2,6 +2,7 @@ package arez.persist.processor;
 
 import arez.processor.ArezProcessor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.processing.Processor;
@@ -24,6 +25,8 @@ public final class ArezPersistProcessorTest
         new Object[]{ "com.example.persist.MultiPropertyPersistModel" },
         new Object[]{ "com.example.persist.MultiStorePersistModel" },
         new Object[]{ "com.example.persist.ObjectTypePersistModel" },
+
+        new Object[]{ "com.example.persist_id.BasicPersistIdModel" },
 
         new Object[]{ "com.example.persist.types.TypeBooleanPersistModel" },
         new Object[]{ "com.example.persist.types.TypeBytePersistModel" },
@@ -69,6 +72,30 @@ public final class ArezPersistProcessorTest
         new Object[]{ "com.example.persist.SetterPersistModel",
                       "@Persist target must be present on the accessor method of the @Observable property" },
 
+        new Object[]{ "com.example.persist_id.DuplicatePersistIdModel",
+                      "@PersistId target must not be present multiple times within a @PersistType annotated type but another method annotated with @PersistId exists and is named getId1" },
+        new Object[]{ "com.example.persist_id.PersistPersistIdModel",
+                      "@PersistId target must not also be annotated with the @Persist annotation" },
+        new Object[]{ "com.example.persist_id.UnclaimedPersistIdModel",
+                      "@PersistId target must be enclosed within a type annotated by either the arez.annotations.ArezComponent annotation or the arez.annotations.ActAsComponent annotation" },
+
+        new Object[]{ "com.example.persist_id.parent_type.AbstractPersistIdModel",
+                      "@PersistId target must not be abstract" },
+        new Object[]{ "com.example.persist_id.parent_type.GenericPersistIdModel",
+                      "@PersistId target must not have any type parameters" },
+        new Object[]{ "com.example.persist_id.parent_type.ParameterizedPersistIdModel",
+                      "@PersistId target must not have any parameters" },
+        new Object[]{ "com.example.persist_id.parent_type.PrivatePersistIdModel",
+                      "@PersistId target must not be private" },
+        new Object[]{ "com.example.persist_id.parent_type.ProtectedPersistIdModel",
+                      "@PersistId target must not be protected" },
+        new Object[]{ "com.example.persist_id.parent_type.StaticPersistIdModel",
+                      "@PersistId target must not be static" },
+        new Object[]{ "com.example.persist_id.parent_type.ThrowsPersistIdModel",
+                      "@PersistId target must not throw any exceptions" },
+        new Object[]{ "com.example.persist_id.parent_type.VoidPersistIdModel",
+                      "@PersistId target must return a value" },
+
         new Object[]{ "com.example.persist_type.BadDefaultStorePersistTypeModel",
                       "@PersistType target must not specify a defaultStore parameter that is not a valid java identifier" },
         new Object[]{ "com.example.persist_type.BadNamePersistTypeModel",
@@ -84,6 +111,17 @@ public final class ArezPersistProcessorTest
   public void processFailedCompile( @Nonnull final String classname, @Nonnull final String messageFragment )
   {
     assertFailedCompile( classname, messageFragment );
+  }
+
+  @Test
+  public void inaccessiblePersistIdModel()
+  {
+    final List<JavaFileObject> inputs = Arrays.asList(
+      fixture( toFilename( "bad_input", "com.example.persist_id.other.BasePackageAccessPersistIdModel" ) ),
+      fixture( toFilename( "bad_input", "com.example.persist_id.InaccessiblePersistIdModel" ) )
+    );
+    assertFailedCompileResource( inputs,
+                                 "@PersistId target must not be package access if the method is in a different package from the type annotated with the @Persist annotation" );
   }
 
   @DataProvider( name = "compileWithWarnings" )

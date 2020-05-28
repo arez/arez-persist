@@ -113,16 +113,7 @@ final class SidecarGenerator
     builder.addMethod( buildScheduleAttachMethod( descriptor ) );
 
     // build method to get component id as string from peer
-    builder.addMethod( MethodSpec.methodBuilder( "getComponentId" )
-                         .returns( String.class )
-                         .addModifiers( Modifier.PRIVATE )
-                         .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
-                         .addStatement( "return $T.valueOf( $T.<$T>requireNonNull( $T.getArezId( _peer ) ) )",
-                                        String.class,
-                                        Objects.class,
-                                        Object.class,
-                                        IDENTIFIABLE_CLASSNAME )
-                         .build() );
+    builder.addMethod( buildGetComponentIdMethod( descriptor ) );
 
     // Add observer that actually persists state on change
     builder.addMethod( MethodSpec.methodBuilder( "savePersistentProperties" )
@@ -157,6 +148,34 @@ final class SidecarGenerator
     builder.addMethod( buildPersistStateMethod( processingEnv, descriptor ) );
 
     return builder.build();
+  }
+
+  @Nonnull
+  private static MethodSpec buildGetComponentIdMethod( @Nonnull final TypeDescriptor descriptor )
+  {
+    final MethodSpec.Builder method = MethodSpec.methodBuilder( "getComponentId" )
+      .returns( String.class )
+      .addModifiers( Modifier.PRIVATE )
+      .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME );
+
+    final ExecutableElement idMethod = descriptor.getIdMethod();
+    if ( null == idMethod )
+    {
+      method.addStatement( "return $T.valueOf( $T.<$T>requireNonNull( $T.getArezId( _peer ) ) )",
+                           String.class,
+                           Objects.class,
+                           Object.class,
+                           IDENTIFIABLE_CLASSNAME );
+    }
+    else
+    {
+      method.addStatement( "return $T.valueOf( $T.<$T>requireNonNull( _peer.$N() ) )",
+                           String.class,
+                           Objects.class,
+                           Object.class,
+                           idMethod.getSimpleName().toString() );
+    }
+    return method.build();
   }
 
   @Nonnull

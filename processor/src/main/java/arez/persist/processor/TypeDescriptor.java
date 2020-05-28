@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 
 final class TypeDescriptor
@@ -13,17 +15,21 @@ final class TypeDescriptor
   private final boolean _persistOnDispose;
   @Nonnull
   private final TypeElement _element;
+  @Nullable
+  private final ExecutableElement _idMethod;
   @Nonnull
   private final List<PropertyDescriptor> _properties;
 
   TypeDescriptor( @Nonnull final String name,
                   final boolean persistOnDispose,
                   @Nonnull final TypeElement element,
+                  @Nullable final ExecutableElement idMethod,
                   @Nonnull final List<PropertyDescriptor> properties )
   {
     _name = Objects.requireNonNull( name );
     _persistOnDispose = persistOnDispose;
     _element = Objects.requireNonNull( element );
+    _idMethod = idMethod;
     _properties = Objects.requireNonNull( properties );
   }
 
@@ -42,6 +48,12 @@ final class TypeDescriptor
   TypeElement getElement()
   {
     return _element;
+  }
+
+  @Nullable
+  ExecutableElement getIdMethod()
+  {
+    return _idMethod;
   }
 
   @Nonnull

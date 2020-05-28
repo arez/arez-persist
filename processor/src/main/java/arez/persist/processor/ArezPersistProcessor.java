@@ -35,6 +35,7 @@ import org.realityforge.proton.ProcessorException;
  * Annotation processor that analyzes Arez annotated source and generates models from the annotations.
  */
 @SupportedAnnotationTypes( { Constants.PERSIST_TYPE_CLASSNAME,
+                             Constants.PERSIST_ID_CLASSNAME,
                              Constants.PERSIST_CLASSNAME } )
 @SupportedSourceVersion( SourceVersion.RELEASE_8 )
 @SupportedOptions( { "arez.persist.defer.unresolved", "arez.persist.defer.errors", "arez.persist.debug" } )
@@ -82,6 +83,11 @@ public final class ArezPersistProcessor
       .findAny()
       .ifPresent( a -> verifyPersistElements( env, env.getElementsAnnotatedWith( a ) ) );
 
+    annotations.stream()
+      .filter( a -> a.getQualifiedName().toString().equals( Constants.PERSIST_ID_CLASSNAME ) )
+      .findAny()
+      .ifPresent( a -> verifyPersistIdElements( env, env.getElementsAnnotatedWith( a ) ) );
+
     processTypeElements( annotations, env, Constants.PERSIST_TYPE_CLASSNAME, _deferredTypes, this::process );
 
     errorIfProcessingOverAndInvalidTypesDetected( env );
@@ -107,14 +113,50 @@ public final class ArezPersistProcessor
     final String defaultStore = extractDefaultStore( element, annotation );
     final List<ExecutableElement> methods =
       ElementsUtil.getMethods( element, processingEnv.getElementUtils(), processingEnv.getTypeUtils() );
+    ExecutableElement idMethod = null;
     final Map<String, PropertyDescriptor> properties = new HashMap<>();
     for ( final ExecutableElement method : methods )
     {
       final AnnotationMirror persistAnnotation =
         AnnotationsUtil.findAnnotationByType( method, Constants.PERSIST_CLASSNAME );
-      if ( null != persistAnnotation )
+      final AnnotationMirror persistIdAnnotation =
+        AnnotationsUtil.findAnnotationByType( method, Constants.PERSIST_ID_CLASSNAME );
+      if ( null != persistAnnotation && null != persistIdAnnotation )
+      {
+        throw new ProcessorException( MemberChecks.mustNot( Constants.PERSIST_ID_CLASSNAME,
+                                                            "also be annotated with the " +
+                                                            MemberChecks.toSimpleName( Constants.PERSIST_CLASSNAME ) +
+                                                            " annotation" ),
+                                      element );
+      }
+      else if ( null != persistAnnotation )
       {
         processPersistAnnotation( element, method, persistAnnotation, methods, defaultStore, properties );
+      }
+      else if ( null != persistIdAnnotation )
+      {
+        // These validations have already been performed by an earlier step in this annotation processor
+        // if and only if the type declaring the @PersistId is also compiled in this compilation round.
+        // If the type that encloses @PersistId annotated method is part of a library or compiled earlier
+        // we re-run the checks just in case to avoid scenarios where weird behaviour slips through in code
+        // generation step.
+        validatePersisIdMethod( method );
+        MemberChecks.mustNotBePackageAccessInDifferentPackage( element,
+                                                               Constants.PERSIST_CLASSNAME,
+                                                               Constants.PERSIST_ID_CLASSNAME,
+                                                               method );
+        if ( null != idMethod )
+        {
+          throw new ProcessorException( MemberChecks.mustNot( Constants.PERSIST_ID_CLASSNAME,
+                                                              "be present multiple times within a " +
+                                                              MemberChecks.toSimpleName( Constants.PERSIST_TYPE_CLASSNAME ) +
+                                                              " annotated type but another method annotated with " +
+                                                              MemberChecks.toSimpleName( Constants.PERSIST_ID_CLASSNAME ) +
+                                                              " exists and is named " +
+                                                              idMethod.getSimpleName() ),
+                                        element );
+        }
+        idMethod = method;
       }
     }
 
@@ -128,7 +170,11 @@ public final class ArezPersistProcessor
                                     element );
     }
 
-    emitSidecar( new TypeDescriptor( name, persistOnDispose, element, new ArrayList<>( properties.values() ) ) );
+    emitSidecar( new TypeDescriptor( name,
+                                     persistOnDispose,
+                                     element,
+                                     idMethod,
+                                     new ArrayList<>( properties.values() ) ) );
   }
 
   private void processPersistAnnotation( @Nonnull final TypeElement element,
@@ -291,6 +337,45 @@ public final class ArezPersistProcessor
                      element );
       }
     }
+  }
+
+  private void verifyPersistIdElements( @Nonnull final RoundEnvironment env,
+                                        @Nonnull final Set<? extends Element> elements )
+  {
+    for ( final Element element : elements )
+    {
+      performAction( env, e -> verifyPersistIdElement( env, e ), element );
+    }
+  }
+
+  private void verifyPersistIdElement( @Nonnull final RoundEnvironment env,  @Nonnull final Element element )
+  {
+    assert ElementKind.METHOD == element.getKind();
+    final Element type = element.getEnclosingElement();
+    if ( !AnnotationsUtil.hasAnnotationOfType( type, Constants.AREZ_COMPONENT_CLASSNAME ) &&
+         !AnnotationsUtil.hasAnnotationOfType( type, Constants.ACT_AS_COMPONENT_CLASSNAME ) )
+    {
+      reportError( env,
+                   MemberChecks.must( Constants.PERSIST_ID_CLASSNAME,
+                                      "be enclosed within a type annotated by either the " +
+                                      Constants.AREZ_COMPONENT_CLASSNAME + " annotation or the " +
+                                      Constants.ACT_AS_COMPONENT_CLASSNAME + " annotation" ),
+                   element );
+    }
+
+    validatePersisIdMethod( (ExecutableElement) element );
+  }
+
+  private void validatePersisIdMethod( @Nonnull final ExecutableElement method )
+  {
+    MemberChecks.mustNotBeAbstract( Constants.PERSIST_ID_CLASSNAME, method );
+    MemberChecks.mustNotThrowAnyExceptions( Constants.PERSIST_ID_CLASSNAME, method );
+    MemberChecks.mustNotHaveAnyTypeParameters( Constants.PERSIST_ID_CLASSNAME, method );
+    MemberChecks.mustNotHaveAnyParameters( Constants.PERSIST_ID_CLASSNAME, method );
+    MemberChecks.mustReturnAValue( Constants.PERSIST_ID_CLASSNAME, method );
+    MemberChecks.mustNotBeStatic( Constants.PERSIST_ID_CLASSNAME, method );
+    MemberChecks.mustNotBePrivate( Constants.PERSIST_ID_CLASSNAME, method );
+    MemberChecks.mustNotBeProtected( Constants.PERSIST_ID_CLASSNAME, method );
   }
 
   private void emitSidecar( @Nonnull final TypeDescriptor type )
