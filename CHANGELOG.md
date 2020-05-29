@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Update the 'org.realityforge.arez' dependencies to version '0.181'
 * In the generated sidecar, stop explicitly setting the `@ArezComponent.requireEquals` parameter to `DISABLE` as that is the default value.
 * In the generated sidecar, stop explicitly setting the `@ArezComponent.observable` parameter to `DISABLE` as that is the default value.
 
