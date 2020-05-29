@@ -26,7 +26,6 @@ import javax.annotation.Nonnull;
 @ArezComponent(
     disposeNotifier = Feature.DISABLE,
     requireId = Feature.DISABLE,
-    requireEquals = Feature.DISABLE,
     observable = Feature.DISABLE
 )
 @Generated("arez.persist.processor.ArezPersistProcessor")
