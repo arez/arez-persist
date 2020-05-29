@@ -1,6 +1,6 @@
 # Change Log
 
-### Unreleased
+### [v0.06](https://github.com/arez/arez-persist/tree/v0.06) (2020-05-29) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.05...v0.06)
 
 * Update the 'org.realityforge.arez' dependencies to version '0.181'
 * In the generated sidecar, stop explicitly setting the `@ArezComponent.requireEquals` parameter to `DISABLE` as that is the default value.
