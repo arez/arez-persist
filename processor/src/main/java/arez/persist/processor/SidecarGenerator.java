@@ -85,7 +85,6 @@ final class SidecarGenerator
     builder.addAnnotation( AnnotationSpec.builder( AREZ_COMPONENT_CLASSNAME )
                              .addMember( "disposeNotifier", "$T.DISABLE", FEATURE_CLASSNAME )
                              .addMember( "requireId", "$T.DISABLE", FEATURE_CLASSNAME )
-                             .addMember( "observable", "$T.DISABLE", FEATURE_CLASSNAME )
                              .build() );
 
     GeneratorUtil.addOriginatingTypes( element, builder );

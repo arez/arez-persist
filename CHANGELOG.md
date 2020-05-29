@@ -3,6 +3,7 @@
 ### Unreleased
 
 * In the generated sidecar, stop explicitly setting the `@ArezComponent.requireEquals` parameter to `DISABLE` as that is the default value.
+* In the generated sidecar, stop explicitly setting the `@ArezComponent.observable` parameter to `DISABLE` as that is the default value.
 
 ### [v0.05](https://github.com/arez/arez-persist/tree/v0.05) (2020-05-28) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.04...v0.05)
 

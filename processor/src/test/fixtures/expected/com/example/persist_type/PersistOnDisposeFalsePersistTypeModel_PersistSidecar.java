@@ -23,8 +23,7 @@ import javax.annotation.Nonnull;
 
 @ArezComponent(
     disposeNotifier = Feature.DISABLE,
-    requireId = Feature.DISABLE,
-    observable = Feature.DISABLE
+    requireId = Feature.DISABLE
 )
 @Generated("arez.persist.processor.ArezPersistProcessor")
 abstract class PersistOnDisposeFalsePersistTypeModel_PersistSidecar {
