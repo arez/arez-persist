@@ -53,10 +53,6 @@ task 'perform_release' do
       task('todos:scan').invoke
     end
 
-    stage('StagingCleanup', 'Remove artifacts from staging repository') do
-      task('staging:cleanup').invoke
-    end
-
     stage('Build', 'Build the project to ensure that the tests pass') do
       sh "bundle exec buildr clean package install PRODUCT_VERSION=#{ENV['PRODUCT_VERSION']}#{ENV['TEST'].nil? ? '' : " TEST=#{ENV['TEST']}"}#{Buildr.application.options.trace ? ' --trace' : ''}"
     end
