@@ -15,6 +15,7 @@ import elemental2.webstorage.WebStorageWindow;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import jsinterop.base.Js;
@@ -97,16 +98,20 @@ final class WebStorageService
     for ( final Map.Entry<Scope, Map<String, Map<String, Entry>>> scopeEntry : state.entrySet() )
     {
       final JsPropertyMap<Object> scope = JsPropertyMap.of();
-      for ( final Map.Entry<String, Map<String, Entry>> entry : scopeEntry.getValue().entrySet() )
+      final Set<Map.Entry<String, Map<String, Entry>>> entries = scopeEntry.getValue().entrySet();
+      if ( !entries.isEmpty() )
       {
-        final JsPropertyMap<Object> type = JsPropertyMap.of();
-        for ( final Map.Entry<String, Entry> instance : entry.getValue().entrySet() )
+        for ( final Map.Entry<String, Map<String, Entry>> entry : entries )
         {
-          type.set( instance.getKey(), instance.getValue().getEncoded() );
+          final JsPropertyMap<Object> type = JsPropertyMap.of();
+          for ( final Map.Entry<String, Entry> instance : entry.getValue().entrySet() )
+          {
+            type.set( instance.getKey(), instance.getValue().getEncoded() );
+          }
+          scope.set( entry.getKey(), type );
         }
-        scope.set( entry.getKey(), type );
+        data.set( scopeEntry.getKey().getQualifiedName(), scope );
       }
-      data.set( scopeEntry.getKey().getQualifiedName(), scope );
     }
     if ( 0 == JsObject.keys( data ).length )
     {
