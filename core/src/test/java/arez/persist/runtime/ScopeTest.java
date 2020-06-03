@@ -1,6 +1,7 @@
 package arez.persist.runtime;
 
 import arez.ArezTestUtil;
+import arez.component.Identifiable;
 import arez.persist.AbstractTest;
 import java.util.Collections;
 import org.realityforge.guiceyloops.shared.ValueUtil;
@@ -37,6 +38,7 @@ public final class ScopeTest
 
     assertEquals( scope.getName(), name );
     assertEquals( scope.getQualifiedName(), name );
+    assertEquals( Identifiable.getArezId( scope ), name );
     assertEquals( scope.toString(), name );
     assertFalse( scope.isDisposed() );
     assertEquals( scope.getNestedScopes().size(), 0 );

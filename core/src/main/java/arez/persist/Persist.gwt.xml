@@ -1,5 +1,7 @@
 <module>
   <inherits name='arez.Arez'/>
+  <!-- arez.component.Component is present to support Identifiable and may be removed in the future -->
+  <inherits name='arez.component.Component'/>
 
   <source path='' includes='*.java'/>
   <source path='runtime' includes='*.java'/>

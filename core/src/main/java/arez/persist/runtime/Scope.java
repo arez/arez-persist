@@ -1,6 +1,7 @@
 package arez.persist.runtime;
 
 import arez.Arez;
+import arez.component.Identifiable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import static org.realityforge.braincheck.Guards.*;
  * state with disposed scopes.</p>
  */
 public final class Scope
+  implements Identifiable<String>
 {
   /**
    * The name of the root scope.
@@ -76,6 +78,22 @@ public final class Scope
   public String getQualifiedName()
   {
     return null == _parent || null == _parent._parent ? _name : _parent.getQualifiedName() + "." + _name;
+  }
+
+  /**
+   * Return the id used by react4j when composing scope into an immutable key.
+   * This just returns the qualified name of the scope.
+   *
+   * @return the qualified name of the scope.
+   */
+  @Nonnull
+  @Override
+  public String getArezId()
+  {
+    // This is a bit of a hack to get it usable as an immutable prop in
+    // react4j. Is there something better we could use? If this library ends
+    // up having a dependency on react4j we should make scope implement Keyed instead.
+    return getQualifiedName();
   }
 
   /**
