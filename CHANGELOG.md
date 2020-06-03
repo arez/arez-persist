@@ -1,6 +1,6 @@
 # Change Log
 
-### Unreleased
+### [v0.07](https://github.com/arez/arez-persist/tree/v0.07) (2020-06-03) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.06...v0.07)
 
 * Upgrade the `org.realityforge.arez.testng` artifact to version `0.13`.
 * Remove empty type objects when persisting to local and session storage.
