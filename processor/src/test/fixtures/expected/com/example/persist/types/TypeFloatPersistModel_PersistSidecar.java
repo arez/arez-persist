@@ -83,7 +83,7 @@ abstract class TypeFloatPersistModel_PersistSidecar {
   )
   void restoreState() {
     final String $ap$_id = getComponentId();
-    if ( !_appStore.isDisposed() ) {
+    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
       final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
         final Float $prop$_value = (Float) state.get( Keys.PROPERTY_value );
@@ -99,7 +99,7 @@ abstract class TypeFloatPersistModel_PersistSidecar {
       verifyRequired = false
   )
   void persistState() {
-    if ( !_appStore.isDisposed() ) {
+    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
       final float $prop$_value = _peer.getValue();
       if ( 0.0F != $prop$_value ) {

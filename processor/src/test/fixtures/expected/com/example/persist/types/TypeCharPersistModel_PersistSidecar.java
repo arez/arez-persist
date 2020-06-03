@@ -82,7 +82,7 @@ abstract class TypeCharPersistModel_PersistSidecar {
   )
   void restoreState() {
     final String $ap$_id = getComponentId();
-    if ( !_appStore.isDisposed() ) {
+    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
       final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
         final Character $prop$_value = (Character) state.get( Keys.PROPERTY_value );
@@ -98,7 +98,7 @@ abstract class TypeCharPersistModel_PersistSidecar {
       verifyRequired = false
   )
   void persistState() {
-    if ( !_appStore.isDisposed() ) {
+    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
       final char $prop$_value = _peer.getValue();
       if ( 0 != $prop$_value ) {

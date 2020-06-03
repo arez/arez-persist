@@ -94,7 +94,7 @@ abstract class MultiStorePersistModel_PersistSidecar {
   )
   void restoreState() {
     final String $ap$_id = getComponentId();
-    if ( !_aStore.isDisposed() ) {
+    if ( !_aStore.isDisposed() && !_scope.isDisposed() ) {
       final Map<String, Object> state = _aStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
         final String $prop$_value2 = (String) state.get( Keys.PROPERTY_value2 );
@@ -107,7 +107,7 @@ abstract class MultiStorePersistModel_PersistSidecar {
         }
       }
     }
-    if ( !_appStore.isDisposed() ) {
+    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
       final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
         final Double $prop$_value4 = (Double) state.get( Keys.PROPERTY_value4 );
@@ -116,7 +116,7 @@ abstract class MultiStorePersistModel_PersistSidecar {
         }
       }
     }
-    if ( !_bStore.isDisposed() ) {
+    if ( !_bStore.isDisposed() && !_scope.isDisposed() ) {
       final Map<String, Object> state = _bStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
         final Double $prop$_value3 = (Double) state.get( Keys.PROPERTY_value3 );
@@ -132,7 +132,7 @@ abstract class MultiStorePersistModel_PersistSidecar {
       verifyRequired = false
   )
   void persistState() {
-    if ( !_aStore.isDisposed() ) {
+    if ( !_aStore.isDisposed() && !_scope.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
       final String $prop$_value2 = _peer.getValue2();
       if ( null != $prop$_value2 ) {
@@ -144,7 +144,7 @@ abstract class MultiStorePersistModel_PersistSidecar {
       }
       _aStore.save( _scope, Keys.TYPE, getComponentId(), state, Converters.TYPE_CONVERTER );
     }
-    if ( !_appStore.isDisposed() ) {
+    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
       final Double $prop$_value4 = _peer.getValue4();
       if ( null != $prop$_value4 ) {
@@ -152,7 +152,7 @@ abstract class MultiStorePersistModel_PersistSidecar {
       }
       _appStore.save( _scope, Keys.TYPE, getComponentId(), state, Converters.TYPE_CONVERTER );
     }
-    if ( !_bStore.isDisposed() ) {
+    if ( !_bStore.isDisposed() && !_scope.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
       final Double $prop$_value3 = _peer.getValue3();
       if ( null != $prop$_value3 ) {

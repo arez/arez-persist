@@ -5,6 +5,7 @@
 * Upgrade the `org.realityforge.arez.testng` artifact to version `0.13`.
 * Remove empty type objects when persisting to local and session storage.
 * Update the `arez.persist.runtime.Scope` class to implement `arez.component.Identifiable` as an ugly hack to enable the `Scope` object to be used as an immutable prop in react4j components.
+* Ensure that the sidecars do not attempt to persist or restore state if the associated scope is disposed.
 
 ### [v0.06](https://github.com/arez/arez-persist/tree/v0.06) (2020-05-29) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.05...v0.06)
 

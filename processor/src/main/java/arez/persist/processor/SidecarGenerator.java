@@ -276,7 +276,7 @@ final class SidecarGenerator
     {
       final String fieldName = "_" + storeVar( storeName );
       final CodeBlock.Builder block = CodeBlock.builder();
-      block.beginControlFlow( "if ( !$N.isDisposed() )", fieldName );
+      block.beginControlFlow( "if ( !$N.isDisposed() && !_scope.isDisposed() )", fieldName );
       block.addStatement( "final $T state = $N.get( _scope, $T.TYPE, $N, $T.TYPE_CONVERTER )",
                           ParameterizedTypeName.get( Map.class, String.class, Object.class ),
                           fieldName,
@@ -346,7 +346,7 @@ final class SidecarGenerator
     {
       final String fieldName = "_" + storeVar( storeName );
       final CodeBlock.Builder block = CodeBlock.builder();
-      block.beginControlFlow( "if ( !$N.isDisposed() )", fieldName );
+      block.beginControlFlow( "if ( !$N.isDisposed() && !_scope.isDisposed() )", fieldName );
       block.addStatement( "final $T state = new $T<>()",
                           ParameterizedTypeName.get( Map.class, String.class, Object.class ),
                           HashMap.class );

@@ -85,7 +85,7 @@ abstract class TypeRawListPersistModel_PersistSidecar {
   @SuppressWarnings("rawtypes")
   void restoreState() {
     final String $ap$_id = getComponentId();
-    if ( !_appStore.isDisposed() ) {
+    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
       final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
         final List $prop$_value = (List) state.get( Keys.PROPERTY_value );
@@ -102,7 +102,7 @@ abstract class TypeRawListPersistModel_PersistSidecar {
   )
   @SuppressWarnings("rawtypes")
   void persistState() {
-    if ( !_appStore.isDisposed() ) {
+    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
       final List $prop$_value = _peer.getValue();
       if ( null != $prop$_value ) {

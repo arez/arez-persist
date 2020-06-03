@@ -83,7 +83,7 @@ abstract class CustomDefaultStorePersistTypeModel_PersistSidecar {
   )
   void restoreState() {
     final String $ap$_id = getComponentId();
-    if ( !_dsStore.isDisposed() ) {
+    if ( !_dsStore.isDisposed() && !_scope.isDisposed() ) {
       final Map<String, Object> state = _dsStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
         final Integer $prop$_value = (Integer) state.get( Keys.PROPERTY_value );
@@ -99,7 +99,7 @@ abstract class CustomDefaultStorePersistTypeModel_PersistSidecar {
       verifyRequired = false
   )
   void persistState() {
-    if ( !_dsStore.isDisposed() ) {
+    if ( !_dsStore.isDisposed() && !_scope.isDisposed() ) {
       final Map<String, Object> state = new HashMap<>();
       final int $prop$_value = _peer.getValue();
       if ( 0 != $prop$_value ) {
