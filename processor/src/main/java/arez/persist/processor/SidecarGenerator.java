@@ -108,6 +108,7 @@ final class SidecarGenerator
     buildFieldAndConstructor( descriptor, builder );
 
     builder.addMethod( buildAttachMethod( descriptor ) );
+    builder.addMethod( buildMaybeAttachMethod( descriptor ) );
     builder.addMethod( buildScheduleAttachMethod( descriptor ) );
 
     // build method to get component id as string from peer
@@ -214,6 +215,35 @@ final class SidecarGenerator
   }
 
   @Nonnull
+  private static MethodSpec buildMaybeAttachMethod( @Nonnull final TypeDescriptor descriptor )
+  {
+    final TypeElement element = descriptor.getElement();
+
+    // This works around possible bug whee a scope or peer could be disposed before the arez task runs
+    // which can happen when navigating away from a page in response to a change
+    final MethodSpec.Builder method =
+      MethodSpec
+        .methodBuilder( "maybeAttach" )
+        .addModifiers( Modifier.PRIVATE, Modifier.STATIC )
+        .addParameter( ParameterSpec.builder( SCOPE_CLASSNAME, "scope", Modifier.FINAL )
+                         .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
+                         .build() )
+        .addParameter( ParameterSpec.builder( ClassName.get( element ), "peer", Modifier.FINAL )
+                         .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
+                         .build() );
+
+    final CodeBlock.Builder block = CodeBlock.builder();
+    block.beginControlFlow( "if ( $T.isNotDisposed( scope ) && $T.isNotDisposed( peer ) ) ",
+                            DISPOSABLE_CLASSNAME,
+                            DISPOSABLE_CLASSNAME );
+    block.addStatement( "attach( scope, peer )" );
+    block.endControlFlow();
+    method.addCode( block.build() );
+
+    return method.build();
+  }
+
+  @Nonnull
   private static MethodSpec buildScheduleAttachMethod( @Nonnull final TypeDescriptor descriptor )
   {
     final TypeElement element = descriptor.getElement();
@@ -232,7 +262,7 @@ final class SidecarGenerator
 
     method.addStatement( "$T.context().task( " +
                          "$T.areNamesEnabled() ? $S + ( ++c_nextTaskId ) : null, " +
-                         "() -> attach( scope, peer ) " +
+                         "() -> maybeAttach( scope, peer ) " +
                          ")",
                          AREZ_CLASSNAME,
                          AREZ_CLASSNAME,

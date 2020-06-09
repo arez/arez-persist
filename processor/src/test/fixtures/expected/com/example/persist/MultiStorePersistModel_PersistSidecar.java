@@ -1,6 +1,7 @@
 package com.example.persist;
 
 import arez.Arez;
+import arez.Disposable;
 import arez.annotations.Action;
 import arez.annotations.ArezComponent;
 import arez.annotations.ComponentDependency;
@@ -64,10 +65,17 @@ abstract class MultiStorePersistModel_PersistSidecar {
     return new Arez_MultiStorePersistModel_PersistSidecar( scope, peer, aStore, appStore, bStore );
   }
 
+  private static void maybeAttach(@Nonnull final Scope scope,
+      @Nonnull final MultiStorePersistModel peer) {
+    if ( Disposable.isNotDisposed( scope ) && Disposable.isNotDisposed( peer ) )  {
+      attach( scope, peer );
+    }
+  }
+
   @Nonnull
   static void scheduleAttach(@Nonnull final Scope scope,
       @Nonnull final MultiStorePersistModel peer) {
-    Arez.context().task( Arez.areNamesEnabled() ? "MultiStorePersistModel_PersistSidecar.attach." + ( ++c_nextTaskId ) : null, () -> attach( scope, peer ) );
+    Arez.context().task( Arez.areNamesEnabled() ? "MultiStorePersistModel_PersistSidecar.attach." + ( ++c_nextTaskId ) : null, () -> maybeAttach( scope, peer ) );
   }
 
   @Nonnull

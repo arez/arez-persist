@@ -1,6 +1,7 @@
 package com.example.persist.types;
 
 import arez.Arez;
+import arez.Disposable;
 import arez.annotations.Action;
 import arez.annotations.ArezComponent;
 import arez.annotations.ComponentDependency;
@@ -53,9 +54,16 @@ abstract class TypeBytePersistModel_PersistSidecar {
     return new Arez_TypeBytePersistModel_PersistSidecar( scope, peer, appStore );
   }
 
+  private static void maybeAttach(@Nonnull final Scope scope,
+      @Nonnull final TypeBytePersistModel peer) {
+    if ( Disposable.isNotDisposed( scope ) && Disposable.isNotDisposed( peer ) )  {
+      attach( scope, peer );
+    }
+  }
+
   @Nonnull
   static void scheduleAttach(@Nonnull final Scope scope, @Nonnull final TypeBytePersistModel peer) {
-    Arez.context().task( Arez.areNamesEnabled() ? "TypeBytePersistModel_PersistSidecar.attach." + ( ++c_nextTaskId ) : null, () -> attach( scope, peer ) );
+    Arez.context().task( Arez.areNamesEnabled() ? "TypeBytePersistModel_PersistSidecar.attach." + ( ++c_nextTaskId ) : null, () -> maybeAttach( scope, peer ) );
   }
 
   @Nonnull
