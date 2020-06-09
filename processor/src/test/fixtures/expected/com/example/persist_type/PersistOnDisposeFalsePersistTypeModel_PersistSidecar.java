@@ -50,13 +50,15 @@ abstract class PersistOnDisposeFalsePersistTypeModel_PersistSidecar {
   @Nonnull
   static PersistOnDisposeFalsePersistTypeModel_PersistSidecar attach(@Nonnull final Scope scope,
       @Nonnull final PersistOnDisposeFalsePersistTypeModel peer) {
+    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( peer );
     final Store appStore = ArezPersist.getStore( "app" );
     return new Arez_PersistOnDisposeFalsePersistTypeModel_PersistSidecar( scope, peer, appStore );
   }
 
   private static void maybeAttach(@Nonnull final Scope scope,
       @Nonnull final PersistOnDisposeFalsePersistTypeModel peer) {
-    if ( Disposable.isNotDisposed( scope ) && Disposable.isNotDisposed( peer ) )  {
+    if ( !scope.isDisposed() && Disposable.isNotDisposed( peer ) )  {
       attach( scope, peer );
     }
   }
@@ -64,6 +66,8 @@ abstract class PersistOnDisposeFalsePersistTypeModel_PersistSidecar {
   @Nonnull
   static void scheduleAttach(@Nonnull final Scope scope,
       @Nonnull final PersistOnDisposeFalsePersistTypeModel peer) {
+    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( peer );
     Arez.context().task( Arez.areNamesEnabled() ? "PersistOnDisposeFalsePersistTypeModel_PersistSidecar.attach." + ( ++c_nextTaskId ) : null, () -> maybeAttach( scope, peer ) );
   }
 

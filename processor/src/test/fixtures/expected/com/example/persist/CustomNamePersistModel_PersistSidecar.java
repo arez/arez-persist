@@ -50,6 +50,8 @@ abstract class CustomNamePersistModel_PersistSidecar {
   @Nonnull
   static CustomNamePersistModel_PersistSidecar attach(@Nonnull final Scope scope,
       @Nonnull final CustomNamePersistModel peer) {
+    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( peer );
     final Store appStore = ArezPersist.getStore( "app" );
     return new Arez_CustomNamePersistModel_PersistSidecar( scope, peer, appStore );
   }
@@ -64,6 +66,8 @@ abstract class CustomNamePersistModel_PersistSidecar {
   @Nonnull
   static void scheduleAttach(@Nonnull final Scope scope,
       @Nonnull final CustomNamePersistModel peer) {
+    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( peer );
     Arez.context().task( Arez.areNamesEnabled() ? "CustomNamePersistModel_PersistSidecar.attach." + ( ++c_nextTaskId ) : null, () -> maybeAttach( scope, peer ) );
   }
 

@@ -59,6 +59,8 @@ abstract class MultiStorePersistModel_PersistSidecar {
   @Nonnull
   static MultiStorePersistModel_PersistSidecar attach(@Nonnull final Scope scope,
       @Nonnull final MultiStorePersistModel peer) {
+    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( peer );
     final Store aStore = ArezPersist.getStore( "a" );
     final Store appStore = ArezPersist.getStore( "app" );
     final Store bStore = ArezPersist.getStore( "b" );
@@ -75,6 +77,8 @@ abstract class MultiStorePersistModel_PersistSidecar {
   @Nonnull
   static void scheduleAttach(@Nonnull final Scope scope,
       @Nonnull final MultiStorePersistModel peer) {
+    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( peer );
     Arez.context().task( Arez.areNamesEnabled() ? "MultiStorePersistModel_PersistSidecar.attach." + ( ++c_nextTaskId ) : null, () -> maybeAttach( scope, peer ) );
   }
 

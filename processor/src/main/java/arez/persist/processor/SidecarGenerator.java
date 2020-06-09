@@ -195,6 +195,9 @@ final class SidecarGenerator
                          .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
                          .build() );
 
+    method.addStatement( "assert !scope.isDisposed()" );
+    method.addStatement( "assert $T.isNotDisposed( peer )", DISPOSABLE_CLASSNAME );
+
     final StringBuilder storeParams = new StringBuilder();
 
     for ( final String storeName : descriptor.getStoreNames() )
@@ -258,6 +261,8 @@ final class SidecarGenerator
                          .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
                          .build() );
 
+    method.addStatement( "assert !scope.isDisposed()" );
+    method.addStatement( "assert $T.isNotDisposed( peer )", DISPOSABLE_CLASSNAME );
     method.addStatement( "$T.context().task( " +
                          "$T.areNamesEnabled() ? $S + ( ++c_nextTaskId ) : null, " +
                          "() -> maybeAttach( scope, peer ) " +

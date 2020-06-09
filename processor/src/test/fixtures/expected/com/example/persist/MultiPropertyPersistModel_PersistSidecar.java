@@ -50,6 +50,8 @@ abstract class MultiPropertyPersistModel_PersistSidecar {
   @Nonnull
   static MultiPropertyPersistModel_PersistSidecar attach(@Nonnull final Scope scope,
       @Nonnull final MultiPropertyPersistModel peer) {
+    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( peer );
     final Store appStore = ArezPersist.getStore( "app" );
     return new Arez_MultiPropertyPersistModel_PersistSidecar( scope, peer, appStore );
   }
@@ -64,6 +66,8 @@ abstract class MultiPropertyPersistModel_PersistSidecar {
   @Nonnull
   static void scheduleAttach(@Nonnull final Scope scope,
       @Nonnull final MultiPropertyPersistModel peer) {
+    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( peer );
     Arez.context().task( Arez.areNamesEnabled() ? "MultiPropertyPersistModel_PersistSidecar.attach." + ( ++c_nextTaskId ) : null, () -> maybeAttach( scope, peer ) );
   }
 

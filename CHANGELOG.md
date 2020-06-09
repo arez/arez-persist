@@ -4,6 +4,7 @@
 
 * Upgrade the `org.realityforge.arez.testng` artifact to version `0.14`.
 * Update the implementation of `scheduleAttach` in the generated peers To skip creation of the sidecar if the peer or the scope has been disposed after the `scheduleAttach` was invoked but before the attach task runs. 
+* Add assertions to verify that neither a disposed peer nor a disposed scope is never passed to the `attach` or `scheduleAttach` methods on the generated peers.
 
 ### [v0.08](https://github.com/arez/arez-persist/tree/v0.08) (2020-06-07) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.07...v0.08)
 
