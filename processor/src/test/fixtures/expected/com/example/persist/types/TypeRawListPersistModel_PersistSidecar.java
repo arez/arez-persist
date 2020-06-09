@@ -57,7 +57,7 @@ abstract class TypeRawListPersistModel_PersistSidecar {
 
   private static void maybeAttach(@Nonnull final Scope scope,
       @Nonnull final TypeRawListPersistModel peer) {
-    if ( Disposable.isNotDisposed( scope ) && Disposable.isNotDisposed( peer ) )  {
+    if ( !scope.isDisposed() && Disposable.isNotDisposed( peer ) )  {
       attach( scope, peer );
     }
   }

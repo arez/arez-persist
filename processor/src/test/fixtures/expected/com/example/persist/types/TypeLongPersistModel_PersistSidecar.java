@@ -56,7 +56,7 @@ abstract class TypeLongPersistModel_PersistSidecar {
 
   private static void maybeAttach(@Nonnull final Scope scope,
       @Nonnull final TypeLongPersistModel peer) {
-    if ( Disposable.isNotDisposed( scope ) && Disposable.isNotDisposed( peer ) )  {
+    if ( !scope.isDisposed() && Disposable.isNotDisposed( peer ) )  {
       attach( scope, peer );
     }
   }
