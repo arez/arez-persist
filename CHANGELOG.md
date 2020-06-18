@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Upgrade the `com.squareup` artifact to version `1.13.0`.
+
 ### [v0.09](https://github.com/arez/arez-persist/tree/v0.09) (2020-06-09) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.08...v0.09)
 
 * Upgrade the `org.realityforge.arez.testng` artifact to version `0.14`.
