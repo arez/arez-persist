@@ -149,7 +149,7 @@ define 'arez-persist' do
           :linksource => true,
           :timestamp => false,
           :link => %w(https://docs.oracle.com/javase/8/docs/api http://www.gwtproject.org/javadoc/latest/ https://arez.github.io/api)
-    )
+    ).sourcepath = project('core').compile.sources + project('processor').compile.sources
 
   cleanup_javadocs(project, 'arez/persist')
 
@@ -206,5 +206,5 @@ define 'arez-persist' do
   end
 end
 Buildr.projects.each do |project|
-  project.doc.options.merge!('Xdoclint:all' => true)
+  #project.doc.options.merge!('Xdoclint:all' => true)
 end
