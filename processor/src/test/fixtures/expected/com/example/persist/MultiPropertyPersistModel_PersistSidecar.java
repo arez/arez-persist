@@ -50,7 +50,7 @@ abstract class MultiPropertyPersistModel_PersistSidecar {
   @Nonnull
   static MultiPropertyPersistModel_PersistSidecar attach(@Nonnull final Scope scope,
       @Nonnull final MultiPropertyPersistModel peer) {
-    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( scope );
     assert Disposable.isNotDisposed( peer );
     final Store appStore = ArezPersist.getStore( "app" );
     return new Arez_MultiPropertyPersistModel_PersistSidecar( scope, peer, appStore );
@@ -58,7 +58,7 @@ abstract class MultiPropertyPersistModel_PersistSidecar {
 
   private static void maybeAttach(@Nonnull final Scope scope,
       @Nonnull final MultiPropertyPersistModel peer) {
-    if ( !scope.isDisposed() && Disposable.isNotDisposed( peer ) )  {
+    if ( Disposable.isNotDisposed( scope ) && Disposable.isNotDisposed( peer ) )  {
       attach( scope, peer );
     }
   }
@@ -66,7 +66,7 @@ abstract class MultiPropertyPersistModel_PersistSidecar {
   @Nonnull
   static void scheduleAttach(@Nonnull final Scope scope,
       @Nonnull final MultiPropertyPersistModel peer) {
-    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( scope );
     assert Disposable.isNotDisposed( peer );
     Arez.context().task( Arez.areNamesEnabled() ? "MultiPropertyPersistModel_PersistSidecar.attach." + ( ++c_nextTaskId ) : null, () -> maybeAttach( scope, peer ) );
   }
@@ -95,7 +95,7 @@ abstract class MultiPropertyPersistModel_PersistSidecar {
   )
   void restoreState() {
     final String $ap$_id = getComponentId();
-    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
+    if ( !_appStore.isDisposed() && Disposable.isNotDisposed( _scope ) ) {
       final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
         final String $prop$_value2 = (String) state.get( Keys.PROPERTY_value2 );
@@ -119,7 +119,7 @@ abstract class MultiPropertyPersistModel_PersistSidecar {
       verifyRequired = false
   )
   void persistState() {
-    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
+    if ( !_appStore.isDisposed() && Disposable.isNotDisposed( _scope ) ) {
       final Map<String, Object> state = new HashMap<>();
       final String $prop$_value2 = _peer.getValue2();
       if ( null != $prop$_value2 ) {

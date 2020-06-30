@@ -26,6 +26,7 @@ public final class JDependTest
 
     final JavaPackage arez = constraint.addPackage( "arez" );
     final JavaPackage arezComponent = constraint.addPackage( "arez.component" );
+    final JavaPackage arezComponentInternal = constraint.addPackage( "arez.component.internal" );
     final JavaPackage braincheck = constraint.addPackage( "org.realityforge.braincheck" );
     final JavaPackage persist = constraint.addPackage( "arez.persist" );
     final JavaPackage runtime = constraint.addPackage( "arez.persist.runtime" );
@@ -41,6 +42,7 @@ public final class JDependTest
     runtime.dependsUpon( braincheck );
     runtime.dependsUpon( arez );
     runtime.dependsUpon( arezComponent );
+    runtime.dependsUpon( arezComponentInternal );
 
     browserRuntime.dependsUpon( arez );
     browserRuntime.dependsUpon( persist );

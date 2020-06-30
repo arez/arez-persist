@@ -50,7 +50,7 @@ abstract class TypeLongPersistModel_PersistSidecar {
   @Nonnull
   static TypeLongPersistModel_PersistSidecar attach(@Nonnull final Scope scope,
       @Nonnull final TypeLongPersistModel peer) {
-    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( scope );
     assert Disposable.isNotDisposed( peer );
     final Store appStore = ArezPersist.getStore( "app" );
     return new Arez_TypeLongPersistModel_PersistSidecar( scope, peer, appStore );
@@ -58,14 +58,14 @@ abstract class TypeLongPersistModel_PersistSidecar {
 
   private static void maybeAttach(@Nonnull final Scope scope,
       @Nonnull final TypeLongPersistModel peer) {
-    if ( !scope.isDisposed() && Disposable.isNotDisposed( peer ) )  {
+    if ( Disposable.isNotDisposed( scope ) && Disposable.isNotDisposed( peer ) )  {
       attach( scope, peer );
     }
   }
 
   @Nonnull
   static void scheduleAttach(@Nonnull final Scope scope, @Nonnull final TypeLongPersistModel peer) {
-    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( scope );
     assert Disposable.isNotDisposed( peer );
     Arez.context().task( Arez.areNamesEnabled() ? "TypeLongPersistModel_PersistSidecar.attach." + ( ++c_nextTaskId ) : null, () -> maybeAttach( scope, peer ) );
   }
@@ -94,7 +94,7 @@ abstract class TypeLongPersistModel_PersistSidecar {
   )
   void restoreState() {
     final String $ap$_id = getComponentId();
-    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
+    if ( !_appStore.isDisposed() && Disposable.isNotDisposed( _scope ) ) {
       final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
         final Long $prop$_value = (Long) state.get( Keys.PROPERTY_value );
@@ -110,7 +110,7 @@ abstract class TypeLongPersistModel_PersistSidecar {
       verifyRequired = false
   )
   void persistState() {
-    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
+    if ( !_appStore.isDisposed() && Disposable.isNotDisposed( _scope ) ) {
       final Map<String, Object> state = new HashMap<>();
       final long $prop$_value = _peer.getValue();
       if ( 0L != $prop$_value ) {

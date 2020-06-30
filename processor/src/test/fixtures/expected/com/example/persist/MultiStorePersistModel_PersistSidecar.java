@@ -59,7 +59,7 @@ abstract class MultiStorePersistModel_PersistSidecar {
   @Nonnull
   static MultiStorePersistModel_PersistSidecar attach(@Nonnull final Scope scope,
       @Nonnull final MultiStorePersistModel peer) {
-    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( scope );
     assert Disposable.isNotDisposed( peer );
     final Store aStore = ArezPersist.getStore( "a" );
     final Store appStore = ArezPersist.getStore( "app" );
@@ -69,7 +69,7 @@ abstract class MultiStorePersistModel_PersistSidecar {
 
   private static void maybeAttach(@Nonnull final Scope scope,
       @Nonnull final MultiStorePersistModel peer) {
-    if ( !scope.isDisposed() && Disposable.isNotDisposed( peer ) )  {
+    if ( Disposable.isNotDisposed( scope ) && Disposable.isNotDisposed( peer ) )  {
       attach( scope, peer );
     }
   }
@@ -77,7 +77,7 @@ abstract class MultiStorePersistModel_PersistSidecar {
   @Nonnull
   static void scheduleAttach(@Nonnull final Scope scope,
       @Nonnull final MultiStorePersistModel peer) {
-    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( scope );
     assert Disposable.isNotDisposed( peer );
     Arez.context().task( Arez.areNamesEnabled() ? "MultiStorePersistModel_PersistSidecar.attach." + ( ++c_nextTaskId ) : null, () -> maybeAttach( scope, peer ) );
   }
@@ -106,7 +106,7 @@ abstract class MultiStorePersistModel_PersistSidecar {
   )
   void restoreState() {
     final String $ap$_id = getComponentId();
-    if ( !_aStore.isDisposed() && !_scope.isDisposed() ) {
+    if ( !_aStore.isDisposed() && Disposable.isNotDisposed( _scope ) ) {
       final Map<String, Object> state = _aStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
         final String $prop$_value2 = (String) state.get( Keys.PROPERTY_value2 );
@@ -119,7 +119,7 @@ abstract class MultiStorePersistModel_PersistSidecar {
         }
       }
     }
-    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
+    if ( !_appStore.isDisposed() && Disposable.isNotDisposed( _scope ) ) {
       final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
         final Double $prop$_value4 = (Double) state.get( Keys.PROPERTY_value4 );
@@ -128,7 +128,7 @@ abstract class MultiStorePersistModel_PersistSidecar {
         }
       }
     }
-    if ( !_bStore.isDisposed() && !_scope.isDisposed() ) {
+    if ( !_bStore.isDisposed() && Disposable.isNotDisposed( _scope ) ) {
       final Map<String, Object> state = _bStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
         final Double $prop$_value3 = (Double) state.get( Keys.PROPERTY_value3 );
@@ -144,7 +144,7 @@ abstract class MultiStorePersistModel_PersistSidecar {
       verifyRequired = false
   )
   void persistState() {
-    if ( !_aStore.isDisposed() && !_scope.isDisposed() ) {
+    if ( !_aStore.isDisposed() && Disposable.isNotDisposed( _scope ) ) {
       final Map<String, Object> state = new HashMap<>();
       final String $prop$_value2 = _peer.getValue2();
       if ( null != $prop$_value2 ) {
@@ -156,7 +156,7 @@ abstract class MultiStorePersistModel_PersistSidecar {
       }
       _aStore.save( _scope, Keys.TYPE, getComponentId(), state, Converters.TYPE_CONVERTER );
     }
-    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
+    if ( !_appStore.isDisposed() && Disposable.isNotDisposed( _scope ) ) {
       final Map<String, Object> state = new HashMap<>();
       final Double $prop$_value4 = _peer.getValue4();
       if ( null != $prop$_value4 ) {
@@ -164,7 +164,7 @@ abstract class MultiStorePersistModel_PersistSidecar {
       }
       _appStore.save( _scope, Keys.TYPE, getComponentId(), state, Converters.TYPE_CONVERTER );
     }
-    if ( !_bStore.isDisposed() && !_scope.isDisposed() ) {
+    if ( !_bStore.isDisposed() && Disposable.isNotDisposed( _scope ) ) {
       final Map<String, Object> state = new HashMap<>();
       final Double $prop$_value3 = _peer.getValue3();
       if ( null != $prop$_value3 ) {

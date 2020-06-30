@@ -50,7 +50,7 @@ abstract class PersistOnDisposeFalsePersistTypeModel_PersistSidecar {
   @Nonnull
   static PersistOnDisposeFalsePersistTypeModel_PersistSidecar attach(@Nonnull final Scope scope,
       @Nonnull final PersistOnDisposeFalsePersistTypeModel peer) {
-    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( scope );
     assert Disposable.isNotDisposed( peer );
     final Store appStore = ArezPersist.getStore( "app" );
     return new Arez_PersistOnDisposeFalsePersistTypeModel_PersistSidecar( scope, peer, appStore );
@@ -58,7 +58,7 @@ abstract class PersistOnDisposeFalsePersistTypeModel_PersistSidecar {
 
   private static void maybeAttach(@Nonnull final Scope scope,
       @Nonnull final PersistOnDisposeFalsePersistTypeModel peer) {
-    if ( !scope.isDisposed() && Disposable.isNotDisposed( peer ) )  {
+    if ( Disposable.isNotDisposed( scope ) && Disposable.isNotDisposed( peer ) )  {
       attach( scope, peer );
     }
   }
@@ -66,7 +66,7 @@ abstract class PersistOnDisposeFalsePersistTypeModel_PersistSidecar {
   @Nonnull
   static void scheduleAttach(@Nonnull final Scope scope,
       @Nonnull final PersistOnDisposeFalsePersistTypeModel peer) {
-    assert !scope.isDisposed();
+    assert Disposable.isNotDisposed( scope );
     assert Disposable.isNotDisposed( peer );
     Arez.context().task( Arez.areNamesEnabled() ? "PersistOnDisposeFalsePersistTypeModel_PersistSidecar.attach." + ( ++c_nextTaskId ) : null, () -> maybeAttach( scope, peer ) );
   }
@@ -95,7 +95,7 @@ abstract class PersistOnDisposeFalsePersistTypeModel_PersistSidecar {
   )
   void restoreState() {
     final String $ap$_id = getComponentId();
-    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
+    if ( !_appStore.isDisposed() && Disposable.isNotDisposed( _scope ) ) {
       final Map<String, Object> state = _appStore.get( _scope, Keys.TYPE, $ap$_id, Converters.TYPE_CONVERTER );
       if ( null != state ) {
         final Integer $prop$_value = (Integer) state.get( Keys.PROPERTY_value );
@@ -111,7 +111,7 @@ abstract class PersistOnDisposeFalsePersistTypeModel_PersistSidecar {
       verifyRequired = false
   )
   void persistState() {
-    if ( !_appStore.isDisposed() && !_scope.isDisposed() ) {
+    if ( !_appStore.isDisposed() && Disposable.isNotDisposed( _scope ) ) {
       final Map<String, Object> state = new HashMap<>();
       final int $prop$_value = _peer.getValue();
       if ( 0 != $prop$_value ) {

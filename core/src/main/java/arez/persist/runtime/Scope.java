@@ -1,7 +1,10 @@
 package arez.persist.runtime;
 
 import arez.Arez;
-import arez.component.Identifiable;
+import arez.Disposable;
+import arez.annotations.ArezComponent;
+import arez.annotations.ComponentId;
+import arez.annotations.PreDispose;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,8 +25,8 @@ import static org.realityforge.braincheck.Guards.*;
  * <p>A scope may be disposed. It is no longer valid to create nested scopes, store state or retrieve
  * state with disposed scopes.</p>
  */
-public final class Scope
-  implements Identifiable<String>
+@ArezComponent( allowEmpty = true )
+public abstract class Scope
 {
   /**
    * The name of the root scope.
@@ -45,7 +48,12 @@ public final class Scope
    */
   @Nonnull
   private final Map<String, Scope> _nestedScopes = new HashMap<>();
-  private boolean _disposed;
+
+  @Nonnull
+  static Scope create( @Nullable final Scope parent, @Nonnull final String name )
+  {
+    return new Arez_Scope( parent, name );
+  }
 
   Scope( @Nullable final Scope parent, @Nonnull final String name )
   {
@@ -74,26 +82,11 @@ public final class Scope
    *
    * @return the qualified name of the scope.
    */
+  @ComponentId
   @Nonnull
   public String getQualifiedName()
   {
     return null == _parent || null == _parent._parent ? _name : _parent.getQualifiedName() + "." + _name;
-  }
-
-  /**
-   * Return the id used by react4j when composing scope into an immutable key.
-   * This just returns the qualified name of the scope.
-   *
-   * @return the qualified name of the scope.
-   */
-  @Nonnull
-  @Override
-  public String getArezId()
-  {
-    // This is a bit of a hack to get it usable as an immutable prop in
-    // react4j. Is there something better we could use? If this library ends
-    // up having a dependency on react4j we should make scope implement Keyed instead.
-    return getQualifiedName();
   }
 
   /**
@@ -108,7 +101,7 @@ public final class Scope
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
-      apiInvariant( () -> !isDisposed(),
+      apiInvariant( () -> Disposable.isNotDisposed( this ),
                     () -> "findOrCreateScope() invoked on disposed scope named '" + _name + "'" );
       apiInvariant( () -> isValidName( name ),
                     () -> "findOrCreateScope() invoked with name '" + name +
@@ -122,21 +115,10 @@ public final class Scope
     }
     else
     {
-      final Scope scope = new Scope( this, name );
+      final Scope scope = Scope.create( this, name );
       _nestedScopes.put( name, scope );
       return scope;
     }
-  }
-
-  /**
-   * Return true if this scope has been disposed.
-   * A scope is disposed by invoking {@link ArezPersist#disposeScope(Scope)} on the scope or any parent scope.
-   *
-   * @return true if this scope has been disposed, false otherwise.
-   */
-  public boolean isDisposed()
-  {
-    return _disposed;
   }
 
   @Override
@@ -171,22 +153,14 @@ public final class Scope
     return ArezPersist.shouldCheckApiInvariants() ? Collections.unmodifiableCollection( scopes ) : scopes;
   }
 
-  /**
-   * Dispose the scope.
-   * The nested scopes (if any) must have already been disposed but this scope must
-   * not have been disposed. This method will removed the scope from the list of scopes
-   * in the parent scope (if any).
-   */
-  void dispose()
+  @PreDispose
+  void preDispose()
   {
-    assert !_disposed;
-    // The assumption is that by the time we get here all nested scopes have also been disposed
     assert _nestedScopes.isEmpty();
     if ( null != _parent )
     {
       _parent._nestedScopes.remove( _name );
     }
-    _disposed = true;
   }
 
   /**

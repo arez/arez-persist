@@ -1,5 +1,6 @@
 package arez.persist.runtime;
 
+import arez.Disposable;
 import arez.SafeProcedure;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,7 +95,7 @@ public final class Store
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
       apiInvariant( () -> !isDisposed(), () -> "Store.save() invoked after the store has been disposed" );
-      apiInvariant( () -> !scope.isDisposed(),
+      apiInvariant( () -> Disposable.isNotDisposed( scope ),
                     () -> "Store.save() passed a disposed scope named '" + scope.getName() + "'" );
     }
 
@@ -128,7 +129,7 @@ public final class Store
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
       apiInvariant( () -> !isDisposed(), () -> "Store.remove() invoked after the store has been disposed" );
-      apiInvariant( () -> !scope.isDisposed(),
+      apiInvariant( () -> Disposable.isNotDisposed( scope ),
                     () -> "Store.remove() passed a disposed scope named '" + scope.getName() + "'" );
     }
     final Map<String, Map<String, StorageService.Entry>> scopeMap = _config.get( scope );
@@ -158,7 +159,7 @@ public final class Store
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
       apiInvariant( () -> !isDisposed(), () -> "Store.get() invoked after the store has been disposed" );
-      apiInvariant( () -> !scope.isDisposed(),
+      apiInvariant( () -> Disposable.isNotDisposed( scope ),
                     () -> "Store.get() passed a disposed scope named '" + scope.getName() + "'" );
     }
     final Map<String, Map<String, StorageService.Entry>> scopeMap = _config.get( scope );

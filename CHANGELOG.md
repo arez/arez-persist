@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Convert `Scope` into an arez component so that it supports the `arez.Disposable` interface rather than a custom mechanism for detecting disposal. The `Scope` also implements the `arez.component.DisposeNotifier` interface as a result of the conversion to an arez component. This makes it possible to annotated fields of type `Scope` with arezs `@CascadeDispsoe` and `@ComponentDependency` annotations.
+
 ### [v0.09](https://github.com/arez/arez-persist/tree/v0.09) (2020-06-09) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.08...v0.09)
 
 * Upgrade the `org.realityforge.arez.testng` artifact to version `0.14`.

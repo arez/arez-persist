@@ -1,6 +1,7 @@
 package arez.persist.runtime;
 
 import arez.ArezTestUtil;
+import arez.Disposable;
 import arez.component.Identifiable;
 import arez.persist.AbstractTest;
 import java.util.Collections;
@@ -40,13 +41,13 @@ public final class ScopeTest
     assertEquals( scope.getQualifiedName(), name );
     assertEquals( Identifiable.getArezId( scope ), name );
     assertEquals( scope.toString(), name );
-    assertFalse( scope.isDisposed() );
+    assertFalse( Disposable.isDisposed( scope ) );
     assertEquals( scope.getNestedScopes().size(), 0 );
 
     ArezPersist.disposeScope( scope );
 
     assertEquals( parent.getNestedScopes().size(), 0 );
-    assertTrue( scope.isDisposed() );
+    assertTrue( Disposable.isDisposed( scope ) );
   }
 
   @Test
@@ -124,7 +125,7 @@ public final class ScopeTest
     ArezPersist.disposeScope( scope );
 
     assertEquals( parent.getNestedScopes().size(), 0 );
-    assertTrue( scope.isDisposed() );
+    assertTrue( Disposable.isDisposed( scope ) );
 
     assertInvariantFailure( () -> scope.findOrCreateScope( name2 ),
                             "findOrCreateScope() invoked on disposed scope named '" + name1 + "'" );

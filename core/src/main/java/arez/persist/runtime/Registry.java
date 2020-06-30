@@ -1,5 +1,6 @@
 package arez.persist.runtime;
 
+import arez.Disposable;
 import arez.SafeProcedure;
 import grim.annotations.OmitSymbol;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import static org.realityforge.braincheck.Guards.*;
 
 /**
@@ -29,8 +31,8 @@ final class Registry
   /**
    * The root scope.
    */
-  @Nonnull
-  private static Scope c_rootScope = new Scope( null, Scope.ROOT_SCOPE_NAME );
+  @Nullable
+  private static Scope c_rootScope = Scope.create( null, Scope.ROOT_SCOPE_NAME );
 
   static
   {
@@ -50,6 +52,10 @@ final class Registry
   @Nonnull
   static Scope getRootScope()
   {
+    if ( null == c_rootScope )
+    {
+      c_rootScope = Scope.create( null, Scope.ROOT_SCOPE_NAME );
+    }
     return c_rootScope;
   }
 
@@ -65,9 +71,7 @@ final class Registry
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
-      apiInvariant( () -> !Scope.ROOT_SCOPE_NAME.equals( scope.getName() ),
-                    () -> "disposeScope() invoked with the root scope" );
-      apiInvariant( () -> !scope.isDisposed(),
+      apiInvariant( () -> Disposable.isNotDisposed( scope ),
                     () -> "disposeScope() passed a disposed scope named '" + scope.getName() + "'" );
     }
     releaseScope( scope );
@@ -84,7 +88,7 @@ final class Registry
   {
     if ( ArezPersist.shouldCheckApiInvariants() )
     {
-      apiInvariant( () -> !scope.isDisposed(),
+      apiInvariant( () -> Disposable.isNotDisposed( scope ),
                     () -> "releaseScope() passed a disposed scope named '" + scope.getName() + "'" );
     }
     c_stores.values().forEach( store -> store.releaseScope( scope ) );
@@ -93,7 +97,7 @@ final class Registry
   private static void _disposeScope( @Nonnull final Scope scope )
   {
     new ArrayList<>( scope.getNestedScopes() ).forEach( Registry::_disposeScope );
-    scope.dispose();
+    Disposable.dispose( scope );
   }
 
   /**
@@ -218,7 +222,10 @@ final class Registry
     c_stores.clear();
     c_converters.clear();
     ArezPersist.registerApplicationStoreIfEnabled();
-    releaseScope( c_rootScope );
-    c_rootScope = new Scope( null, Scope.ROOT_SCOPE_NAME );
+    if ( null != c_rootScope )
+    {
+      disposeScope( c_rootScope );
+      c_rootScope = null;
+    }
   }
 }

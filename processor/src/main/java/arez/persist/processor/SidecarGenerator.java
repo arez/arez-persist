@@ -195,7 +195,7 @@ final class SidecarGenerator
                          .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
                          .build() );
 
-    method.addStatement( "assert !scope.isDisposed()" );
+    method.addStatement( "assert $T.isNotDisposed( scope )", DISPOSABLE_CLASSNAME );
     method.addStatement( "assert $T.isNotDisposed( peer )", DISPOSABLE_CLASSNAME );
 
     final StringBuilder storeParams = new StringBuilder();
@@ -236,7 +236,7 @@ final class SidecarGenerator
                          .build() );
 
     final CodeBlock.Builder block = CodeBlock.builder();
-    block.beginControlFlow( "if ( !scope.isDisposed() && $T.isNotDisposed( peer ) ) ", DISPOSABLE_CLASSNAME );
+    block.beginControlFlow( "if ( $T.isNotDisposed( scope ) && $T.isNotDisposed( peer ) ) ", DISPOSABLE_CLASSNAME, DISPOSABLE_CLASSNAME );
     block.addStatement( "attach( scope, peer )" );
     block.endControlFlow();
     method.addCode( block.build() );
@@ -261,7 +261,7 @@ final class SidecarGenerator
                          .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
                          .build() );
 
-    method.addStatement( "assert !scope.isDisposed()" );
+    method.addStatement( "assert $T.isNotDisposed( scope )", DISPOSABLE_CLASSNAME );
     method.addStatement( "assert $T.isNotDisposed( peer )", DISPOSABLE_CLASSNAME );
     method.addStatement( "$T.context().task( " +
                          "$T.areNamesEnabled() ? $S + ( ++c_nextTaskId ) : null, " +
@@ -309,7 +309,9 @@ final class SidecarGenerator
     {
       final String fieldName = "_" + storeVar( storeName );
       final CodeBlock.Builder block = CodeBlock.builder();
-      block.beginControlFlow( "if ( !$N.isDisposed() && !_scope.isDisposed() )", fieldName );
+      block.beginControlFlow( "if ( !$N.isDisposed() && $T.isNotDisposed( _scope ) )",
+                              fieldName,
+                              DISPOSABLE_CLASSNAME );
       block.addStatement( "final $T state = $N.get( _scope, $T.TYPE, $N, $T.TYPE_CONVERTER )",
                           ParameterizedTypeName.get( Map.class, String.class, Object.class ),
                           fieldName,
@@ -379,7 +381,9 @@ final class SidecarGenerator
     {
       final String fieldName = "_" + storeVar( storeName );
       final CodeBlock.Builder block = CodeBlock.builder();
-      block.beginControlFlow( "if ( !$N.isDisposed() && !_scope.isDisposed() )", fieldName );
+      block.beginControlFlow( "if ( !$N.isDisposed() && $T.isNotDisposed( _scope ) )",
+                              fieldName,
+                              DISPOSABLE_CLASSNAME );
       block.addStatement( "final $T state = new $T<>()",
                           ParameterizedTypeName.get( Map.class, String.class, Object.class ),
                           HashMap.class );

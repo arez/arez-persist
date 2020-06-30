@@ -6,6 +6,7 @@ import grim.annotations.OmitClinit;
 import grim.annotations.OmitSymbol;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import static org.realityforge.braincheck.Guards.*;
 
 /**
  * Provide an interface to register and access stores and access the root scope as well as global configuration settings.
@@ -151,6 +152,11 @@ public final class ArezPersist
    */
   public static void disposeScope( @Nonnull final Scope scope )
   {
+    if ( ArezPersist.shouldCheckApiInvariants() )
+    {
+      apiInvariant( () -> !Scope.ROOT_SCOPE_NAME.equals( scope.getName() ),
+                    () -> "disposeScope() invoked with the root scope" );
+    }
     Registry.disposeScope( scope );
   }
 
