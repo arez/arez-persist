@@ -1,5 +1,7 @@
 # Change Log
 
+### Unreleased
+
 ### [v0.12](https://github.com/arez/arez-persist/tree/v0.12) (2020-07-02) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.11...v0.12)
 
 * Update the 'org.realityforge.arez' dependencies to version '0.184'
