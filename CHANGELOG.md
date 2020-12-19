@@ -1,6 +1,6 @@
 # Change Log
 
-### Unreleased
+### [v0.21](https://github.com/arez/arez-persist/tree/v0.21) (2020-12-19) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.20...v0.21)
 
 * Update the 'org.realityforge.arez' dependencies to version '0.192'
 * Upgrade the `org.realityforge.org.jetbrains.annotations` artifact to version `1.7.0`.
