@@ -444,7 +444,8 @@ final class SidecarGenerator
     final TypeElement element = descriptor.getElement();
     final MethodSpec.Builder ctor = MethodSpec.constructorBuilder();
     builder.addField( FieldSpec
-                        .builder( SCOPE_CLASSNAME, "_scope", Modifier.PRIVATE, Modifier.FINAL )
+                        .builder( SCOPE_CLASSNAME, "_scope", Modifier.FINAL )
+                        .addAnnotation( COMPONENT_DEPENDENCY_CLASSNAME )
                         .addAnnotation( GeneratorUtil.NONNULL_CLASSNAME )
                         .build() );
     ctor.addParameter( ParameterSpec

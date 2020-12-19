@@ -30,8 +30,9 @@ import javax.annotation.Nonnull;
 abstract class TypeIntPersistModel_PersistSidecar {
   private static int c_nextTaskId;
 
+  @ComponentDependency
   @Nonnull
-  private final Scope _scope;
+  final Scope _scope;
 
   @ComponentDependency
   @Nonnull
