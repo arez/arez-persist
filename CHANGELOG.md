@@ -1,6 +1,6 @@
 # Change Log
 
-### Unreleased
+### [v0.20](https://github.com/arez/arez-persist/tree/v0.20) (2020-12-19) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.19...v0.20)
 
 * Upgrade the `org.realityforge.org.jetbrains.annotations` artifact to version `1.6.0`.
 * Ensure that the generated side-car handles the scenario where the `Scope` reference can be disposed.
