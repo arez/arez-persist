@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Upgrade the `org.realityforge.org.jetbrains.annotations` artifact to version `1.7.0`.
 * Ensure a scope id disposed if the parent scope is disposed.
 
 ### [v0.20](https://github.com/arez/arez-persist/tree/v0.20) (2020-12-19) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.19...v0.20)
