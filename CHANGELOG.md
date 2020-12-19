@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Update the 'org.realityforge.arez' dependencies to version '0.192'
 * Upgrade the `org.realityforge.org.jetbrains.annotations` artifact to version `1.7.0`.
 * Ensure a scope id disposed if the parent scope is disposed.
 
