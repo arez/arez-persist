@@ -3,6 +3,7 @@ package arez.persist.runtime;
 import arez.Arez;
 import arez.Disposable;
 import arez.annotations.ArezComponent;
+import arez.annotations.ComponentDependency;
 import arez.annotations.ComponentId;
 import arez.annotations.PreDispose;
 import java.util.Collection;
@@ -25,7 +26,7 @@ import static org.realityforge.braincheck.Guards.*;
  * <p>A scope may be disposed. It is no longer valid to create nested scopes, store state or retrieve
  * state with disposed scopes.</p>
  */
-@ArezComponent( allowEmpty = true )
+@ArezComponent
 public abstract class Scope
 {
   /**
@@ -36,8 +37,9 @@ public abstract class Scope
   /**
    * The parent scope. Every scope but the root scope must contain a parent.
    */
+  @ComponentDependency
   @Nullable
-  private final Scope _parent;
+  final Scope _parent;
   /**
    * The name of the scope. Scopes have alphanumeric names and may also include '-' or '_' characters.
    */
