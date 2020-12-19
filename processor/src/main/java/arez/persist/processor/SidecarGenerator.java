@@ -236,7 +236,9 @@ final class SidecarGenerator
                          .build() );
 
     final CodeBlock.Builder block = CodeBlock.builder();
-    block.beginControlFlow( "if ( $T.isNotDisposed( scope ) && $T.isNotDisposed( peer ) ) ", DISPOSABLE_CLASSNAME, DISPOSABLE_CLASSNAME );
+    block.beginControlFlow( "if ( $T.isNotDisposed( scope ) && $T.isNotDisposed( peer ) ) ",
+                            DISPOSABLE_CLASSNAME,
+                            DISPOSABLE_CLASSNAME );
     block.addStatement( "attach( scope, peer )" );
     block.endControlFlow();
     method.addCode( block.build() );
