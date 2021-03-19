@@ -52,8 +52,7 @@ define 'arez-persist' do
                  ELEMENTAL2_DEPS,
                  :jsinterop_annotations
 
-    project.processorpath << artifacts(:grim_processor, :javax_json)
-    project.processorpath << artifacts(:arez_processor)
+    compile.options[:processor_path] << [:arez_processor, :grim_processor, :javax_json]
 
     test.options[:properties] =
       TEST_OPTIONS.merge('arez.persist.core.compile_target' => compile.target.to_s)
@@ -72,8 +71,6 @@ define 'arez-persist' do
   desc 'The Annotation processor'
   define 'processor' do
     pom.dependency_filter = Proc.new { |_| false }
-
-    project.processorpath << [:arez_processor]
 
     compile.with :javax_annotation,
                  :proton_core,
@@ -118,20 +115,17 @@ define 'arez-persist' do
 
   desc 'Arez Integration Tests'
   define 'integration-tests' do
-    project.enable_annotation_processor = true
-
     test.options[:properties] = TEST_OPTIONS
     test.options[:java_args] = ['-ea']
 
     test.using :testng
     test.compile.with :guiceyloops,
                       :arez_testng,
-                      :arez_processor,
                       :javax_json,
                       project('core').package(:jar),
-                      project('core').compile.dependencies,
-                      project('processor').package(:jar),
-                      project('processor').compile.dependencies
+                      project('core').compile.dependencies
+
+    test.compile.options[:processor_path] << [:arez_processor, project('processor').package(:jar), project('processor').compile.dependencies]
 
     # The generators are configured to generate to here.
     iml.test_source_directories << _('generated/processors/test/java')
@@ -161,41 +155,10 @@ define 'arez-persist' do
                                :module => 'integration-tests',
                                :jvm_args => '-ea -Dbraincheck.environment=development -Darez.environment=development -Darez.persist.environment=development')
 
-  ipr.add_component_from_artifact(:idea_codestyle)
-
   ipr.nonnull_assertions = false
 
-  ipr.add_component('JavacSettings') do |xml|
-    xml.option(:name => 'ADDITIONAL_OPTIONS_STRING', :value => '-Xlint:all,-processing,-serial -Werror -Xmaxerrs 10000 -Xmaxwarns 10000')
-  end
-
-  ipr.add_component('JavaProjectCodeInsightSettings') do |xml|
-    xml.tag!('excluded-names') do
-      xml << '<name>com.sun.istack.internal.NotNull</name>'
-      xml << '<name>com.sun.istack.internal.Nullable</name>'
-      xml << '<name>org.jetbrains.annotations.Nullable</name>'
-      xml << '<name>org.jetbrains.annotations.NotNull</name>'
-      xml << '<name>org.testng.AssertJUnit</name>'
-    end
-  end
-  ipr.add_component('NullableNotNullManager') do |component|
-    component.option :name => 'myDefaultNullable', :value => 'javax.annotation.Nullable'
-    component.option :name => 'myDefaultNotNull', :value => 'javax.annotation.Nonnull'
-    component.option :name => 'myNullables' do |option|
-      option.value do |value|
-        value.list :size => '2' do |list|
-          list.item :index => '0', :class => 'java.lang.String', :itemvalue => 'org.jetbrains.annotations.Nullable'
-          list.item :index => '1', :class => 'java.lang.String', :itemvalue => 'javax.annotation.Nullable'
-        end
-      end
-    end
-    component.option :name => 'myNotNulls' do |option|
-      option.value do |value|
-        value.list :size => '2' do |list|
-          list.item :index => '0', :class => 'java.lang.String', :itemvalue => 'org.jetbrains.annotations.NotNull'
-          list.item :index => '1', :class => 'java.lang.String', :itemvalue => 'javax.annotation.Nonnull'
-        end
-      end
-    end
-  end
+  ipr.add_component_from_artifact(:idea_codestyle)
+  ipr.add_code_insight_settings
+  ipr.add_nullable_manager
+  ipr.add_javac_settings('-Xlint:all,-processing,-serial -Werror -Xmaxerrs 10000 -Xmaxwarns 10000')
 end
