@@ -6,7 +6,6 @@ import arez.annotations.ArezComponent;
 import arez.annotations.ComponentDependency;
 import arez.annotations.Observable;
 import arez.annotations.PostConstruct;
-import elemental2.dom.DomGlobal;
 import javax.annotation.Nonnull;
 
 @ArezComponent

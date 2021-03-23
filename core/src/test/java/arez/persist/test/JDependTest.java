@@ -33,9 +33,9 @@ public final class JDependTest
     final JavaPackage browserRuntime = constraint.addPackage( "arez.persist.runtime.browser" );
     final JavaPackage jsinterop = constraint.addPackage( "jsinterop.annotations" );
     final JavaPackage jsinteropBase = constraint.addPackage( "jsinterop.base" );
-    final JavaPackage elemental2Core = constraint.addPackage( "elemental2.core" );
-    final JavaPackage elemental2Dom = constraint.addPackage( "elemental2.dom" );
-    final JavaPackage elemental2Webstorage = constraint.addPackage( "elemental2.webstorage" );
+    final JavaPackage akashaLang = constraint.addPackage( "akasha.lang" );
+    final JavaPackage akashaCore = constraint.addPackage( "akasha.core" );
+    final JavaPackage akasha = constraint.addPackage( "akasha" );
 
     runtime.dependsUpon( jsinterop );
     runtime.dependsUpon( persist );
@@ -48,9 +48,10 @@ public final class JDependTest
     browserRuntime.dependsUpon( persist );
     browserRuntime.dependsUpon( runtime );
     browserRuntime.dependsUpon( jsinteropBase );
-    browserRuntime.dependsUpon( elemental2Core );
-    browserRuntime.dependsUpon( elemental2Dom );
-    browserRuntime.dependsUpon( elemental2Webstorage );
+    browserRuntime.dependsUpon( jsinterop );
+    browserRuntime.dependsUpon( akasha );
+    browserRuntime.dependsUpon( akashaLang );
+    browserRuntime.dependsUpon( akashaCore );
 
     final DependencyConstraint.MatchResult result = jdepend.analyzeDependencies( constraint );
 

@@ -8,15 +8,6 @@ require 'buildr/shade'
 
 Buildr::MavenCentral.define_publish_tasks(:profile_name => 'org.realityforge', :username => 'realityforge')
 
-ELEMENTAL2_DEPS =
-  [
-    :elemental2_core,
-    :elemental2_dom,
-    :elemental2_promise,
-    :elemental2_webstorage,
-    :jsinterop_base
-  ]
-
 # JDK options passed to test environment. Essentially turns assertions on.
 TEST_OPTIONS =
   {
@@ -52,7 +43,8 @@ define 'arez-persist' do
                  :braincheck,
                  :arez_core,
                  :jetbrains_annotations,
-                 ELEMENTAL2_DEPS,
+                 :akasha,
+                 :jsinterop_base,
                  :jsinterop_annotations
 
     compile.options[:processor_path] << [:arez_processor, :grim_processor, :javax_json]

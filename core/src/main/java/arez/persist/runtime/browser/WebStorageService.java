@@ -1,23 +1,24 @@
 package arez.persist.runtime.browser;
 
+import akasha.EventListener;
+import akasha.Global;
+import akasha.Storage;
+import akasha.core.JSON;
+import akasha.lang.JsArray;
 import arez.SafeProcedure;
 import arez.persist.runtime.ArezPersist;
 import arez.persist.runtime.Scope;
 import arez.persist.runtime.StorageService;
 import arez.persist.runtime.TypeConverter;
-import elemental2.core.Global;
-import elemental2.core.JsArray;
-import elemental2.core.JsObject;
-import elemental2.dom.DomGlobal;
-import elemental2.dom.EventListener;
-import elemental2.webstorage.Storage;
-import elemental2.webstorage.WebStorageWindow;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsType;
+import jsinterop.base.Any;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -52,13 +53,13 @@ final class WebStorageService
   @Nonnull
   static WebStorageService createSessionStorageService( @Nonnull final String persistenceKey )
   {
-    return new WebStorageService( WebStorageWindow.of( DomGlobal.window ).sessionStorage, persistenceKey );
+    return new WebStorageService( Global.sessionStorage(), persistenceKey );
   }
 
   @Nonnull
   static WebStorageService createLocalStorageService( @Nonnull final String persistenceKey )
   {
-    return new WebStorageService( WebStorageWindow.of( DomGlobal.window ).localStorage, persistenceKey );
+    return new WebStorageService( Global.localStorage(), persistenceKey );
   }
 
   private WebStorageService( @Nonnull final Storage storage, @Nonnull final String address )
@@ -66,7 +67,7 @@ final class WebStorageService
     _storage = Objects.requireNonNull( storage );
     _address = Objects.requireNonNull( address );
     // It should be noted that we don't
-    DomGlobal.window.addEventListener( "beforeunload", _beforeUnloadListener );
+    Global.addBeforeunloadListener( _beforeUnloadListener );
   }
 
   @Override
@@ -74,10 +75,10 @@ final class WebStorageService
   {
     if ( 0 != _idleCallbackId )
     {
-      DomGlobal.cancelIdleCallback( _idleCallbackId );
+      Global.cancelIdleCallback( _idleCallbackId );
       _idleCallbackId = 0;
     }
-    DomGlobal.window.removeEventListener( "beforeunload", _beforeUnloadListener );
+    Global.removeBeforeunloadListener(  _beforeUnloadListener );
   }
 
   @Override
@@ -87,7 +88,7 @@ final class WebStorageService
     // An alternative strategy is to send a message to a WebWorker containing the
     // state to save and performing the save in the other thread but we have yet
     // to see a scenario where performance requirements would warrant the extra complexity
-    _idleCallbackId = DomGlobal.requestIdleCallback( t -> commitTriggerAction.call() );
+    _idleCallbackId = Global.requestIdleCallback( t -> commitTriggerAction.call() );
   }
 
   @Override
@@ -119,7 +120,7 @@ final class WebStorageService
     }
     else
     {
-      _storage.setItem( _address, Global.JSON.stringify( data ) );
+      _storage.setItem( _address, JSON.stringify( data ) );
     }
   }
 
@@ -158,7 +159,9 @@ final class WebStorageService
     final String item = _storage.getItem( _address );
     if ( null != item )
     {
-      final JsPropertyMap<Object> scopes = Js.uncheckedCast( Global.JSON.parse( item ) );
+      final Any value = JSON.parse( item );
+      assert null != value;
+      final JsPropertyMap<Object> scopes = value.cast();
       final JsArray<String> scopeNames = JsObject.keys( scopes );
       final int scopeCount = scopeNames.length;
       for ( int s = 0; s < scopeCount; s++ )
@@ -209,5 +212,12 @@ final class WebStorageService
     {
       _commitTriggerAction.call();
     }
+  }
+
+  @JsType( isNative = true, name = "Object", namespace = JsPackage.GLOBAL )
+  private static class JsObject
+  {
+    @Nonnull
+    private static native JsArray<String> keys( @Nonnull Object obj );
   }
 }
