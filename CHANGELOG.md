@@ -1,6 +1,6 @@
 # Change Log
 
-### Unreleased
+### [v0.22](https://github.com/arez/arez-persist/tree/v0.22) (2021-03-24) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.21...v0.22)
 
 * Update the 'org.realityforge.arez' dependencies to version '0.193'
 * Upgrade the `org.realityforge.grim` artifacts to version `0.05`.
