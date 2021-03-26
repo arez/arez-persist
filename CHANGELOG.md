@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Update the 'org.realityforge.arez' dependencies to version '0.194'
 * Upgrade the `org.realityforge.akasha` artifact to version `0.03`.
 
 ### [v0.22](https://github.com/arez/arez-persist/tree/v0.22) (2021-03-24) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.21...v0.22)
