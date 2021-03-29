@@ -1,6 +1,6 @@
 # Change Log
 
-### Unreleased
+### [v0.24](https://github.com/arez/arez-persist/tree/v0.24) (2021-03-30) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.23...v0.24)
 
 * Upgrade the `org.realityforge.akasha` artifact to version `0.05`.
 
