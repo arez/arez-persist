@@ -48,7 +48,6 @@ public final class JDependTest
     browserRuntime.dependsUpon( persist );
     browserRuntime.dependsUpon( runtime );
     browserRuntime.dependsUpon( jsinteropBase );
-    browserRuntime.dependsUpon( jsinterop );
     browserRuntime.dependsUpon( akasha );
     browserRuntime.dependsUpon( akashaLang );
     browserRuntime.dependsUpon( akashaCore );
