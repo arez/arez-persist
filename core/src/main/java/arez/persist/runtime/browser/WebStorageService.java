@@ -4,6 +4,7 @@ import akasha.EventListener;
 import akasha.Global;
 import akasha.Storage;
 import akasha.core.JSON;
+import akasha.core.JsObject;
 import akasha.lang.JsArray;
 import arez.SafeProcedure;
 import arez.persist.runtime.ArezPersist;
@@ -16,8 +17,6 @@ import java.util.Objects;
 import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsType;
 import jsinterop.base.Any;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
@@ -212,12 +211,5 @@ final class WebStorageService
     {
       _commitTriggerAction.call();
     }
-  }
-
-  @JsType( isNative = true, name = "Object", namespace = JsPackage.GLOBAL )
-  private static class JsObject
-  {
-    @Nonnull
-    private static native JsArray<String> keys( @Nonnull Object obj );
   }
 }
