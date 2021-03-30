@@ -1,6 +1,6 @@
 # Change Log
 
-### Unreleased
+### [v0.25](https://github.com/arez/arez-persist/tree/v0.25) (2021-03-30) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.24...v0.25)
 
 * Migrate to new release process.
 
