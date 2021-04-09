@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Update the 'org.realityforge.arez' dependencies to version '0.196'
 * Upgrade the `org.realityforge.akasha` artifact to version `0.06`.
 * Upgrade the `org.realityforge.arez.testng` artifact to version `0.27`.
 
