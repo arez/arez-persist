@@ -1,8 +1,8 @@
 package arez.persist.runtime.browser;
 
 import akasha.EventListener;
-import akasha.Global;
 import akasha.Storage;
+import akasha.WindowGlobal;
 import akasha.core.JSON;
 import akasha.core.JsObject;
 import akasha.lang.JsArray;
@@ -52,13 +52,13 @@ final class WebStorageService
   @Nonnull
   static WebStorageService createSessionStorageService( @Nonnull final String persistenceKey )
   {
-    return new WebStorageService( Global.sessionStorage(), persistenceKey );
+    return new WebStorageService( WindowGlobal.sessionStorage(), persistenceKey );
   }
 
   @Nonnull
   static WebStorageService createLocalStorageService( @Nonnull final String persistenceKey )
   {
-    return new WebStorageService( Global.localStorage(), persistenceKey );
+    return new WebStorageService( WindowGlobal.localStorage(), persistenceKey );
   }
 
   private WebStorageService( @Nonnull final Storage storage, @Nonnull final String address )
@@ -66,7 +66,7 @@ final class WebStorageService
     _storage = Objects.requireNonNull( storage );
     _address = Objects.requireNonNull( address );
     // It should be noted that we don't
-    Global.addBeforeunloadListener( _beforeUnloadListener );
+    WindowGlobal.addBeforeunloadListener( _beforeUnloadListener );
   }
 
   @Override
@@ -74,10 +74,10 @@ final class WebStorageService
   {
     if ( 0 != _idleCallbackId )
     {
-      Global.cancelIdleCallback( _idleCallbackId );
+      WindowGlobal.cancelIdleCallback( _idleCallbackId );
       _idleCallbackId = 0;
     }
-    Global.removeBeforeunloadListener(  _beforeUnloadListener );
+    WindowGlobal.removeBeforeunloadListener(  _beforeUnloadListener );
   }
 
   @Override
@@ -87,7 +87,7 @@ final class WebStorageService
     // An alternative strategy is to send a message to a WebWorker containing the
     // state to save and performing the save in the other thread but we have yet
     // to see a scenario where performance requirements would warrant the extra complexity
-    _idleCallbackId = Global.requestIdleCallback( t -> commitTriggerAction.call() );
+    _idleCallbackId = WindowGlobal.requestIdleCallback( t -> commitTriggerAction.call() );
   }
 
   @Override

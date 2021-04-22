@@ -2,7 +2,7 @@
 
 ### Unreleased
 
-* Upgrade the `org.realityforge.akasha` artifact to version `0.07`.
+* Upgrade the `org.realityforge.akasha` artifact to version `0.10`.
 * Upgrade the `org.realityforge.braincheck` artifact to version `1.31.0`.
 * Upgrade the `org.realityforge.arez.testng` artifact to version `0.28`.
 
