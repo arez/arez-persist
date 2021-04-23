@@ -1,6 +1,8 @@
 # Change Log
 
-### Unreleased
+### [v0.28](https://github.com/arez/arez-persist/tree/v0.28) (2021-04-23) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.27...v0.28)
+
+Changes in this release:
 
 * Update the 'org.realityforge.arez' dependencies to version '0.197'
 * Upgrade the `org.realityforge.akasha` artifact to version `0.10`.
