@@ -1,6 +1,6 @@
 package arez.persist.runtime.browser;
 
-import akasha.EventListener;
+import akasha.BeforeUnloadEventListener;
 import akasha.Storage;
 import akasha.WindowGlobal;
 import akasha.core.JSON;
@@ -31,7 +31,7 @@ final class WebStorageService
    * A reference to the "beforeunload" listener so that the listener can be removed on disposed.
    */
   @Nonnull
-  private final EventListener _beforeUnloadListener = e -> maybeCommit();
+  private final BeforeUnloadEventListener _beforeUnloadListener = e -> maybeCommit();
   /**
    * The browsers storage api targeted by the service.
    */
