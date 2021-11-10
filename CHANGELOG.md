@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Update the `org.realityforge.grim` artifacts to version `0.06`.
 * Update the `org.realityforge.akasha` artifacts to version `0.29`.
 
 ### [v0.32](https://github.com/arez/arez-persist/tree/v0.32) (2021-10-22) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.31...v0.32)
