@@ -5,6 +5,7 @@
 * Update the `org.realityforge.arez` artifacts to version `0.201`
 * Update the `org.realityforge.grim` artifacts to version `0.06`.
 * Update the `org.realityforge.akasha` artifacts to version `0.29`.
+* Upgrade the `org.realityforge.proton` artifacts to version `0.52`. This fixes a crash that occurs with concurrent, incremental builds within the IntelliJ IDE. (This is the crash reported with message `javax.annotation.processing.FilerException: Attempt to recreate a file for type ...`).
 
 ### [v0.32](https://github.com/arez/arez-persist/tree/v0.32) (2021-10-22) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.31...v0.32)
 

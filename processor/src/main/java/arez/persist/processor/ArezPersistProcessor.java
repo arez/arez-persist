@@ -71,6 +71,8 @@ public final class ArezPersistProcessor
   @Override
   public boolean process( @Nonnull final Set<? extends TypeElement> annotations, @Nonnull final RoundEnvironment env )
   {
+    debugAnnotationProcessingRootElements( env );
+    collectRootTypeNames( env );
     // Validate persist first so we don't have to perform validation inside type processing
     // The framework assumes that Arez is also running the annotation processor and validating
     // the shape of the same methods as they are marked as @Observable so this annotation processor
@@ -91,6 +93,7 @@ public final class ArezPersistProcessor
     processTypeElements( annotations, env, Constants.PERSIST_TYPE_CLASSNAME, _deferredTypes, this::process );
 
     errorIfProcessingOverAndInvalidTypesDetected( env );
+    clearRootTypeNamesIfProcessingOver( env );
     return true;
   }
 
