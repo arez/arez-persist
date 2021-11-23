@@ -22,7 +22,7 @@ artifacts:
   # jetbrains_annotations required for arez atm
   jetbrains_annotations: org.realityforge.org.jetbrains.annotations:org.jetbrains.annotations:jar:1.7.0
 
-  guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.106
+  guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.110
 
   javapoet: com.squareup:javapoet:jar:1.13.0
 
