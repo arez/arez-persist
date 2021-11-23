@@ -33,19 +33,18 @@ define 'arez-persist' do
 
   desc 'The Core Library'
   define 'core' do
-    pom.include_transitive_dependencies << artifact(:javax_annotation)
-    pom.include_transitive_dependencies << artifact(:jsinterop_annotations)
-    pom.include_transitive_dependencies << artifact(:braincheck)
-    pom.dependency_filter = Proc.new { |dep| dep[:scope].to_s != 'test' }
+    deps = artifacts(:javax_annotation,
+                     :grim_annotations,
+                     :braincheck,
+                     :arez_core,
+                     :jetbrains_annotations,
+                     :akasha,
+                     :jsinterop_base,
+                     :jsinterop_annotations)
+    pom.include_transitive_dependencies << deps
+    pom.dependency_filter = Proc.new { |dep| dep[:scope].to_s != 'test' && deps.include?(dep[:artifact]) }
 
-    compile.with :javax_annotation,
-                 :grim_annotations,
-                 :braincheck,
-                 :arez_core,
-                 :jetbrains_annotations,
-                 :akasha,
-                 :jsinterop_base,
-                 :jsinterop_annotations
+    compile.with deps
 
     compile.options[:processor_path] << [:arez_processor, :grim_processor, :javax_json]
 
