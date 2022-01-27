@@ -1,6 +1,8 @@
 # Change Log
 
-### Unreleased
+### [v0.36](https://github.com/arez/arez-persist/tree/v0.36) (2022-01-27) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.35...v0.36)
+
+Changes in this release:
 
 * Update the `org.realityforge.arez` artifacts to version `0.203`
 * Update the `org.realityforge.guiceyloops` artifact to version `0.110`.
