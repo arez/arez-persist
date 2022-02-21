@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Update the `org.realityforge.akasha` artifacts to version `0.30`.
+
 ### [v0.36](https://github.com/arez/arez-persist/tree/v0.36) (2022-01-27) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.35...v0.36)
 
 Changes in this release:
