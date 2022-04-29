@@ -1,8 +1,6 @@
-# Lock down dist to ensure that builds run on a distribution that supports oraclejdk8
-dist: trusty
 language: java
 jdk:
-- oraclejdk8
+- oraclejdk17
 rvm:
 - 2.7.2
 install:
@@ -11,7 +9,5 @@ install:
 - gem install bundler
 - bundle install
 script: bundle exec buildr ci
-after_success:
-- bash <(curl -s https://codecov.io/bash)
 git:
   depth: false

@@ -2,7 +2,6 @@ require 'buildr/git_auto_version'
 require 'buildr/gpg'
 require 'buildr/single_intermediate_layout'
 require 'buildr/gwt'
-require 'buildr/jacoco'
 require 'buildr/top_level_generate_dir'
 require 'buildr/shade'
 
@@ -19,8 +18,8 @@ TEST_OPTIONS =
 desc 'Arez-Persist: Arez extension for persisting observable properties'
 define 'arez-persist' do
   project.group = 'org.realityforge.arez.persist'
-  compile.options.source = '1.8'
-  compile.options.target = '1.8'
+  compile.options.source = '17'
+  compile.options.target = '17'
   compile.options.lint = 'all,-processing,-serial'
   project.compile.options.warnings = true
   project.compile.options.other = %w(-Werror -Xmaxerrs 10000 -Xmaxwarns 10000)
@@ -59,7 +58,13 @@ define 'arez-persist' do
     package(:javadoc)
 
     test.using :testng
-    test.compile.with :guiceyloops, :jdepend, :arez_testng, :mockito
+    test.compile.with :guiceyloops,
+                      :jdepend,
+                      :arez_testng,
+                      :mockito,
+                      :byte_buddy,
+                      :objenesis
+
   end
 
   desc 'The Annotation processor'
@@ -70,14 +75,7 @@ define 'arez-persist' do
                  :proton_core,
                  :javapoet
 
-    test.with :compile_testing,
-              Buildr::Util.tools_jar,
-              :proton_qa,
-              :truth,
-              :junit,
-              :guava,
-              :guava_failureaccess,
-              :hamcrest_core,
+    test.with :proton_qa,
               :arez_processor,
               project('core').package(:jar),
               project('core').compile.dependencies

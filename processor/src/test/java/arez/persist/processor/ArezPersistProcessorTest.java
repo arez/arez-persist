@@ -117,8 +117,8 @@ public final class ArezPersistProcessorTest
   public void inaccessiblePersistIdModel()
   {
     final List<JavaFileObject> inputs = Arrays.asList(
-      fixture( toFilename( "bad_input", "com.example.persist_id.other.BasePackageAccessPersistIdModel" ) ),
-      fixture( toFilename( "bad_input", "com.example.persist_id.InaccessiblePersistIdModel" ) )
+      fixture( "bad_input/" + toFilename( "com.example.persist_id.other.BasePackageAccessPersistIdModel" ) ),
+      fixture( "bad_input/" + toFilename( "com.example.persist_id.InaccessiblePersistIdModel" ) )
     );
     assertFailedCompileResource( inputs,
                                  "@PersistId target must not be package access if the method is in a different package from the type annotated with the @Persist annotation" );
@@ -172,7 +172,7 @@ public final class ArezPersistProcessorTest
   String[] deriveExpectedOutputs( @Nonnull final String classname )
   {
     final List<String> expectedOutputs = new ArrayList<>();
-    expectedOutputs.add( toFilename( "expected", classname, "", "_PersistSidecar.java" ) );
+    expectedOutputs.add( toFilename( classname, "", "_PersistSidecar.java" ) );
     return expectedOutputs.toArray( new String[ 0 ] );
   }
 
@@ -198,8 +198,11 @@ public final class ArezPersistProcessorTest
   }
 
   @Override
-  protected boolean emitGeneratedFile( @Nonnull final JavaFileObject target )
+  protected boolean emitGeneratedFile( @Nonnull final String target )
   {
-    return super.emitGeneratedFile( target ) && !target.getName().contains( "/Arez_" );
+    return super.emitGeneratedFile( target ) &&
+           !target.contains( "/Arez_" ) &&
+           !target.contains( "_Arez_" ) &&
+           !target.startsWith( "Arez_" );
   }
 }

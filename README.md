@@ -17,7 +17,7 @@ The simplest way to use the library;
 <dependency>
    <groupId>org.realityforge.arez.persist</groupId>
    <artifactId>arez-persist-core</artifactId>
-   <version>0.36</version>
+   <version>0.38</version>
 </dependency>
 ```
 * To enable the annotation processor used by the framework, you need add the following
@@ -40,7 +40,7 @@ The simplest way to use the library;
             <path>
                <groupId>org.realityforge.arez.persist</groupId>
                <artifactId>arez-persist-processor</artifactId>
-               <version>0.36</version>
+               <version>0.38</version>
             </path>
           </annotationProcessorPaths>
         </configuration>
@@ -160,6 +160,7 @@ a [Contributing](CONTRIBUTING.md) document is under development.
 # License
 
 The component is licensed under [Apache License, Version 2.0](LICENSE).
+
 # Credit
 
 * [Stock Software](http://www.stocksoftware.com.au/) for providing significant support in building and

@@ -18,8 +18,8 @@ import arez.persist.runtime.TypeConverter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import javax.annotation.Generated;
 import javax.annotation.Nonnull;
+import javax.annotation.processing.Generated;
 
 @ArezComponent(
     disposeNotifier = Feature.DISABLE,
