@@ -242,7 +242,7 @@ public final class StoreTest
     assertNull( store.get( scope, type, id, converter ) );
     assertNull( store.get( scope, type, id2, converter ) );
 
-    verifyZeroInteractions( service );
+    verifyNoInteractions( service );
 
     when( service.encodeState( eq( state1 ), eq( converter ) ) ).thenReturn( state1 );
 
@@ -257,7 +257,7 @@ public final class StoreTest
     assertEquals( store.get( scope, type, id, converter ), state1 );
     assertNull( store.get( scope, type, id2, converter ) );
 
-    verifyZeroInteractions( service );
+    verifyNoInteractions( service );
 
     when( service.encodeState( eq( state2 ), eq( converter ) ) ).thenReturn( state2 );
 
@@ -272,7 +272,7 @@ public final class StoreTest
     assertEquals( store.get( scope, type, id, converter ), state2 );
     assertNull( store.get( scope, type, id2, converter ) );
 
-    verifyZeroInteractions( service );
+    verifyNoInteractions( service );
 
     final SafeProcedure action = actionCaptor.getValue();
 
@@ -329,7 +329,7 @@ public final class StoreTest
 
     assertNull( store.get( scope, type, id, converter ) );
 
-    verifyZeroInteractions( service );
+    verifyNoInteractions( service );
 
     when( service.encodeState( eq( state1 ), eq( converter ) ) ).thenReturn( state1Encoded );
 

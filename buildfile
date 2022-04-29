@@ -58,7 +58,13 @@ define 'arez-persist' do
     package(:javadoc)
 
     test.using :testng
-    test.compile.with :guiceyloops, :jdepend, :arez_testng, :mockito
+    test.compile.with :guiceyloops,
+                      :jdepend,
+                      :arez_testng,
+                      :mockito,
+                      :byte_buddy,
+                      :objenesis
+
   end
 
   desc 'The Annotation processor'
