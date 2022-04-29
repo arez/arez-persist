@@ -29,14 +29,6 @@ artifacts:
   proton_core: org.realityforge.proton:proton-core:jar:0.58
   proton_qa: org.realityforge.proton:proton-qa:jar:0.58
 
-  #test deps
-  compile_testing: com.google.testing.compile:compile-testing:jar:0.18-rf
-  guava: com.google.guava:guava:jar:27.1-jre
-  guava_failureaccess: com.google.guava:failureaccess:jar:1.0.1
-  truth: com.google.truth:truth:jar:0.45
-  junit: junit:junit:jar:4.12
-  hamcrest_core: org.hamcrest:hamcrest-core:jar:1.3
-
   # GWT deps
   gwt_user: com.google.gwt:gwt-user:jar:2.9.0
   gwt_dev: com.google.gwt:gwt-dev:jar:2.9.0

@@ -2,6 +2,7 @@ package arez.persist.processor;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ import org.realityforge.proton.ElementsUtil;
 import org.realityforge.proton.GeneratorUtil;
 import org.realityforge.proton.MemberChecks;
 import org.realityforge.proton.ProcessorException;
+import org.realityforge.proton.StopWatch;
 
 /**
  * Annotation processor that analyzes Arez annotated source and generates models from the annotations.
@@ -53,6 +55,10 @@ public final class ArezPersistProcessor
   private static final String DEFAULT_SENTINEL = "<default>";
   @Nonnull
   private final DeferredElementSet _deferredTypes = new DeferredElementSet();
+  @Nonnull
+  private final StopWatch _analyzePersistTypeStopWatch = new StopWatch( "Analyze PersistType" );
+  @Nonnull
+  private final StopWatch _analyzePersistIdStopWatch = new StopWatch( "Analyze PersistId" );
 
   @Override
   @Nonnull
@@ -66,6 +72,13 @@ public final class ArezPersistProcessor
   protected String getOptionPrefix()
   {
     return "arez.persist";
+  }
+
+  @Override
+  protected void collectStopWatches( @Nonnull final Collection<StopWatch> stopWatches )
+  {
+    stopWatches.add( _analyzePersistTypeStopWatch );
+    stopWatches.add( _analyzePersistIdStopWatch );
   }
 
   @Override
@@ -90,7 +103,13 @@ public final class ArezPersistProcessor
       .findAny()
       .ifPresent( a -> verifyPersistIdElements( env, env.getElementsAnnotatedWith( a ) ) );
 
-    processTypeElements( annotations, env, Constants.PERSIST_TYPE_CLASSNAME, _deferredTypes, this::process );
+    processTypeElements( annotations,
+                         env,
+                         Constants.PERSIST_TYPE_CLASSNAME,
+                         _deferredTypes,
+                         _analyzePersistTypeStopWatch.getName(),
+                         this::process,
+                         _analyzePersistTypeStopWatch );
 
     errorIfProcessingOverAndInvalidTypesDetected( env );
     clearRootTypeNamesIfProcessingOver( env );
@@ -347,11 +366,13 @@ public final class ArezPersistProcessor
   {
     for ( final Element element : elements )
     {
-      performAction( env, e -> verifyPersistIdElement( env, e ), element );
+      performAction( env,
+                     _analyzePersistIdStopWatch.getName(), e -> verifyPersistIdElement( env, e ), element,
+                     _analyzePersistIdStopWatch );
     }
   }
 
-  private void verifyPersistIdElement( @Nonnull final RoundEnvironment env,  @Nonnull final Element element )
+  private void verifyPersistIdElement( @Nonnull final RoundEnvironment env, @Nonnull final Element element )
   {
     assert ElementKind.METHOD == element.getKind();
     final Element type = element.getEnclosingElement();

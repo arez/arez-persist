@@ -69,13 +69,7 @@ define 'arez-persist' do
                  :proton_core,
                  :javapoet
 
-    test.with :compile_testing,
-              :proton_qa,
-              :truth,
-              :junit,
-              :guava,
-              :guava_failureaccess,
-              :hamcrest_core,
+    test.with :proton_qa,
               :arez_processor,
               project('core').package(:jar),
               project('core').compile.dependencies
