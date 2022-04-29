@@ -19,8 +19,8 @@ TEST_OPTIONS =
 desc 'Arez-Persist: Arez extension for persisting observable properties'
 define 'arez-persist' do
   project.group = 'org.realityforge.arez.persist'
-  compile.options.source = '1.8'
-  compile.options.target = '1.8'
+  compile.options.source = '17'
+  compile.options.target = '17'
   compile.options.lint = 'all,-processing,-serial'
   project.compile.options.warnings = true
   project.compile.options.other = %w(-Werror -Xmaxerrs 10000 -Xmaxwarns 10000)
@@ -71,7 +71,6 @@ define 'arez-persist' do
                  :javapoet
 
     test.with :compile_testing,
-              Buildr::Util.tools_jar,
               :proton_qa,
               :truth,
               :junit,
