@@ -39,7 +39,7 @@ import org.realityforge.proton.StopWatch;
 @SupportedAnnotationTypes( { Constants.PERSIST_TYPE_CLASSNAME,
                              Constants.PERSIST_ID_CLASSNAME,
                              Constants.PERSIST_CLASSNAME } )
-@SupportedSourceVersion( SourceVersion.RELEASE_8 )
+@SupportedSourceVersion( SourceVersion.RELEASE_17 )
 @SupportedOptions( { "arez.persist.defer.unresolved", "arez.persist.defer.errors", "arez.persist.debug" } )
 public final class ArezPersistProcessor
   extends AbstractStandardProcessor
