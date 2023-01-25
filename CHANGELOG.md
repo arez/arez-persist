@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Add `arez.persist.profile` and `arez.persist.verbose_out_of_round` to the list of processor options declared as supported. This was not required in Java 8 but is required in Java 17 to have these options accessed by processor without errors.
+
 ### [v0.37](https://github.com/arez/arez-persist/tree/v0.37) (2022-04-29) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.36...v0.37)
 
 Changes in this release:
