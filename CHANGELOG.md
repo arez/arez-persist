@@ -4,12 +4,24 @@
 
 * Add `arez.persist.profile` and `arez.persist.verbose_out_of_round` to the list of processor options declared as supported. This was not required in Java 8 but is required in Java 17 to have these options accessed by processor without errors.
 
+### [v0.39](https://github.com/arez/arez-persist/tree/v0.39) (2023-01-23) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.38...v0.39)
+
+Changes in this release:
+
+* Update the `org.realityforge.arez` artifacts to version `0.206`
+
+### [v0.38](https://github.com/arez/arez-persist/tree/v0.38) (2022-04-29) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.37...v0.38)
+
+Changes in this release:
+
+* Update the `org.realityforge.arez` artifacts to version `0.205`
+
 ### [v0.37](https://github.com/arez/arez-persist/tree/v0.37) (2022-04-29) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.36...v0.37)
 
 Changes in this release:
 
 * Update the `org.realityforge.proton` artifacts to version `0.58`.
-* Update the `org.realityforge.arez` artifacts to version `0.204`.
+* Update the `org.realityforge.arez` artifacts to version `0.205`.
 * Update the `org.realityforge.grim` artifacts to version `0.09`.
 * Update the `org.realityforge.akasha` artifacts to version `0.30`.
 
