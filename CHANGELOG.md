@@ -1,5 +1,7 @@
 # Change Log
 
+### Unreleased
+
 ### [v0.42](https://github.com/arez/arez-persist/tree/v0.42) (2023-01-26) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.41...v0.42)
 
 Changes in this release:
