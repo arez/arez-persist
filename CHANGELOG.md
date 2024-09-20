@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Update the `org.realityforge.arez` artifacts to version `0.212`
+
 ### [v0.45](https://github.com/arez/arez-persist/tree/v0.45) (2024-08-17) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.44...v0.45)
 
 Changes in this release:
