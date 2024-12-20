@@ -1,6 +1,8 @@
 # Change Log
 
-### Unreleased
+### [v0.48](https://github.com/arez/arez-persist/tree/v0.48) (2024-12-20) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.47...v0.48)
+
+Changes in this release:
 
 * Add mechanisms for overriding the name of the setter used.
 
