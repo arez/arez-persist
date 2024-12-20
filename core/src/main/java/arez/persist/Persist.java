@@ -35,4 +35,15 @@ public @interface Persist
    */
   @Nonnull
   String store() default "<default>";
+
+  /**
+   * Return the name of the setter.
+   * If unspecified the tool assumes that the setter method is named according to javabeans setter based on the derived
+   * {@link #name()} of the property. So if the property is named {@code expanded} then the library will
+   * derive a setter method named {@code setExpanded}.
+   *
+   * @return the name of the setter used to update value when restoring from a persisted store.
+   */
+  @Nonnull
+  String setterName() default "<default>";
 }

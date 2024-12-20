@@ -224,8 +224,8 @@ public final class ArezPersistProcessor
 
     final String persistName = extractPersistName( method, persistAnnotation );
     final String persistStore = extractStore( element, method, persistAnnotation, defaultStore );
+    final String setterName = extractSetterName( method, persistAnnotation, persistName );
 
-    final String setterName = "set" + firstCharacterToUpperCase( persistName );
     final ExecutableElement setter = methods
       .stream()
       .filter( m -> TypeKind.VOID == m.getReturnType().getKind() &&
@@ -255,6 +255,15 @@ public final class ArezPersistProcessor
     {
       properties.put( persistName, new PropertyDescriptor( persistName, persistStore, method, setter ) );
     }
+  }
+
+  @Nonnull
+  private String extractSetterName( @Nonnull final ExecutableElement method,
+                                    @Nonnull final AnnotationMirror annotation,
+                                    @Nonnull final String persistName )
+  {
+    final String declaredValue = AnnotationsUtil.getAnnotationValueValue( annotation, "setterName" );
+    return "<default>".equals( declaredValue ) ? "set" + firstCharacterToUpperCase( persistName ) : declaredValue;
   }
 
   @Nonnull
