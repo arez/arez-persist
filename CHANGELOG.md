@@ -1,5 +1,7 @@
 # Change Log
 
+### Unreleased
+
 ### [v0.49](https://github.com/arez/arez-persist/tree/v0.49) (2025-01-14) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.48...v0.49)
 
 Changes in this release:
