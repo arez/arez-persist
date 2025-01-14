@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Update the `org.realityforge.arez` artifacts to version `0.214`
 * Update the `org.realityforge.proton` artifacts to version `0.65`.
 
 ### [v0.48](https://github.com/arez/arez-persist/tree/v0.48) (2024-12-20) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.47...v0.48)
