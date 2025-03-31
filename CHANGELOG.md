@@ -1,6 +1,8 @@
 # Change Log
 
-### Unreleased
+### [v0.53](https://github.com/arez/arez-persist/tree/v0.53) (2025-03-31) · [Full Changelog](https://github.com/arez/arez-persist/compare/v0.52...v0.53)
+
+Changes in this release:
 
 * Update the `org.realityforge.arez` artifacts to version `0.218`
 
