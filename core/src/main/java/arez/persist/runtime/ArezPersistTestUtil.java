@@ -30,7 +30,7 @@ public final class ArezPersistTestUtil
    */
   public static void resetConfig( final boolean production )
   {
-    if ( Config.isProductionEnvironment() )
+    if ( ArezPersistConfig.isProductionEnvironment() )
     {
       throw new IllegalStateException( "Unable to reset config as ArezPersist is in production mode" );
     }
@@ -64,7 +64,7 @@ public final class ArezPersistTestUtil
    */
   public static void setLogger( @Nullable final Logger logger )
   {
-    if ( Config.isProductionEnvironment() )
+    if ( ArezPersistConfig.isProductionEnvironment() )
     {
       throw new IllegalStateException( "Unable to call ArezTestUtil.setLogger() as ArezPersist is in production mode" );
     }
@@ -131,7 +131,7 @@ public final class ArezPersistTestUtil
   @SuppressWarnings( "NonJREEmulationClassesInClientCode" )
   private static void setConstant( @Nonnull final String fieldName, final boolean value )
   {
-    if ( Config.isProductionEnvironment() )
+    if ( ArezPersistConfig.isProductionEnvironment() )
     {
       throw new IllegalStateException( "Unable to change constant " + fieldName +
                                        " as ArezPersist is in production mode" );
@@ -140,7 +140,7 @@ public final class ArezPersistTestUtil
     {
       try
       {
-        final Field field = Config.class.getDeclaredField( fieldName );
+        final Field field = ArezPersistConfig.class.getDeclaredField( fieldName );
         field.setAccessible( true );
         field.set( null, value );
       }

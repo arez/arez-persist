@@ -7,7 +7,7 @@
   <source path='runtime' includes='*.java'/>
 
   <!--
-    These properties are all defined in arez.persist.runtime.Config
+    These properties are all defined in arez.persist.runtime.ArezPersistConfig
     See that class for a better understanding of what these properties do.
   -->
 

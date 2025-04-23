@@ -9,7 +9,7 @@ import org.realityforge.braincheck.BrainCheckConfig;
  */
 @SuppressWarnings( "FieldMayBeFinal" )
 @OmitType
-final class Config
+final class ArezPersistConfig
 {
   @Nonnull
   private static final ConfigProvider PROVIDER = new ConfigProvider();
@@ -19,7 +19,7 @@ final class Config
   @Nonnull
   private static final String LOGGER_TYPE = PROVIDER.loggerType();
 
-  private Config()
+  private ArezPersistConfig()
   {
   }
 

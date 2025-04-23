@@ -14,8 +14,8 @@ import jsinterop.annotations.JsType;
 final class LogUtil
 {
   private static final Logger c_logger =
-    "console".equals( Config.loggerType() ) ? new ConsoleLogger() :
-    "proxy".equals( Config.loggerType() ) ? new ProxyLogger() :
+    "console".equals( ArezPersistConfig.loggerType() ) ? new ConsoleLogger() :
+    "proxy".equals( ArezPersistConfig.loggerType() ) ? new ProxyLogger() :
     new NoopLogger();
 
   private LogUtil()
