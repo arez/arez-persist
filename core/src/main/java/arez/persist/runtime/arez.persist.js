@@ -5,13 +5,13 @@
 goog.provide('arez.persist');
 
 /** @define {string} */
-arez.environment = goog.define('arez.persist.environment', 'production');
+arez.persist.environment = goog.define('arez.persist.environment', 'production');
 
 /** @define {string} */
-arez.check_api_invariants = goog.define('arez.persist.enable_application_store', 'true');
+arez.persist.enable_application_store = goog.define('arez.persist.enable_application_store', 'true');
 
 /** @define {string} */
-arez.check_api_invariants = goog.define('arez.persist.check_api_invariants', 'false');
+arez.persist.check_api_invariants = goog.define('arez.persist.check_api_invariants', 'false');
 
 /** @define {string} */
-arez.logger = goog.define('arez.persist.logger', 'none');
+arez.persist.logger = goog.define('arez.persist.logger', 'none');
