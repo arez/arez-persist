@@ -1,6 +1,6 @@
 /**
- * This file provides the @defines for arez configuration options.
- * See ArezConfig.java for details.
+ * This file provides the @defines for ArezPersist configuration options.
+ * See arez.persist.Config.java for details.
  */
 goog.provide('arez.persist');
 
