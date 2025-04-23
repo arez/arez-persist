@@ -101,7 +101,7 @@ final class Config
       /*
        * Valid values are: "none", "console" and "proxy" (for testing)
        */
-      return System.getProperty( "arez.logger" );
+      return System.getProperty( "arez.persist.logger" );
     }
   }
 }
