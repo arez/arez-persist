@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import org.realityforge.braincheck.BrainCheckConfig;
 
 /**
- * Location of all compile time configuration settings for framework.
+ * Location of all compile time configuration settings for the framework.
  */
 @SuppressWarnings( "FieldMayBeFinal" )
 @OmitType
