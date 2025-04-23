@@ -173,6 +173,7 @@ final class Registry
    * @param converter the converter.
    * @return the action to invoke to deregister converter.
    */
+  @Nonnull
   static <A> SafeProcedure registerConverter( @Nonnull final Class<A> type, @Nonnull final Converter<A, ?> converter )
   {
     if ( ArezPersist.shouldCheckApiInvariants() )

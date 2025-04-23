@@ -180,6 +180,7 @@ public final class ArezPersist
    * @return the action to invoke to deregister converter.
    * @param <A> the type of the value.
    */
+  @Nonnull
   public static <A> SafeProcedure registerConverter( @Nonnull final Class<A> type,
                                                      @Nonnull final Converter<A, ?> converter )
   {
