@@ -80,15 +80,19 @@ def upload_to_sonatype(key, version, zip_file)
   end
 end
 
-desc 'Create Package and deploy to Maven Central'
-task 'upload_to_maven_central' do
+def release_to_maven_central(base_project_name, project_names_to_release)
   workspace_dir = File.expand_path(File.dirname(__FILE__) + '/../')
 
-  local_test_repository_dir = "#{workspace_dir}/target/arez_release_package"
-  version = ENV['PRODUCT_VERSION'] || Buildr.project('arez-persist').version
-  output_zip = "#{workspace_dir}/target/arez-#{version}.zip"
+  local_test_repository_dir = "#{workspace_dir}/target/#{base_project_name}_release_package"
+  version = ENV['PRODUCT_VERSION'] || Buildr.project(base_project_name).version
+  output_zip = "#{workspace_dir}/target/#{base_project_name}-#{version}.zip"
 
-  install_artifacts_to_directory(local_test_repository_dir, %w(arez-persist:core arez-persist:processor))
+  install_artifacts_to_directory(local_test_repository_dir, project_names_to_release)
   zip_directory(local_test_repository_dir, output_zip)
-  upload_to_sonatype('arez-persist', version, output_zip)
+  upload_to_sonatype(base_project_name, version, output_zip)
+end
+
+desc 'Create Package and deploy to Maven Central'
+task 'upload_to_maven_central' do
+  release_to_maven_central('arez-persist', %w(arez-persist:core arez-persist:processor))
 end
