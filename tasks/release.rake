@@ -9,7 +9,12 @@ Buildr::ReleaseTool.define_release_task do |t|
   t.patch_changelog('arez/arez-persist')
   t.patch_maven_version_in_readme
   t.tag_project
-  t.maven_central_publish(:additional_tasks => 'site:publish_if_tagged')
+  t.stage('MavenCentralPublish', 'Publish archive to Maven Central') do
+    task('upload_to_maven_central').invoke
+  end
+  t.stage('DeploySite', 'Deploy the website') do
+    task('site:publish_if_tagged').invoke
+  end
   t.patch_changelog_post_release
   t.push_changes
   t.github_release('arez/arez-persist')
